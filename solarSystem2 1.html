@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solar System</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // 加载星空背景图片
+    var textureLoader = new THREE.TextureLoader();
+    textureLoader.load('starry_sky.jpg', function(texture) {
+        scene.background = texture;
+    });
+
+    // Create the Sun
+    var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
+    var textureLoader = new THREE.TextureLoader();
+    var sun = null;
+    textureLoader.load('sun_texture.jpg', function(texture) {
+      var sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+      sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      scene.add(sun);
+    });
+
+    // Array to hold planet objects
+    var planets = [];
+    var orbitLines = [];
+    var planetTextures = [
+        'mercury_texture.jpeg', 'venus_texture.jpeg', 
+        'earth_texture.jpeg', 'mars_texture.jpeg', 
+        'jupiter_texture.jpeg', 'saturn_texture.jpeg', 
+        'uranus_texture.jpeg', 'neptune_texture.jpeg'
+    ];
+
+    // Adjusted planet size ratios relative to the Sun (slightly increased)
+    var planetSizes = [
+        0.2, // Mercury
+        0.25,  // Venus
+        0.25,  // Earth
+        0.23, // Mars
+        0.75,  // Jupiter (adjusted up)
+        0.65,  // Saturn
+        0.4, // Uranus
+        0.37  // Neptune
+    ];
+
+    // Example tilt angles for each planet with rings
+    var ringTiltAngles = [
+        0, // Mercury
+        0, // Venus
+        0, // Earth
+        0, // Mars
+        Math.PI / 6, // Jupiter (small tilt)
+        Math.PI / 4, // Saturn (larger tilt for more visibility)
+        Math.PI / 8, // Uranus (vertical rings)
+        Math.PI / 6  // Neptune (small tilt)
+    ];
+
+    // Create planets without rings (first four)
+    planetTextures.slice(0, 4).forEach(function(texture, i) {
+        textureLoader.load(texture, function(planetTexture) {
+            var planetGeometry = new THREE.SphereGeometry(4 * planetSizes[i], 32, 32);
+            var planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
+            var planet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+            planet.orbitRadius = (i + 2) * 2.5;
+            planet.orbitSpeed = 0.002 / planet.orbitRadius;
+            planet.selfRotationSpeed = 0.001 * (i + 1);
+            planet.angle = Math.random() * Math.PI * 2;
+            planets.push(planet);
+            scene.add(planet);
+
+            var orbitGeometry = new THREE.RingGeometry(planet.orbitRadius - 0.01, planet.orbitRadius + 0.01, 64);
+            var orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+            var orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+            orbit.rotation.x = Math.PI / 2;
+            scene.add(orbit);
+            orbitLines.push(orbit);
+        });
+    });
+
+    // Create planets with rings (last four)
+    planetTextures.slice(4).forEach(function(texture, i) {
+        textureLoader.load(texture, function(planetTexture) {
+            var index = i + 4;
+            var planetGeometry = new THREE.SphereGeometry(4 * planetSizes[index], 32, 32);
+            var planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
+            var planet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+            planet.orbitRadius = (index + 2) * 2.5;
+            if (index === 4) { // Jupiter
+                planet.orbitRadius = 2.5 * 7; // 增加木星的轨道半径
+            }
+            planet.orbitSpeed = 0.002 / planet.orbitRadius;
+            planet.selfRotationSpeed = 0.001 * (index + 1);
+            planet.angle = Math.random() * Math.PI * 2;
+            planets.push(planet);
+            scene.add(planet);
+
+            // Add ring to planet
+            var ringGeometry = new THREE.RingGeometry(4.5 * planetSizes[index], 5.5 * planetSizes[index], 64);
+            var ringMaterial = new THREE.MeshBasicMaterial({
+                color: 0xf5ece2,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: index === 4 ? 0.2 : (index === 5 ? 0.5 : 0.2) // Adjust opacity for different rings
+            });
+            var ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring.rotation.x = ringTiltAngles[index]; // Use the specific tilt angle for the ring
+            ring.position.set(planet.position.x, planet.position.y, planet.position.z);
+            planet.add(ring);
+
+            // Set a random rotation for the ring
+            ring.rotation.z = Math.random() * Math.PI; // Random angle for the ring
+
+            var orbitGeometry = new THREE.RingGeometry(planet.orbitRadius - 0.01, planet.orbitRadius + 0.01, 64);
+            var orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+            var orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+            orbit.rotation.x = Math.PI / 2;
+            scene.add(orbit);
+            orbitLines.push(orbit);
+        });
+    });
+
+    // Create Asteroid Belt between Mars and Jupiter
+    var asteroidBelt = [];
+    var asteroidCount = 1500; // Number of asteroids
+    var minAsteroidRadius = 2.5 * 5.3; // Between Mars and Jupiter
+    var maxAsteroidRadius = 2.5 * 5.8; // Adjusted to avoid collision with Jupiter
+
+    for (let i = 0; i < asteroidCount; i++) {
+        var asteroidGeometry = new THREE.SphereGeometry(0.1, 8, 8); // Size of asteroids
+        var asteroidMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+        var asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
+        
+        // Randomly place asteroid in the belt
+        var orbitRadius = Math.random() * (maxAsteroidRadius - minAsteroidRadius) + minAsteroidRadius;
+        var angle = Math.random() * Math.PI * 2;
+        asteroid.position.x = orbitRadius * Math.cos(angle);
+        asteroid.position.z = orbitRadius * Math.sin(angle);
+
+        // Add to scene and array
+        scene.add(asteroid);
+        asteroidBelt.push(asteroid);
+    }
+
+    camera.position.set(0, 15, 20);
+    camera.lookAt(scene.position);
+
+    // Resize listener
+    window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    var animate = function () {
+        requestAnimationFrame(animate);
+
+        planets.forEach(function(planet) {
+            planet.angle += planet.orbitSpeed;
+            planet.position.x = planet.orbitRadius * Math.cos(planet.angle);
+            planet.position.z = planet.orbitRadius * Math.sin(planet.angle);
+            planet.rotation.y += planet.selfRotationSpeed;
+        });
+
+        // Update asteroids (optional: add movement)
+        asteroidBelt.forEach(function(asteroid) {
+            // Example: Rotate the asteroid slightly for effect
+            asteroid.rotation.y += 0.01;
+        });
+
+        if (sun) {
+            sun.rotation.y += 0.001;
+        }
+
+        renderer.render(scene, camera);
+    };
+    animate();
+  </script>
+</body>
+</html>
