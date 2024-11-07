@@ -16,14 +16,11 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // 加载立方体纹理
-    var loader = new THREE.CubeTextureLoader();
-    var textureCube = loader.load([
-        'cosmos.jpg', 'cosmos.jpg',  // 左、右
-        'cosmos.jpg', 'cosmos.jpg',  // 上、下
-        'cosmos.jpg', 'cosmos.jpg'   // 前、后
-    ]);
-    scene.background = textureCube;
+    // 加载星空背景图片
+    var textureLoader = new THREE.TextureLoader();
+    textureLoader.load('blue_cosmos.jpg', function(texture) {
+        scene.background = texture;
+    });
 
     // Create the Sun
     var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
