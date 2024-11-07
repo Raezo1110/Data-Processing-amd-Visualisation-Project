@@ -16,14 +16,14 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // 创建一个巨大的球体背景
-    var cosmosGeometry = new THREE.SphereGeometry(500, 32, 32);
-    var cosmosMaterial = new THREE.MeshBasicMaterial({
-        map: textureLoader.load('cosmos.jpg'),
-        side: THREE.BackSide // 让纹理渲染在球体内部
-    });
-    var cosmosSphere = new THREE.Mesh(cosmosGeometry, cosmosMaterial);
-    scene.add(cosmosSphere);
+    // 加载立方体纹理
+    var loader = new THREE.CubeTextureLoader();
+    var textureCube = loader.load([
+        'cosmos.jpg', 'cosmos.jpg',  // 左、右
+        'cosmos.jpg', 'cosmos.jpg',  // 上、下
+        'cosmos.jpg', 'cosmos.jpg'   // 前、后
+    ]);
+    scene.background = textureCube;
 
     // Create the Sun
     var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
