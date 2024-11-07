@@ -78,6 +78,35 @@
     </div>
   </div>
 
+  <!-- Info Tab -->
+  <div id="infoTab">
+    <div id="buttonContainer">
+      <button class="tabButton" id="massButton">Mass</button>
+      <button class="tabButton" id="diameterButton">Diameter</button>
+      <button class="tabButton" id="densityButton">Density</button>
+      <button class="tabButton" id="gravityButton">Surface Gravity</button>
+      <button class="tabButton" id="escapeVelocityButton">Escape Velocity</button>
+      <button class="tabButton" id="rotationPeriodButton">Rotation Period</button>
+      <button class="tabButton" id="orbitalPeriodButton">Orbital Period</button>
+      <button class="tabButton" id="orbitalVelocityButton">Orbital Velocity</button>
+      <button class="tabButton" id="temperatureButton">Mean Temperature</button>
+      <button class="tabButton" id="moonsButton">Number of Moons</button>
+    </div>
+    <div id="chartContainer">
+      <div id="massChart" class="chart"></div>
+      <div id="diameterChart" class="chart"></div>
+      <div id="densityChart" class="chart"></div>
+      <div id="gravityChart" class="chart"></div>
+      <div id="escapeVelocityChart" class="chart"></div>
+      <div id="rotationPeriodChart" class="chart"></div>
+      <div id="orbitalPeriodChart" class="chart"></div>
+      <div id="orbitalVelocityChart" class="chart"></div>
+      <div id="temperatureChart" class="chart"></div>
+      <div id="moonsChart" class="chart"></div>
+    </div>
+    <button id="closeTabButton">Close Tab</button>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
     var scene = new THREE.Scene();
