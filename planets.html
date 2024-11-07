@@ -1,0 +1,132 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar System</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #controls { position: absolute; top: 10px; left: 10px; color: white; }
+    #topRightButton { position: absolute; top: 10px; right: 20px; color: white; }
+
+    /* Style for the sliding tab */
+    #tab {
+      position: fixed;
+      top: 0;
+      right: -50%; /* Initially hidden, off the screen */
+      width: 50%; /* Width of the tab */
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      transition: right 0.3s ease-in-out;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Style for the content inside the tab */
+    #tabContent {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
+    <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
+  </div>
+  
+  <button id="topRightButton">Top Right Button</button>
+
+  <!-- Sliding Tab -->
+  <div id="tab">
+    <div id="tabContent">
+      <h2>Tab Content</h2>
+      <p>Here is the content inside the tab.</p>
+      <button id="closeTabButton">Close Tab</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Loading starry background
+    var textureLoader = new THREE.TextureLoader();
+    textureLoader.load('cosmos.jpg', function(texture) {
+        scene.background = texture;
+    });
+
+    // Create the Sun
+    var sunGeometry = new THREE.SphereGeometry(4, 32, 32); 
+    var sun = null;
+    textureLoader.load('sun_texture.jpg', function(texture) {
+      var sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+      sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      scene.add(sun);
+    });
+
+    // Create planets and other solar system objects as in your original code...
+    // For brevity, the planets' creation and animation code are omitted here.
+
+    // Initialize camera position
+    camera.position.set(0, 15, 20);
+    camera.lookAt(scene.position);
+
+    // Handle camera control updates (angle and zoom)
+    var angleSlider = document.getElementById("angleSlider");
+    var zoomSlider = document.getElementById("zoomSlider");
+
+    angleSlider.addEventListener("input", updateCamera);
+    zoomSlider.addEventListener("input", updateCamera);
+
+    function updateCamera() {
+      var angle = angleSlider.value * Math.PI / 180;
+      var distance = zoomSlider.value;
+
+      camera.position.x = distance * Math.sin(angle);
+      camera.position.z = distance * Math.cos(angle);
+      camera.lookAt(scene.position);
+    }}
+
+    window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Button click to toggle the tab
+    var topRightButton = document.getElementById('topRightButton');
+    var tab = document.getElementById('tab');
+    var closeTabButton = document.getElementById('closeTabButton');
+
+    topRightButton.addEventListener('click', function() {
+      // Toggle the tab visibility by sliding it in/out
+      if (tab.style.right === '0px') {
+        tab.style.right = '-50%'; // Slide out
+      } else {
+        tab.style.right = '0px'; // Slide in
+      }
+    };
+
+    closeTabButton.addEventListener('click', function() {
+      tab.style.right = '-50%'; // Slide out when the close button is clicked
+    });
+
+    var animate = function () {
+        requestAnimationFrame(animate);
+
+        // Update planets' position and rotation
+        // Update other animations here as needed...
+
+        renderer.render(scene, camera);
+    };
+
+    animate();
+  </script>
+</body>
+</html>
