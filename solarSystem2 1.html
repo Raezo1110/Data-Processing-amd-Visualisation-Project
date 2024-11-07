@@ -5,9 +5,48 @@
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
+    #controls { position: absolute; top: 10px; left: 10px; color: white; }
+    #topRightButton { position: absolute; top: 10px; right: 20px; color: white; }
+
+    /* Style for the sliding tab */
+    #tab {
+      position: fixed;
+      top: 0;
+      right: -50%; /* Initially hidden, off the screen */
+      width: 50%; /* Width of the tab */
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      transition: right 0.3s ease-in-out;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Style for the content inside the tab */
+    #tabContent {
+      margin-top: 50px;
+    }
   </style>
 </head>
 <body>
+  <div id="controls">
+        <!-- Slider for camera angle (rotation around y-axis) -->
+        <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
+        <!-- Slider for camera zoom (distance from the scene center) -->
+        <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
+  </div>
+   <!-- Button in the top-right corner -->
+   <button id="topRightButton">Top Right Button</button>
+
+   <!-- Sliding Tab -->
+  <div id="tab">
+    <div id="tabContent">
+      <h2>Tab Content</h2>
+      <p>Here is the content inside the tab.</p>
+      <button id="closeTabButton">Close Tab</button>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
     var scene = new THREE.Scene();
@@ -66,6 +105,17 @@
         Math.PI / 6  // Neptune (small tilt)
     ];
 
+    var orbitTiltAngles = [
+        7,           // Mercury
+        3.4, // Venus
+        0, // Earth
+        1.8, // Mars
+        1.3,  // Jupiter
+        2.5,  // Saturn
+        0.8, // Uranus
+        1.8  // Neptune
+    ];
+
     // Create planets without rings (first four)
     planetTextures.slice(0, 4).forEach(function(texture, i) {
         textureLoader.load(texture, function(planetTexture) {
@@ -83,7 +133,11 @@
             var orbitGeometry = new THREE.RingGeometry(planet.orbitRadius - 0.01, planet.orbitRadius + 0.01, 64);
             var orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
             var orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+            
+            // Orbit inclination
             orbit.rotation.x = Math.PI / 2;
+            orbit.rotation.z = orbitTiltAngles[i];
+
             scene.add(orbit);
             orbitLines.push(orbit);
         });
@@ -127,6 +181,7 @@
             var orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
             var orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
             orbit.rotation.x = Math.PI / 2;
+            orbit.rotation.z = orbitTiltAngles[index];
             scene.add(orbit);
             orbitLines.push(orbit);
         });
@@ -154,14 +209,50 @@
         asteroidBelt.push(asteroid);
     }
 
+    // 初始化相机位置
     camera.position.set(0, 15, 20);
     camera.lookAt(scene.position);
 
-    // Resize listener
+    // 调整相机视角
+    var angleSlider = document.getElementById("angleSlider");
+    var zoomSlider = document.getElementById("zoomSlider");
+
+    // 监听滑块的变化
+    angleSlider.addEventListener("input", updateCamera);
+    zoomSlider.addEventListener("input", updateCamera);
+
+    function updateCamera() {
+      // 将角度转换为弧度，并设置相机位置以旋转视角
+      var angle = angleSlider.value * Math.PI / 180;
+      var distance = zoomSlider.value;
+
+      camera.position.x = distance * Math.sin(angle);
+      camera.position.z = distance * Math.cos(angle);
+      camera.lookAt(scene.position);
+    }
+
     window.addEventListener('resize', function() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Button click to toggle the tab
+    var topRightButton = document.getElementById('topRightButton');
+    var tab = document.getElementById('tab');
+    var closeTabButton = document.getElementById('closeTabButton');
+
+    topRightButton.addEventListener('click', function() {
+      // Toggle the tab visibility by sliding it in/out
+      if (tab.style.right === '0px') {
+        tab.style.right = '-50%'; // Slide out
+      } else {
+        tab.style.right = '0px'; // Slide in
+      }
+    });
+
+    closeTabButton.addEventListener('click', function() {
+      tab.style.right = '-50%'; // Slide out when the close button is clicked
     });
 
     var animate = function () {
