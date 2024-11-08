@@ -70,22 +70,6 @@
     // Call the loadCSVData function on page load
     window.onload = loadCSVData;
 
-    // Function to display planet data in the display tab
-    function displayPlanetInfo(planetName) {
-        const infoSection = document.getElementById('upperSection');
-
-        if (planetData[planetName]) {
-            const data = planetData[planetName];
-            infoSection.innerHTML = `
-                <p>Mass: ${data.mass} x 10²⁴ kg</p>
-                <p>Diameter: ${data.diameter} km</p>
-                <p>Density: ${data.density} kg/cm³</p>
-                <p>Composition: ${data.composition} m/s²</p>
-            `;
-        } else {
-            infoSection.innerHTML = `<p>No data available for ${planetName}</p>`;
-        }
-    }
  scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
@@ -363,41 +347,41 @@
                 case 4: // Satellite and Ring System
                     upperSection.innerHTML = `
                     <h>Name: ${planetName}</h>;
-                    <p>Number of Moons: ${data.moons}</p>
-                    <p>Ring System: ${data.ring_system}</p>
+                    <p>Number of Moons: ${data.moon}</p>
+                    <p>Ring System: ${data.ring}</p>
                     `;
                     break;
-            case 5: // Temperature and Atmospheric Conditions
-                upperSection.innerHTML = `<p>Name: ${planetName}</p>`;
-                lowerSection.innerHTML = `
-                    <p>Mean Temperature: ${data.Mean_Temperature} °C</p>
-                    <p>Atmosphere: ${data.Atmosphere}</p>
-                `;
-                break;
-            case 6: // Orbit Properties
-                upperSection.innerHTML = `<p>Name: ${planetName}</p>`;
-                lowerSection.innerHTML = `
-                    <p>Orbital Period: ${data.Orbital_Period} days</p>
-                    <p>Orbital Velocity: ${data.Orbital_Velocity} km/s</p>
-                    <p>Orbital Inclination: ${data.Orbital_Inclination} degrees</p>
-                    <p>Orbital Eccentricity: ${data.Orbital_Eccentricity}</p>
-                `;
-                break;
-            default:
-                upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
-                lowerSection.innerHTML = '';
+                case 5: // Temperature and Atmospheric Conditions
+                    upperSection.innerHTML = `
+                    <h>Name: ${planetName}</h>
+                    <p>Mean Temperature: ${data.temperature} °C</p>
+                    <p>Atmosphere: ${data.atmosphere}</p>
+                    `;
+                    break;
+                case 6: // Orbit Properties
+                upperSection.innerHTML = `
+                    <h>Name: ${planetName}</h>
+                    <p>Orbital Period: ${data.orbital_period} days</p>
+                    <p>Orbital Velocity: ${data.orbital_velocity} km/s</p>
+                    <p>Orbital Inclination: ${data.orbital_inclination} º</p>
+                    <p>Orbital Eccentricity: ${data.orbital_eccentricity}</p>
+                    `;
+                    break;
+                default:
+                    upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+                    lowerSection.innerHTML = '';
+            }
+        } else {
+            upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+            lowerSection.innerHTML = '';
         }
-    } else {
-        upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
-        lowerSection.innerHTML = '';
     }
-}
 
-// Function triggered by button clicks to show specific info
-function showInfo(infoType) {
-    const planetName = selectedPlanetName; // Replace with the currently selected planet's name
-    displayPlanetInfo(planetName, infoType);
-}
+    // Function triggered by button clicks to show specific info
+    function showInfo(infoType) {
+        const planetName = selectedPlanetName; // Replace with the currently selected planet's name
+        displayPlanetInfo(planetName, infoType);
+    }
     
     function resetView() {
         selectedPlanet = null; // 清除选中的星球
