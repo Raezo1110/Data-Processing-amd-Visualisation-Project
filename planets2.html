@@ -44,7 +44,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
     const planetData = {};
+function loadCSVData() {
+    fetch('planet_system2.csv')
+        .then(response => response.text())
+        .then(data => {
+            // Split rows and parse CSV
+            const rows = data.split('\n');
+            const headers = rows[0].split(',');
 
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i].split(',');
+                const planetName = values[0];
+                planetData[planetName] = {};
+
+                headers.slice(1).forEach((header, index) => {
+                    planetData[planetName][header] = values[index + 1];
+                });
+            }
+            
+            console.log("CSV data loaded:", planetData); // 确认数据是否
+        })
+        .catch(error => console.error('Error loading CSV:', error));
+}
 
 
 // 初始化场景
@@ -286,7 +307,7 @@ function initializeScene() {
         document.getElementById('topRightButton').style.display = 'none';
 
         // 更新显示标签内容
-        //document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
+        document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
     }
 
     // Function to display specific information based on infoType
@@ -418,7 +439,7 @@ animate();
   
 // 在页面加载时调用 loadCSVData，数据加载后初始化场景
 window.onload = function() {
-    //loadCSVData();
+    loadCSVData();
     initializeScene();
 };
 </script>
