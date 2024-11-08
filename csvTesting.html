@@ -64,21 +64,21 @@
                 const data = planetData[planetName];
                 planetInfoDiv.innerHTML = `
                     <h2>Planet: ${planetName}</h2>
-                    <p><strong>Mass:</strong> ${data.Mass} x 10²⁴ kg</p>
-                    <p><strong>Diameter:</strong> ${data.Diameter} km</p>
-                    <p><strong>Density:</strong> ${data.Density} kg/m³</p>
-                    <p><strong>Surface Gravity:</strong> ${data.Surface_Gravity} m/s²</p>
-                    <p><strong>Escape Velocity:</strong> ${data.Escape_Velocity} km/s</p>
-                    <p><strong>Rotation Period:</strong> ${data.Rotation_Period} hours</p>
-                    <p><strong>Obliquity:</strong> ${data.Obliquity} º</p>
-                    <p><strong>Number of Moons:</strong> ${data.Moon}</p>
-                    <p><strong>Ring System:</strong> ${data.Ring}</p>
-                    <p><strong>Mean Temperature:</strong> ${data.Temperature} °C</p>
-                    <p><strong>Atmosphere:</strong> ${data.Atmosphere}</p>
-                    <p><strong>Orbital Period:</strong> ${data.Orbital_Period} days</p>
-                    <p><strong>Orbital Velocity:</strong> ${data.Orbital_Velocity} km/s</p>
-                    <p><strong>Orbital Inclination:</strong> ${data.Orbital_Inclination} º</p>
-                    <p><strong>Orbital Eccentricity:</strong> ${data.Orbital_Eccentricity}</p>
+                    <p><strong>Mass:</strong> ${data.mass} x 10²⁴ kg</p>
+                    <p><strong>Diameter:</strong> ${data.diameter} km</p>
+                    <p><strong>Density:</strong> ${data.density} kg/m³</p>
+                    <p><strong>Surface Gravity:</strong> ${data.surface_gravity} m/s²</p>
+                    <p><strong>Escape Velocity:</strong> ${data.escape_velocity} km/s</p>
+                    <p><strong>Rotation Period:</strong> ${data.rotation_period} hours</p>
+                    <p><strong>Obliquity:</strong> ${data.obliquity} º</p>
+                    <p><strong>Number of Moons:</strong> ${data.moon}</p>
+                    <p><strong>Ring System:</strong> ${data.ring}</p>
+                    <p><strong>Mean Temperature:</strong> ${data.temperature} °C</p>
+                    <p><strong>Atmosphere:</strong> ${data.atmosphere}</p>
+                    <p><strong>Orbital Period:</strong> ${data.orbital_period} days</p>
+                    <p><strong>Orbital Velocity:</strong> ${data.orbital_velocity} km/s</p>
+                    <p><strong>Orbital Inclination:</strong> ${data.orbital_inclination} º</p>
+                    <p><strong>Orbital Eccentricity:</strong> ${data.orbital_eccentricity}</p>
                 `;
             } else {
                 planetInfoDiv.innerHTML = `<p>Please select a planet to view its information.</p>`;
