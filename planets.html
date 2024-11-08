@@ -43,7 +43,50 @@
 </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
-    var scene = new THREE.Scene();
+    // Fetch and parse the CSV file
+    let planetData = {};
+
+    function loadCSVData() {
+        fetch('planet_system2.csv')
+            .then(response => response.text())
+            .then(data => {
+                // Split rows and parse CSV
+                const rows = data.split('\n');
+                const headers = rows[0].split(',');
+
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i].split(',');
+                    const planetName = values[0];
+                    planetData[planetName] = {};
+
+                    headers.slice(1).forEach((header, index) => {
+                        planetData[planetName][header] = values[index + 1];
+                    });
+                }
+            })
+            .catch(error => console.error('Error loading CSV:', error));
+    }
+
+    // Call the loadCSVData function on page load
+    window.onload = loadCSVData;
+
+    // Function to display planet data in the display tab
+    function displayPlanetInfo(planetName) {
+        const infoSection = document.getElementById('upperSection');
+
+        if (planetData[planetName]) {
+            const data = planetData[planetName];
+            infoSection.innerHTML = `
+                <p>Mass: ${data.mass} x 10²⁴ kg</p>
+                <p>Diameter: ${data.diameter} km</p>
+                <p>Density: ${data.density} kg/cm³</p>
+                <p>Composition: ${data.composition} m/s²</p>
+            `;
+        } else {
+            infoSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+        }
+    }
+ scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -290,7 +333,7 @@
     var lowerSection = document.getElementById('lowerSection');
     switch (infoType) {
         case 1:
-            lowerSection.innerText = "Information 1 about the planet";
+            lowerSection.innerText = displayPlanetInfo(${planet.name}); 
             break;
         case 2:
             lowerSection.innerText = "Information 2 about the planet";
