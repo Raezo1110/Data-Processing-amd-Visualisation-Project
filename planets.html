@@ -8,7 +8,14 @@
     #controls { position: absolute; top: 10px; left: 10px; color: white; }
     #topRightButton { position: absolute; top: 10px; right: 20px; color: white; }
     #returnButton { position: absolute; top: 10px; left: 10px; color: white; }
-    #menu button { margin-bottom: 25px; /* 设置按钮间的垂直间距 */}
+    #menu button { 
+      margin-bottom: 25px; /* 设置按钮间的垂直间距 */
+      width: 200px; /* Set the desired width */
+      height: 40px; /* Set the desired height */
+      text-align: left;
+      padding-left: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -24,7 +31,7 @@
    <div id="menu" style="display: none; position: absolute; top: 100px; left: 10px; color: white;">
    <button onclick="showInfo(1)">Basic Physical Properties</button><br>
    <button onclick="showInfo(2)">Gravitational and Dynamic</button><br>
-   <button onclick="showInfo(3)">Ritation and Tilt</button><br>
+   <button onclick="showInfo(3)">Rotation and Tilt</button><br>
    <button onclick="showInfo(4)">Satellite and Ring System</button><br>
    <button onclick="showInfo(5)">Temperature and Atmospheric</button><br>
    <button onclick="showInfo(6)">Orbit Properties</button><br>
