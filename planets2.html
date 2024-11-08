@@ -412,8 +412,9 @@ function initializeScene() {
         camera.lookAt(selectedPlanet.position);
     }
         renderer.render(scene, camera);
-    };
+    }
 animate();
+}
   
 // 在页面加载时调用 loadCSVData，数据加载后初始化场景
 window.onload = function() {
