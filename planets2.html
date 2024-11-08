@@ -43,7 +43,7 @@
 </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
-    let planetData = {};
+    const planetData = {};
 
 function loadCSVData() {
     fetch('planet_system2.csv')
@@ -440,7 +440,10 @@ function initializeScene() {
 animate();
   
 // 在页面加载时调用 loadCSVData，数据加载后初始化场景
-window.onload = loadCSVData;
+window.onload = function() {
+    loadCSVData();
+    initThreeJS();
+};
 </script>
 </body>
 </html>
