@@ -32,138 +32,135 @@
 
     <div id="upperSection"></div>
     <div id="lowerSection"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
 
     <script>
-        const planetData = {};
-        let selectedPlanet = "";
-
         // Load CSV data into planetData object
-        function loadCSVData() {
-            fetch('planet_system2.csv')
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split('\n');
-                    const headers = rows[0].split(',');
+function loadCSVData() {
+    fetch('planet_system2.csv')
+        .then(response => response.text())
+        .then(data => {
+            const rows = data.split('\n');
+            const headers = rows[0].split(',');
 
-                    for (let i = 1; i < rows.length; i++) {
-                        const values = rows[i].split(',');
-                        const planetName = values[0].trim();
-                        planetData[planetName] = {};
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i].split(',');
+                const planetName = values[0].trim();
+                planetData[planetName] = {};
 
-                        headers.slice(1).forEach((header, index) => {
-                            planetData[planetName][header.trim()] = values[index + 1].trim();
-                        });
+                headers.slice(1).forEach((header, index) => {
+                    planetData[planetName][header.trim()] = values[index + 1].trim();
+                });
 
-                        const option = document.createElement("option");
-                        option.value = planetName;
-                        option.textContent = planetName;
-                        document.getElementById("planetSelect").appendChild(option);
-                    }
-                })
-                .catch(error => console.error('Error loading CSV:', error));
-        }
+                const option = document.createElement("option");
+                option.value = planetName;
+                option.textContent = planetName;
+                document.getElementById("planetSelect").appendChild(option);
+            }
+            console.log("CSV Data Loaded Successfully", planetData);
+        })
+        .catch(error => console.error('Error loading CSV:', error));
+}
 
-        // Function to update the selected planet
-        function updateSelectedPlanet() {
-            selectedPlanet = document.getElementById("planetSelect").value;
-        }
+// Updated displayPlanetInfo function for syntax issues
+function displayPlanetInfo(planetName, infoType) {
+    const upperSection = document.getElementById('upperSection');
+    const lowerSection = document.getElementById('lowerSection');
 
-        // Display specific information based on infoType
-        function displayPlanetInfo(planetName, infoType) {
-            const upperSection = document.getElementById('upperSection');
-            const lowerSection = document.getElementById('lowerSection');
-
-            if (planetData[planetName]) {
-                const data = planetData[planetName];
-            
-                switch (infoType) {
-                    case 1: // Basic Physical Properties
-                        upperSection.innerHTML = `
-                            <h1>Name: ${planetName}</h1>
-                            <p>Mass: ${data['mass']} x 10²⁴ kg</p>
-                            <p>Diameter: ${data['diameter']} km</p>
-                            <p>Density: ${data['density']} kg/m³</p>
-                        `;
-                        break;
-                    case 2: // Gravitational and Dynamic Properties
-                        upperSection.innerHTML = `
-                            <h1>Name: ${planetName}</h1>
-                            <p>Surface Gravity: ${data['surface_gravity']} m/s²</p>
-                            <p>Escape Velocity: ${data['escape_velocity']} km/s</p>
-                        `;
-                        break;
-                    case 3: // Rotation and Tilt
-                        upperSection.innerHTML = `
-                            <h1>Name: ${planetName}</h1>
-                            <p>Rotation Period: ${data['rotation_period']} hours</p>
-                            <p>Obliquity: ${data['obliquity']} º</p>
-                        `;
-                        break;
-                    case 4: // Satellite and Ring System
-                        upperSection.innerHTML = `
-                            <h1>Name: ${planetName}</h1>
-                            <p>Number of Moons: ${data['moon']}</p>
-                            <p>Ring System: ${data['ring']}</p>
-                        `;
-                        break;
-                    case 5: // Temperature and Atmospheric Conditions
-                        upperSection.innerHTML = `
-                            <h1>Name: ${planetName}</h1>
-                            <p>Mean Temperature: ${data['temperature']} °C</p>
-                            <p>Atmosphere: ${data['atmosphere']}</p>
-                        `;
-                        break;
-                    case 6: // Orbit Properties
-                        upperSection.innerHTML = `
-                       <h1>Name: ${planetName}</h1>
-                            <p>Orbital Period: ${data['orbital_period']} days</p>
-                            <p>Orbital Velocity: ${data['orbital_velocity']} km/s</p>
-                            <p>Orbital Inclination: ${data['orbital_inclination']} º</p>
-                            <p>Orbital Eccentricity: ${data['orbital_eccentricity']}</p>
-                        `;
-                        break;
-                    default:
-                        upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
-                        lowerSection.innerHTML = '';
-                }
-            } else {
+    if (planetData[planetName]) {
+        const data = planetData[planetName];
+    
+        switch (infoType) {
+            case 1:
+                upperSection.innerHTML = `
+                    <h1>Name: ${planetName}</h1>
+                    <p>Mass: ${data['mass']} x 10²⁴ kg</p>
+                    <p>Diameter: ${data['diameter']} km</p>
+                    <p>Density: ${data['density']} kg/m³</p>
+                `;
+                break;
+            case 2:
+                upperSection.innerHTML = `
+                    <h1>Name: ${planetName}</h1>
+                    <p>Surface Gravity: ${data['surface_gravity']} m/s²</p>
+                    <p>Escape Velocity: ${data['escape_velocity']} km/s</p>
+                `;
+                break;
+            case 3:
+                upperSection.innerHTML = `
+                    <h1>Name: ${planetName}</h1>
+                    <p>Rotation Period: ${data['rotation_period']} hours</p>
+                    <p>Obliquity: ${data['obliquity']} º</p>
+                `;
+                break;
+            case 4:
+                upperSection.innerHTML = `
+                    <h1>Name: ${planetName}</h1>
+                    <p>Number of Moons: ${data['moon']}</p>
+                    <p>Ring System: ${data['ring']}</p>
+                `;
+                break;
+            case 5:
+                upperSection.innerHTML = `
+                    <h1>Name: ${planetName}</h1>
+                    <p>Mean Temperature: ${data['temperature']} °C</p>
+                    <p>Atmosphere: ${data['atmosphere']}</p>
+                `;
+                break;
+            case 6:
+                upperSection.innerHTML = `
+                    <h1>Name: ${planetName}</h1>
+                    <p>Orbital Period: ${data['orbital_period']} days</p>
+                    <p>Orbital Velocity: ${data['orbital_velocity']} km/s</p>
+                    <p>Orbital Inclination: ${data['orbital_inclination']} º</p>
+                    <p>Orbital Eccentricity: ${data['orbital_eccentricity']}</p>
+                `;
+                break;
+            default:
                 upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
                 lowerSection.innerHTML = '';
-            }
         }
-
-        // Triggered by button clicks to show specific info
-        function showInfo(infoType) {
-            if (selectedPlanet) {
-                displayPlanetInfo(selectedPlanet, infoType);
-            } else {
-                alert("Please select a planet first.");
-            }
-        }
+    } else {
+        upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+        lowerSection.innerHTML = '';
+    }
+} 
+// Initialize Three.js scene on page load
+function initThreeJS() {
     const scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    var renderer = new THREE.WebGLRenderer();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // 加载星空背景图片
-    var textureLoader = new THREE.TextureLoader();
-    textureLoader.load('cosmos.jpg', function(texture) {
+    // Load background texture
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('cosmos.jpg', texture => {
         scene.background = texture;
     });
 
     // Create the Sun
-    var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
-    var textureLoader = new THREE.TextureLoader();
-    var sun = null;
-    textureLoader.load('sun_texture.jpg', function(texture) {
-      var sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
-      sun = new THREE.Mesh(sunGeometry, sunMaterial);
-      scene.add(sun);
+    const sunGeometry = new THREE.SphereGeometry(4, 32, 32);
+    textureLoader.load('sun_texture.jpg', texture => {
+        const sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+        scene.add(sun);
     });
 
-        // Load CSV data on page load
-        window.onload = loadCSVData;
+    camera.position.z = 10;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
+}
+
+window.onload = function() {
+    loadCSVData();
+    initThreeJS();
+};
     </script>
 </body>
 </html>
+        
