@@ -71,26 +71,7 @@
     window.onload = loadCSVData;
 
     // Example data for planets
-    const planetData = {
-        Earth: {
-            mass: 5.97,
-            diameter: 12742,
-            density: 5514,
-            surface_gravity: 9.8,
-            escape_velocity: 11.2,
-            rotation_period: 24,
-            obliquity: 23.5,
-            moon: 1,
-            ring: "No",
-            temperature: 15,
-            atmosphere: "78% nitrogen, 21% oxygen",
-            orbital_period: 365.25,
-            orbital_velocity: 29.78,
-            orbital_inclination: 0.00005,
-            orbital_eccentricity: 0.0167,
-        },
-    };
-
+    
  scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
@@ -308,6 +289,26 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    const planetData = {
+        Earth: {
+            mass: 5.97,
+            diameter: 12742,
+            density: 5514,
+            surface_gravity: 9.8,
+            escape_velocity: 11.2,
+            rotation_period: 24,
+            obliquity: 23.5,
+            moon: 1,
+            ring: "No",
+            temperature: 15,
+            atmosphere: "78% nitrogen, 21% oxygen",
+            orbital_period: 365.25,
+            orbital_velocity: 29.78,
+            orbital_inclination: 0.00005,
+            orbital_eccentricity: 0.0167,
+        },
+    };
 
     function focusOnPlanet(planet) {
         selectedPlanet = planet;
