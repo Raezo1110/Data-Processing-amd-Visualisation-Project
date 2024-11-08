@@ -35,6 +35,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
 
     <script>
+        const planetData = {}
+        let selectedPlanet = "";
         // Load CSV data into planetData object
 function loadCSVData() {
     fetch('planet_system2.csv')
@@ -61,7 +63,10 @@ function loadCSVData() {
         })
         .catch(error => console.error('Error loading CSV:', error));
 }
-
+function updateSelectedPlanet() {
+    selrctedPlanet = document.getElementById("planetSelect").value;
+}
+    
 // Updated displayPlanetInfo function for syntax issues
 function displayPlanetInfo(planetName, infoType) {
     const upperSection = document.getElementById('upperSection');
@@ -125,7 +130,13 @@ function displayPlanetInfo(planetName, infoType) {
         lowerSection.innerHTML = '';
     }
 } 
-
+function showInfo(infoType) {
+    if (selectedPlanet) {
+        displayPlanetInfo(selectedPlanet, infoType);
+    } else {
+        alert("Pleade select a planet first.");
+    }
+}
 
 window.onload = function() {
     loadCSVData();
