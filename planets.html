@@ -159,7 +159,7 @@
             var planetGeometry = new THREE.SphereGeometry(4 * planetSizes[index], 32, 32);
             var planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
             var planet = new THREE.Mesh(planetGeometry, planetMaterial);
-            planet.orbitRadius = (index + 2) * 2.5;
+            planet.orbitRadius = (index + 4) * 2.5;
             if (index === 4) { // Jupiter
                 planet.orbitRadius = 2.5 * 7; // 增加木星的轨道半径
             }
