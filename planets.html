@@ -94,6 +94,12 @@
         'uranus_texture.jpeg', 'neptune_texture.jpeg'
     ];
 
+    // 定义没有环的行星名称
+    var planetNamesNoRings = ["Mercury", "Venus", "Earth", "Mars"];
+    
+    // 定义有环的行星名称
+    var planetNamesWithRings = ["Jupiter", "Saturn", "Uranus", "Neptune"];
+
     // Adjusted planet size ratios relative to the Sun (slightly increased)
     var planetSizes = [
         0.2, // Mercury
@@ -135,6 +141,7 @@
             var planetGeometry = new THREE.SphereGeometry(4 * planetSizes[i], 32, 32);
             var planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
             var planet = new THREE.Mesh(planetGeometry, planetMaterial);
+            planet.name = planetNamesNoRings[i];
             planet.orbitRadius = (i + 2) * 2.5;
             planet.orbitSpeed = 0.002 / planet.orbitRadius;
             planet.selfRotationSpeed = 0.001 * (i + 1);
@@ -161,6 +168,7 @@
             var planetGeometry = new THREE.SphereGeometry(4 * planetSizes[index], 32, 32);
             var planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
             var planet = new THREE.Mesh(planetGeometry, planetMaterial);
+            planet.name = planetNamesWithRings[i];
             planet.orbitRadius = (index + 4) * 2.5;
             if (index === 4) { // Jupiter
                 planet.orbitRadius = 2.5 * 7; // 增加木星的轨道半径
