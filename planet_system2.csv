@@ -1,0 +1,9 @@
+Planet,mass,diameter,density,surface_gravity,escape_velocity,rotation_period,orbital_period,orbital_velocity,orbital_inclination,eccentricity,obliquity,temperature,moon,ring,atmosphere,composition
+Mercury,0.33,4879,5429,3.7,4.3,1407.6,88,47.4,7.0,0.206,0.034,167,0,No,Mostly None,Rock and Metal
+Venus,4.87,12104,5243,8.9,10.4,-5832.5,224.7,35.0,3.4,0.007,177.4,464,0,No,Carbon Dioxide (96.5%),Rock and Metal
+Earth,5.97,12756,5514,9.8,11.2,23.9,365.2,29.8,0.0,0.017,23.4,15,1,No,"Nitrogen (78.1%), Oxygen","Rock, Water, and Air"
+Mars,0.642,6792,3934,3.7,5.0,24.6,687,24.1,1.8,0.094,25.2,-65,2,No,Carbon Dioxide (95.3%),Rock and Ice
+Jupiter,1898.0,142984,1326,23.1,59.5,9.9,4331,13.1,1.3,0.049,3.1,-110,79,Yes,"Hydrogen, Helium",Gas and Liquid
+Saturn,568.0,120536,687,9.0,35.5,10.7,"10,747",9.7,2.5,0.052,26.7,-140,82,Yes,"Hydrogen, Helium",Gas and Liquid
+Uranus,86.8,51118,1270,8.7,21.3,-17.2,"30,589",6.8,0.8,0.047,97.8,-195,27,Yes,"Hydrogen, Helium",Gas and Ice
+Neptune,102.0,49528,1638,11.0,23.5,16.1,"59,800",5.4,1.8,0.01,28.3,-200,14,Yes,"Hydrogen, Helium",Gas and Ice
