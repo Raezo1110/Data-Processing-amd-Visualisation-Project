@@ -385,23 +385,6 @@ function initializeScene() {
             alert("Please select a planet first.");
         }
     }
-    
-    function resetView() {
-        selectedPlanet = null; // 清除选中的星球
-
-        // 返回相机到原始位置和观察点
-        camera.position.copy(originalCameraPosition);
-        camera.lookAt(originalCameraLookAt);
-
-        // 隐藏菜单和显示标签
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('displayTab').style.display = 'none';
-        document.getElementById('returnButton').style.display = 'none';
-
-        // 显示角度和缩放控制以及右上角按钮
-        document.getElementById('controls').style.display = 'block';
-        document.getElementById('topRightButton').style.display = 'block';
-    }
 
     var animate = function () {
         requestAnimationFrame(animate);
@@ -438,12 +421,28 @@ function initializeScene() {
     }
 animate();
 }
+
+function resetView() {
+        selectedPlanet = null; // 清除选中的星球
+
+        // 返回相机到原始位置和观察点
+        camera.position.copy(originalCameraPosition);
+        camera.lookAt(originalCameraLookAt);
+
+        // 隐藏菜单和显示标签
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('displayTab').style.display = 'none';
+        document.getElementById('returnButton').style.display = 'none';
+
+        // 显示角度和缩放控制以及右上角按钮
+        document.getElementById('controls').style.display = 'block';
+        document.getElementById('topRightButton').style.display = 'block';
+}
   
 // 在页面加载时调用 loadCSVData，数据加载后初始化场景
 window.onload = function() {
     loadCSVData();
     initializeScene();
-    resetView();
 };
 </script>
 </body>
