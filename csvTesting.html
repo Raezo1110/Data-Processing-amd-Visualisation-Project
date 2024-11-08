@@ -80,46 +80,46 @@
                     case 1: // Basic Physical Properties
                         upperSection.innerHTML = `
                             <h1>Name: ${planetName}</h1>
-                            <p>Mass: ${data['Mass']} x 10²⁴ kg</p>
-                            <p>Diameter: ${data['Diameter']} km</p>
-                            <p>Density: ${data['Density']} kg/m³</p>
+                            <p>Mass: ${data['mass']} x 10²⁴ kg</p>
+                            <p>Diameter: ${data['diameter']} km</p>
+                            <p>Density: ${data['density']} kg/m³</p>
                         `;
                         break;
                     case 2: // Gravitational and Dynamic Properties
                         upperSection.innerHTML = `
                             <h1>Name: ${planetName}</h1>
-                            <p>Surface Gravity: ${data['Surface_Gravity']} m/s²</p>
-                            <p>Escape Velocity: ${data['Escape_Velocity']} km/s</p>
+                            <p>Surface Gravity: ${data['surface_gravity']} m/s²</p>
+                            <p>Escape Velocity: ${data['escape_velocity']} km/s</p>
                         `;
                         break;
                     case 3: // Rotation and Tilt
                         upperSection.innerHTML = `
                             <h1>Name: ${planetName}</h1>
-                            <p>Rotation Period: ${data['Rotation_Period']} hours</p>
-                            <p>Obliquity: ${data['Obliquity']} º</p>
+                            <p>Rotation Period: ${data['rotation_period']} hours</p>
+                            <p>Obliquity: ${data['obliquity']} º</p>
                         `;
                         break;
                     case 4: // Satellite and Ring System
                         upperSection.innerHTML = `
                             <h1>Name: ${planetName}</h1>
-                            <p>Number of Moons: ${data['Moon']}</p>
-                            <p>Ring System: ${data['Ring']}</p>
+                            <p>Number of Moons: ${data['moon']}</p>
+                            <p>Ring System: ${data['ring']}</p>
                         `;
                         break;
                     case 5: // Temperature and Atmospheric Conditions
                         upperSection.innerHTML = `
                             <h1>Name: ${planetName}</h1>
-                            <p>Mean Temperature: ${data['Temperature']} °C</p>
-                            <p>Atmosphere: ${data['Atmosphere']}</p>
+                            <p>Mean Temperature: ${data['temperature']} °C</p>
+                            <p>Atmosphere: ${data['atmosphere']}</p>
                         `;
                         break;
                     case 6: // Orbit Properties
                         upperSection.innerHTML = `
                        <h1>Name: ${planetName}</h1>
-                            <p>Orbital Period: ${data['Orbital_Period']} days</p>
-                            <p>Orbital Velocity: ${data['Orbital_Velocity']} km/s</p>
-                            <p>Orbital Inclination: ${data['Orbital_Inclination']} º</p>
-                            <p>Orbital Eccentricity: ${data['Orbital_Eccentricity']}</p>
+                            <p>Orbital Period: ${data['orbital_period']} days</p>
+                            <p>Orbital Velocity: ${data['orbital_velocity']} km/s</p>
+                            <p>Orbital Inclination: ${data['orbital_inclination']} º</p>
+                            <p>Orbital Eccentricity: ${data['orbital_eccentricity']}</p>
                         `;
                         break;
                     default:
