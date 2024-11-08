@@ -1,25 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planet System CSV Viewer</title>
+    <title>Planet System Data Viewer</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
         }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
+        #planetInfo {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Planet System Data</h1>
-    <div id="csvOutput">Loading data...</div>
+    <h1>Planet System Data Viewer</h1>
+    
+    <label for="planetSelect">Select a Planet:</label>
+    <select id="planetSelect" onchange="displayPlanetInfo()">
+        <option value="">--Select a Planet--</option>
+    </select>
+
+    <div id="planetInfo">
+        <!-- Planet information will be displayed here -->
+    </div>
 
     <script>
         const planetData = {};
@@ -32,50 +37,55 @@
                     const rows = data.split('\n');
                     const headers = rows[0].split(',');
 
-                    // Create table element
-                    const table = document.createElement("table");
-
-                    // Create table header
-                    const headerRow = document.createElement("tr");
-                    headers.forEach(header => {
-                        const th = document.createElement("th");
-                        th.textContent = header;
-                        headerRow.appendChild(th);
-                    });
-                    table.appendChild(headerRow);
-
-                    // Create table rows
                     for (let i = 1; i < rows.length; i++) {
                         const values = rows[i].split(',');
-                        const planetName = values[0];
+                        const planetName = values[0].trim();
                         planetData[planetName] = {};
 
-                        const row = document.createElement("tr");
-                        headers.forEach((header, index) => {
-                            const td = document.createElement("td");
-                            td.textContent = values[index] || ""; // Handle empty cells
-                            row.appendChild(td);
-                            
-                            // Populate planetData object
-                            if (index > 0) {
-                                planetData[planetName][header] = values[index];
-                            }
+                        headers.slice(1).forEach((header, index) => {
+                            planetData[planetName][header.trim()] = values[index + 1].trim();
                         });
-                        table.appendChild(row);
-                    }
 
-                    // Append the table to the output div
-                    const outputDiv = document.getElementById("csvOutput");
-                    outputDiv.innerHTML = ""; // Clear loading text
-                    outputDiv.appendChild(table);
+                        // Add planet to the dropdown menu
+                        const option = document.createElement("option");
+                        option.value = planetName;
+                        option.textContent = planetName;
+                        document.getElementById("planetSelect").appendChild(option);
+                    }
                 })
-                .catch(error => {
-                    console.error('Error loading CSV:', error);
-                    document.getElementById("csvOutput").textContent = "Failed to load data.";
-                });
+                .catch(error => console.error('Error loading CSV:', error));
         }
 
-        // Call the loadCSVData function on page load
+        function displayPlanetInfo() {
+            const planetName = document.getElementById("planetSelect").value;
+            const planetInfoDiv = document.getElementById("planetInfo");
+
+            if (planetData[planetName]) {
+                const data = planetData[planetName];
+                planetInfoDiv.innerHTML = `
+                    <h2>Planet: ${planetName}</h2>
+                    <p><strong>Mass:</strong> ${data.Mass} x 10²⁴ kg</p>
+                    <p><strong>Diameter:</strong> ${data.Diameter} km</p>
+                    <p><strong>Density:</strong> ${data.Density} kg/m³</p>
+                    <p><strong>Surface Gravity:</strong> ${data.Surface_Gravity} m/s²</p>
+                    <p><strong>Escape Velocity:</strong> ${data.Escape_Velocity} km/s</p>
+                    <p><strong>Rotation Period:</strong> ${data.Rotation_Period} hours</p>
+                    <p><strong>Obliquity:</strong> ${data.Obliquity} º</p>
+                    <p><strong>Number of Moons:</strong> ${data.Moon}</p>
+                    <p><strong>Ring System:</strong> ${data.Ring}</p>
+                    <p><strong>Mean Temperature:</strong> ${data.Temperature} °C</p>
+                    <p><strong>Atmosphere:</strong> ${data.Atmosphere}</p>
+                    <p><strong>Orbital Period:</strong> ${data.Orbital_Period} days</p>
+                    <p><strong>Orbital Velocity:</strong> ${data.Orbital_Velocity} km/s</p>
+                    <p><strong>Orbital Inclination:</strong> ${data.Orbital_Inclination} º</p>
+                    <p><strong>Orbital Eccentricity:</strong> ${data.Orbital_Eccentricity}</p>
+                `;
+            } else {
+                planetInfoDiv.innerHTML = `<p>Please select a planet to view its information.</p>`;
+            }
+        }
+
+        // Load CSV data on page load
         window.onload = loadCSVData;
     </script>
 </body>
