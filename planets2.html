@@ -288,6 +288,8 @@ function initializeScene() {
 
     function focusOnPlanet(planet) {
         selectedPlanet = planet;
+        // Store the name for accessing planetData
+        selectedPlanetName = planet.name; // Save the name
 
         // 保存当前相机的位置，以便返回原视角时使用
         originalCameraPosition.copy(camera.position);
@@ -377,7 +379,7 @@ function initializeScene() {
 
     // Function triggered by button clicks to show specific info
     function showInfo(infoType) {
-        if (selectedPlanet) {
+        if (selectedPlanetName) {
             displayPlanetInfo(selectedPlanet, infoType);
         } else {
             alert("Please select a planet first.");
