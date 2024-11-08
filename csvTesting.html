@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet System CSV Viewer</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Planet System Data</h1>
+    <div id="csvOutput">Loading data...</div>
+
+    <script>
+        const planetData = {};
+
+        function loadCSVData() {
+            fetch('planet_system2.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Split rows and parse CSV
+                    const rows = data.split('\n');
+                    const headers = rows[0].split(',');
+
+                    // Create table element
+                    const table = document.createElement("table");
+
+                    // Create table header
+                    const headerRow = document.createElement("tr");
+                    headers.forEach(header => {
+                        const th = document.createElement("th");
+                        th.textContent = header;
+                        headerRow.appendChild(th);
+                    });
+                    table.appendChild(headerRow);
+
+                    // Create table rows
+                    for (let i = 1; i < rows.length; i++) {
+                        const values = rows[i].split(',');
+                        const planetName = values[0];
+                        planetData[planetName] = {};
+
+                        const row = document.createElement("tr");
+                        headers.forEach((header, index) => {
+                            const td = document.createElement("td");
+                            td.textContent = values[index] || ""; // Handle empty cells
+                            row.appendChild(td);
+                            
+                            // Populate planetData object
+                            if (index > 0) {
+                                planetData[planetName][header] = values[index];
+                            }
+                        });
+                        table.appendChild(row);
+                    }
+
+                    // Append the table to the output div
+                    const outputDiv = document.getElementById("csvOutput");
+                    outputDiv.innerHTML = ""; // Clear loading text
+                    outputDiv.appendChild(table);
+                })
+                .catch(error => {
+                    console.error('Error loading CSV:', error);
+                    document.getElementById("csvOutput").textContent = "Failed to load data.";
+                });
+        }
+
+        // Call the loadCSVData function on page load
+        window.onload = loadCSVData;
+    </script>
+</body>
+</html>
