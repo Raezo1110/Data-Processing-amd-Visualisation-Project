@@ -138,9 +138,40 @@ function showInfo(infoType) {
     }
 }
 
+// Initialize Three.js scene on page load
+function initThreeJS() {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Load background texture
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('cosmos.jpg', texture => {
+        scene.background = texture;
+    });
+
+    // Create the Sun
+    const sunGeometry = new THREE.SphereGeometry(4, 32, 32);
+    textureLoader.load('sun_texture.jpg', texture => {
+        const sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+        scene.add(sun);
+    });
+
+    camera.position.z = 10;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
+}
+
 window.onload = function() {
     loadCSVData();
-    //initThreeJS();
+    initThreeJS();
 };
     </script>
 </body>
