@@ -140,6 +140,27 @@
                 alert("Please select a planet first.");
             }
         }
+    const scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // 加载星空背景图片
+    var textureLoader = new THREE.TextureLoader();
+    textureLoader.load('cosmos.jpg', function(texture) {
+        scene.background = texture;
+    });
+
+    // Create the Sun
+    var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
+    var textureLoader = new THREE.TextureLoader();
+    var sun = null;
+    textureLoader.load('sun_texture.jpg', function(texture) {
+      var sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+      sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      scene.add(sun);
+    });
 
         // Load CSV data on page load
         window.onload = loadCSVData;
