@@ -63,10 +63,7 @@ function loadCSVData() {
                 });
             }
             
-            console.log("CSV data loaded:", planetData); // 确认数据是否加载正确
-
-            // 初始化场景和相机等
-            initializeScene();
+            console.log("CSV data loaded:", planetData); // 确认数据是否
         })
         .catch(error => console.error('Error loading CSV:', error));
 }
@@ -442,7 +439,7 @@ animate();
 // 在页面加载时调用 loadCSVData，数据加载后初始化场景
 window.onload = function() {
     loadCSVData();
-    initThreeJS();
+    initializeScene();
 };
 </script>
 </body>
