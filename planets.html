@@ -15,6 +15,7 @@
         <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
         <!-- Slider for camera zoom (distance from the scene center) -->
         <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
+        <button onclick="resetView()">返回原始视角</button>
   </div>
    <!-- Button in the top-right corner -->
    <button id="topRightButton">Top Right Button</button>
@@ -64,6 +65,12 @@
             focusOnPlanet(clickedPlanet);
         }
     }
+
+    var selectedPlanet = null; // 当前选中的星球
+    var originalCameraPosition = camera.position.clone(); // 保存原始视角位置
+    var originalCameraLookAt = new THREE.Vector3(0, 0, 0); // 原始视角的观察点
+
+    
     
     // Create the Sun
     var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
@@ -238,17 +245,25 @@
     });
 
     function focusOnPlanet(planet) {
+        selectedPlanet = planet;
+
+        // 保存当前相机的位置，以便返回原视角时使用
+        originalCameraPosition.copy(camera.position);
+        originalCameraLookAt.copy(planet.position);
+
+        // 调整相机位置，使其聚焦到选中的星球
         camera.position.set(planet.position.x + 5, planet.position.y + 5, planet.position.z + 5);
         camera.lookAt(planet.position);
 
-        // Show menu and display tab
+        // 显示菜单和显示标签
         document.getElementById('menu').style.display = 'block';
         document.getElementById('displayTab').style.display = 'block';
 
-        // Update display tab content with planet's name
+        // 更新显示标签内容
         document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
         document.getElementById('lowerSection').innerText = "Additional information...";
-         }
+    }
+    
     function showInfo(infoType) {
     var lowerSection = document.getElementById('lowerSection');
     switch (infoType) {
@@ -275,6 +290,18 @@
     }
     }
 
+    function resetView() {
+        selectedPlanet = null; // 清除选中的星球
+
+        // 返回相机到原始位置和观察点
+        camera.position.copy(originalCameraPosition);
+        camera.lookAt(originalCameraLookAt);
+
+        // 隐藏菜单和显示标签
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('displayTab').style.display = 'none';
+    }
+
     var animate = function () {
         requestAnimationFrame(animate);
         planets.forEach(function(planet) {
@@ -293,8 +320,29 @@
         if (sun) {
            sun.rotation.y += 0.001;
         }
+
+        // 如果有选中的星球，相机持续跟踪
+        if (selectedPlanet) {
+            camera.position.lerp(
+                new THREE.Vector3(
+                    selectedPlanet.position.x + 5,
+                    selectedPlanet.position.y + 5,
+                    selectedPlanet.position.z + 5
+            ),
+            0.1 // 速度调整因子，值越小越慢
+        );
+        camera.lookAt(selectedPlanet.position);
+    }
         renderer.render(scene, camera);
     };
+    function animate() {
+    requestAnimationFrame(animate);
+
+    
+
+    renderer.render(scene, camera);
+}
+animate();
     animate();
   </script>
 </body>
