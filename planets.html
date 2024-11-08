@@ -326,35 +326,79 @@
 
         // 更新显示标签内容
         document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
-        document.getElementById('lowerSection').innerText = "Additional information...";
-    }
-    
-    function showInfo(infoType) {
-    var lowerSection = document.getElementById('lowerSection');
-    switch (infoType) {
-        case 1:
-            lowerSection.innerText = displayPlanetInfo(${planet.name}); 
-            break;
-        case 2:
-            lowerSection.innerText = "Information 2 about the planet";
-            break;
-        case 3:
-            lowerSection.innerText = "Information 3 about the planet";
-            break;
-        case 4:
-            lowerSection.innerText = "Information 4 about the planet";
-            break;
-        case 5:
-            lowerSection.innerText = "Information 5 about the planet";
-            break;
-        case 6:
-            lowerSection.innerText = "Information 6 about the planet";
-            break;
-        default:
-            lowerSection.innerText = "Additional information...";
-    }
     }
 
+    // Function to display specific information based on infoType
+    function displayPlanetInfo(planetName, infoType) {
+        const upperSection = document.getElementById('upperSection');
+        const lowerSection = document.getElementById('lowerSection');
+
+        if (planetData[planetName]) {
+            const data = planetData[planetName];
+        
+            // Display different information based on the infoType
+            switch (infoType) {
+                case 1: // Basic Physical Properties
+                    upperSection.innerHTML = `
+                    <h>Name: ${planetName}</h>;
+                    <p>Mass: ${data.mass} x 10²⁴ kg</p>
+                    <p>Diameter: ${data.diameter} km</p>
+                    <p>Density: ${data.density} kg/m³</p>
+                    `;
+                    break;
+                case 2: // Gravitational and Dynamic Properties
+                upperSection.innerHTML = `
+                    <h>Name: ${planetName}</h>;
+                    <p>Surface Gravity: ${data.surface_gravity} m/s²</p>
+                    <p>Escape Velocity: ${data.escape_velocity} km/s</p>
+                    `;
+                    break;
+                case 3: // Rotation and Tilt
+                    upperSection.innerHTML = `
+                    <h>Name: ${planetName}</h>;
+                    <p>Rotation Period: ${data.rotation_period} hours</p>
+                    <p>Obliquity: ${data.obliquity} º</p>
+                    `;
+                    break;
+                case 4: // Satellite and Ring System
+                    upperSection.innerHTML = `
+                    <h>Name: ${planetName}</h>;
+                    <p>Number of Moons: ${data.moons}</p>
+                    <p>Ring System: ${data.ring_system}</p>
+                    `;
+                    break;
+            case 5: // Temperature and Atmospheric Conditions
+                upperSection.innerHTML = `<p>Name: ${planetName}</p>`;
+                lowerSection.innerHTML = `
+                    <p>Mean Temperature: ${data.Mean_Temperature} °C</p>
+                    <p>Atmosphere: ${data.Atmosphere}</p>
+                `;
+                break;
+            case 6: // Orbit Properties
+                upperSection.innerHTML = `<p>Name: ${planetName}</p>`;
+                lowerSection.innerHTML = `
+                    <p>Orbital Period: ${data.Orbital_Period} days</p>
+                    <p>Orbital Velocity: ${data.Orbital_Velocity} km/s</p>
+                    <p>Orbital Inclination: ${data.Orbital_Inclination} degrees</p>
+                    <p>Orbital Eccentricity: ${data.Orbital_Eccentricity}</p>
+                `;
+                break;
+            default:
+                upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+                lowerSection.innerHTML = '';
+        }
+    } else {
+        upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+        lowerSection.innerHTML = '';
+    }
+}
+
+// Function triggered by button clicks to show specific info
+function showInfo(infoType) {
+    const planetName = selectedPlanetName; // Replace with the currently selected planet's name
+    displayPlanetInfo(planetName, infoType);
+}
+    
     function resetView() {
         selectedPlanet = null; // 清除选中的星球
 
