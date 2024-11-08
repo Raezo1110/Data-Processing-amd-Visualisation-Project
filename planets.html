@@ -7,6 +7,7 @@
     canvas { display: block; }
     #controls { position: absolute; top: 10px; left: 10px; color: white; }
     #topRightButton { position: absolute; top: 10px; right: 20px; color: white; }
+    #returnButton { position: absolute; top: 10px; left: 10px; color: white; }
   </style>
 </head>
 <body>
@@ -15,10 +16,10 @@
         <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
         <!-- Slider for camera zoom (distance from the scene center) -->
         <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
-        <button onclick="resetView()">返回原始视角</button>
   </div>
    <!-- Button in the top-right corner -->
    <button id="topRightButton">Top Right Button</button>
+   <button id="returnButton" onclick="resetView()">Return</button>
    <div id="menu" style="display: none; position: absolute; top: 50px; left: 10px; color: white;">
    <button onclick="showInfo(1)">Info 1</button><br>
    <button onclick="showInfo(2)">Info 2</button><br>
@@ -258,6 +259,11 @@
         // 显示菜单和显示标签
         document.getElementById('menu').style.display = 'block';
         document.getElementById('displayTab').style.display = 'block';
+        document.getElementById('returnButton').style.display = 'block';
+
+        // 隐藏角度和缩放控制以及右上角按钮
+        document.getElementById('controls').style.display = 'none';
+        document.getElementById('topRightButton').style.display = 'none';
 
         // 更新显示标签内容
         document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
@@ -300,6 +306,11 @@
         // 隐藏菜单和显示标签
         document.getElementById('menu').style.display = 'none';
         document.getElementById('displayTab').style.display = 'none';
+        document.getElementById('returnButton').style.display = 'none';
+
+        // 显示角度和缩放控制以及右上角按钮
+        document.getElementById('controls').style.display = 'block';
+        document.getElementById('topRightButton').style.display = 'block';
     }
 
     var animate = function () {
