@@ -18,6 +18,19 @@
   </div>
    <!-- Button in the top-right corner -->
    <button id="topRightButton">Top Right Button</button>
+   <div id="menu" style="display: none; position: absolute; top: 50px; left: 10px; color: white;">
+   <button onclick="showInfo(1)">Info 1</button><br>
+   <button onclick="showInfo(2)">Info 2</button><br>
+   <button onclick="showInfo(3)">Info 3</button><br>
+   <button onclick="showInfo(4)">Info 4</button><br>
+   <button onclick="showInfo(5)">Info 5</button><br>
+   <button onclick="showInfo(6)">Info 6</button><br>
+  </div>
+
+<div id="displayTab" style="display: none; position: absolute; top: 50px; right: 10px; color: white; width: 200px;">
+  <div id="upperSection">Upper Section</div>
+  <div id="lowerSection" style="margin-top: 20px;">Lower Section</div>
+</div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
     var scene = new THREE.Scene();
@@ -32,6 +45,26 @@
         scene.background = texture;
     });
 
+    // Raycaster for detecting clicks
+    var raycaster = new THREE.Raycaster();
+    var mouse = new THREE.Vector2();
+
+    // Add event listener for mouse clicks
+    window.addEventListener('click', onMouseClick, false);
+
+    function onMouseClick(event) {
+        event.preventDefault();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+
+        var intersects = raycaster.intersectObjects(planets);
+        if (intersects.length > 0) {
+            var clickedPlanet = intersects[0].object;
+            focusOnPlanet(clickedPlanet);
+        }
+    }
+    
     // Create the Sun
     var sunGeometry = new THREE.SphereGeometry(4, 32, 32);  // Sun's size
     var textureLoader = new THREE.TextureLoader();
@@ -203,6 +236,44 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    function focusOnPlanet(planet) {
+        camera.position.set(planet.position.x + 5, planet.position.y + 5, planet.position.z + 5);
+        camera.lookAt(planet.position);
+
+        // Show menu and display tab
+        document.getElementById('menu').style.display = 'block';
+        document.getElementById('displayTab').style.display = 'block';
+
+        // Update display tab content with planet's name
+        document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
+        document.getElementById('lowerSection').innerText = "Additional information...";
+         }
+    function showInfo(infoType) {
+    var lowerSection = document.getElementById('lowerSection');
+    switch (infoType) {
+        case 1:
+            lowerSection.innerText = "Information 1 about the planet";
+            break;
+        case 2:
+            lowerSection.innerText = "Information 2 about the planet";
+            break;
+        case 3:
+            lowerSection.innerText = "Information 3 about the planet";
+            break;
+        case 4:
+            lowerSection.innerText = "Information 4 about the planet";
+            break;
+        case 5:
+            lowerSection.innerText = "Information 5 about the planet";
+            break;
+        case 6:
+            lowerSection.innerText = "Information 6 about the planet";
+            break;
+        default:
+            lowerSection.innerText = "Additional information...";
+    }
+    }
 
     var animate = function () {
         requestAnimationFrame(animate);
