@@ -7,7 +7,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
         }
         #planetInfo {
             margin-top: 20px;
@@ -18,22 +17,31 @@
     <h1>Planet System Data Viewer</h1>
     
     <label for="planetSelect">Select a Planet:</label>
-    <select id="planetSelect" onchange="displayPlanetInfo()">
+    <select id="planetSelect" onchange="updateSelectedPlanet()">
         <option value="">--Select a Planet--</option>
     </select>
 
-    <div id="planetInfo">
-        <!-- Planet information will be displayed here -->
+    <div id="buttons">
+        <button onclick="showInfo(1)">Basic Physical Properties</button>
+        <button onclick="showInfo(2)">Gravitational and Dynamic Properties</button>
+        <button onclick="showInfo(3)">Rotation and Tilt</button>
+        <button onclick="showInfo(4)">Satellite and Ring System</button>
+        <button onclick="showInfo(5)">Temperature and Atmospheric Conditions</button>
+        <button onclick="showInfo(6)">Orbit Properties</button>
     </div>
+
+    <div id="upperSection"></div>
+    <div id="lowerSection"></div>
 
     <script>
         const planetData = {};
+        let selectedPlanet = "";
 
+        // Load CSV data into planetData object
         function loadCSVData() {
             fetch('planet_system2.csv')
                 .then(response => response.text())
                 .then(data => {
-                    // Split rows and parse CSV
                     const rows = data.split('\n');
                     const headers = rows[0].split(',');
 
@@ -46,7 +54,6 @@
                             planetData[planetName][header.trim()] = values[index + 1].trim();
                         });
 
-                        // Add planet to the dropdown menu
                         const option = document.createElement("option");
                         option.value = planetName;
                         option.textContent = planetName;
@@ -56,32 +63,81 @@
                 .catch(error => console.error('Error loading CSV:', error));
         }
 
-        function displayPlanetInfo() {
-            const planetName = document.getElementById("planetSelect").value;
-            const planetInfoDiv = document.getElementById("planetInfo");
+        // Function to update the selected planet
+        function updateSelectedPlanet() {
+            selectedPlanet = document.getElementById("planetSelect").value;
+        }
+
+        // Display specific information based on infoType
+        function displayPlanetInfo(planetName, infoType) {
+            const upperSection = document.getElementById('upperSection');
+            const lowerSection = document.getElementById('lowerSection');
 
             if (planetData[planetName]) {
                 const data = planetData[planetName];
-                planetInfoDiv.innerHTML = `
-                    <h2>Planet: ${planetName}</h2>
-                    <p><strong>Mass:</strong> ${data.mass} x 10²⁴ kg</p>
-                    <p><strong>Diameter:</strong> ${data.diameter} km</p>
-                    <p><strong>Density:</strong> ${data.density} kg/m³</p>
-                    <p><strong>Surface Gravity:</strong> ${data.surface_gravity} m/s²</p>
-                    <p><strong>Escape Velocity:</strong> ${data.escape_velocity} km/s</p>
-                    <p><strong>Rotation Period:</strong> ${data.rotation_period} hours</p>
-                    <p><strong>Obliquity:</strong> ${data.obliquity} º</p>
-                    <p><strong>Number of Moons:</strong> ${data.moon}</p>
-                    <p><strong>Ring System:</strong> ${data.ring}</p>
-                    <p><strong>Mean Temperature:</strong> ${data.temperature} °C</p>
-                    <p><strong>Atmosphere:</strong> ${data.atmosphere}</p>
-                    <p><strong>Orbital Period:</strong> ${data.orbital_period} days</p>
-                    <p><strong>Orbital Velocity:</strong> ${data.orbital_velocity} km/s</p>
-                    <p><strong>Orbital Inclination:</strong> ${data.orbital_inclination} º</p>
-                    <p><strong>Orbital Eccentricity:</strong> ${data.orbital_eccentricity}</p>
-                `;
+            
+                switch (infoType) {
+                    case 1: // Basic Physical Properties
+                        upperSection.innerHTML = `
+                            <h1>Name: ${planetName}</h1>
+                            <p>Mass: ${data['Mass']} x 10²⁴ kg</p>
+                            <p>Diameter: ${data['Diameter']} km</p>
+                            <p>Density: ${data['Density']} kg/m³</p>
+                        `;
+                        break;
+                    case 2: // Gravitational and Dynamic Properties
+                        upperSection.innerHTML = `
+                            <h1>Name: ${planetName}</h1>
+                            <p>Surface Gravity: ${data['Surface_Gravity']} m/s²</p>
+                            <p>Escape Velocity: ${data['Escape_Velocity']} km/s</p>
+                        `;
+                        break;
+                    case 3: // Rotation and Tilt
+                        upperSection.innerHTML = `
+                            <h1>Name: ${planetName}</h1>
+                            <p>Rotation Period: ${data['Rotation_Period']} hours</p>
+                            <p>Obliquity: ${data['Obliquity']} º</p>
+                        `;
+                        break;
+                    case 4: // Satellite and Ring System
+                        upperSection.innerHTML = `
+                            <h1>Name: ${planetName}</h1>
+                            <p>Number of Moons: ${data['Moon']}</p>
+                            <p>Ring System: ${data['Ring']}</p>
+                        `;
+                        break;
+                    case 5: // Temperature and Atmospheric Conditions
+                        upperSection.innerHTML = `
+                            <h1>Name: ${planetName}</h1>
+                            <p>Mean Temperature: ${data['Temperature']} °C</p>
+                            <p>Atmosphere: ${data['Atmosphere']}</p>
+                        `;
+                        break;
+                    case 6: // Orbit Properties
+                        upperSection.innerHTML = `
+                       <h1>Name: ${planetName}</h1>
+                            <p>Orbital Period: ${data['Orbital_Period']} days</p>
+                            <p>Orbital Velocity: ${data['Orbital_Velocity']} km/s</p>
+                            <p>Orbital Inclination: ${data['Orbital_Inclination']} º</p>
+                            <p>Orbital Eccentricity: ${data['Orbital_Eccentricity']}</p>
+                        `;
+                        break;
+                    default:
+                        upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+                        lowerSection.innerHTML = '';
+                }
             } else {
-                planetInfoDiv.innerHTML = `<p>Please select a planet to view its information.</p>`;
+                upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
+                lowerSection.innerHTML = '';
+            }
+        }
+
+        // Triggered by button clicks to show specific info
+        function showInfo(infoType) {
+            if (selectedPlanet) {
+                displayPlanetInfo(selectedPlanet, infoType);
+            } else {
+                alert("Please select a planet first.");
             }
         }
 
