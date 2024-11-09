@@ -16,34 +16,6 @@
             padding-left: 10px;
             font-size: 16px;
             }
-            #displayTab {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: none; /* Initially hidden */
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 1000; /* Make sure it appears above other content */
-            }
-            #buttonContainer button {
-                width: 100px;
-                cursor: pointer;
-            }
-            #chartContainer {
-                width: 100%;  /* 设置容器宽度 */
-                height: 100%; /* 设置容器高度 */
-                position: relative;
-            }
-
-            .chart {
-                width: 100%;  /* 设置每个图表容器的宽度 */
-                height: 100%; /* 设置每个图表容器的高度 */
-                display: none; /* 默认隐藏 */
-            }
         </style>
     </head>
     <body>
@@ -66,26 +38,12 @@
             <button onclick="showInfo(6)">Orbit Properties</button><br>
         </div>
 
-        <div id="displayTab">
-            <div id="upperSection" style="color: white; height: 200px; width: 520px;">Upper Section</div>
-            <div id="lowerSection" style="margin-top: 10px; color: white; height: 360px; width: 500px;">
-                <div id="buttonContainer" style="display: flex; justify-content: space-between;">
-                    <button id="button1" class="tabButton">1</button>
-                    <button id="button2" class="tabButton">2</button>
-                    <button id="button3" class="tabButton">3</button>
-                    <button id="button4" class="tabButton">4</button>
-                </div>
-                <div id="chartContainer">
-                    <div id="chart1" class="chart" style="display: none;"></div>
-                    <div id="chart2" class="chart" style="display: none;"></div>
-                    <div id="chart3" class="chart" style="display: none;"></div>
-                    <div id="chart4" class="chart"></div>
-                </div>
-            </div>
+        <div id="displayTab" style="display: none; position: absolute; top: 50px; right: 10px; color: white; width: 200px;">
+            <div id="upperSection">Upper Section</div>
+            <div id="lowerSection" style="margin-top: 20px;">Lower Section</div>
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script>
             const planetData = {};
 
@@ -465,131 +423,6 @@
                     // Only bind the return button click handler once
                     document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick); // 清除以前的监听
                     document.getElementById('returnButton').addEventListener('click', handleReturnButtonClick);
-                }
-
-                // Button event listeners to display the relevant chart
-                document.getElementById("button1").addEventListener('click', function() {
-                    toggleChart(1);
-                });
-                document.getElementById("button2").addEventListener('click', function() {
-                    toggleChart(2);
-                });
-                document.getElementById("button3").addEventListener('click', function() {
-                    toggleChart(3);
-                });
-                document.getElementById("button4").addEventListener('click', function() {
-                    toggleChart(4);
-                });
-
-                // The toggleChart function now accepts a button number as an argument
-                function toggleChart(buttonNumber) {
-                    var charts = document.querySelectorAll(".chart");
-                    charts.forEach(function(chart) {
-                        chart.style.display = "none"; // Hide all charts first
-                    });
-
-                    var chartId = getChartId(buttonNumber);  // Get the chart id based on buttonNumber and showInfo
-                    console.log("Selected chartId: " + chartId); 
-                    var chartElement = document.getElementById(chartId);
-                    console.log("CharElement: " + chartId); 
-
-                    if (chartElement) {
-                        chartElement.style.display = "block";  // Show the selected chart
-                    }
-
-                    // Additional logic to render chart data based on the chartId
-                    renderChart(chartId);
-                }
-
-                // Function to determine the correct chartId based on the button clicked
-                function getChartId(buttonNumber) {
-                    let chartId = '';
-                    
-                    // Mapping buttonNumber to chartId based on your logic
-                    if (buttonNumber === 1) {
-                        chartId = "chart1";  // Show mass chart
-                    } else if (buttonNumber === 2) {
-                        chartId = "diameterChart";  // Show diameter chart
-                    } else if (buttonNumber === 3) {
-                        chartId = "densityChart";  // Show density chart
-                    } else if (buttonNumber === 4) {
-                        chartId = "gravityChart";  // Show gravity chart
-                    }
-                    // Add more conditions if necessary for other charts
-                    return chartId;
-                }
-
-                // Function to render the appropriate chart based on chartId
-                function renderChart(chartId) {
-                    switch (chartId) {
-                        case "chart1":
-                            renderMassChart();
-                            break;
-                        case "diameterChart":
-                            renderDiameterChart();
-                            break;
-                        case "densityChart":
-                            renderDensityChart();
-                            break;
-                        case "gravityChart":
-                            renderGravityChart();
-                            break;
-                        case "escapeVelocityChart":
-                            renderEscapeVelocityChart();
-                            break;
-                        case "moonChart":
-                            renderMoonChart();
-                            break;
-                        case "temperatureChart":
-                            renderTemperatureChart();
-                            break;
-                        case "atmosphereChart":
-                            renderAtmosphereChart();
-                            break;
-                        case "orbitalPeriodChart":
-                            renderOrbitalPeriodChart();
-                            break;
-                        case "orbitalVelocityChart":
-                            renderOrbitalVelocityChart();
-                            break;
-                        case "orbitalInclinationChart":
-                            renderOrbitalInclinationChart();
-                            break;
-                        case "orbitalEccentricityChart":
-                            renderOrbitalEccentricityChart();
-                            break;
-                        default:
-                            console.log("Unknown chart ID: " + chartId);
-                    }
-                }
-
-                // Function to render Mass Chart
-                function renderMassChart() {
-                    console.log("Rendering mass chart...");
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        if (!data) {
-                            console.error('Error loading data'); // 确保数据正确加载
-                            return;
-                        }
-                        console.log("Data loaded:", data);
-                        var planets = data.map(function(d) { return d.planet; });
-                        var mass = data.map(function(d) { return parseFloat(d.mass); });
-                        console.log("Masses:", mass);
-                        var trace = {
-                            x: planets,
-                            y: mass,
-                            mode: 'lines+markers', // 使用折线图和标记
-                            type: 'scatter',
-                        };
-
-                        var layout = {
-                            title: 'Masses of Planets',
-                            xaxis: { title: 'Planet' },
-                            yaxis: { title: 'Mass' }
-                        };
-
-                        Plotly.newPlot('chart1', [trace], layout);
-                    });
                 }
 
                 // Animation Loop
