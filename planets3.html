@@ -407,7 +407,11 @@
                 // Function to display specific information based on infoType
                 window.displayPlanetInfo = function(planetName, infoType) {
                     const upperSection = document.getElementById('upperSection');
-                    const lowerSection = document.getElementById('lowerSection');
+                    var lowerId = getLowerId(lowerNumber);
+                    var lowerElement = document.getElementById(lowerId);
+                    if (lowerElement) {
+                        lowerElement.style.display = "block";  // Show the selected lower
+                    }
 
                     if (planetData[planetName]) {
                         const data = planetData[planetName];
@@ -421,6 +425,7 @@
                                     <p>Diameter: ${data.diameter} km</p>
                                     <p>Density: ${data.density} kg/m³</p>
                                 `;
+                                lowerSection
                                 break;
                             case 2: // Gravitational and Dynamic Properties
                                 upperSection.innerHTML = `
