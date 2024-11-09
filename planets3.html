@@ -343,20 +343,20 @@
 
                     // Save cuurent camera position
                     originalCameraPosition.copy(camera.position);
-                    originalCameraLookAt.copy(camera.position); 
+                    originalCameraLookAt.copy(scene.position); 
 
                     // Adjust camera position, make it focus on the selected planet
                     var offset = 5; // Asjust distance between camera and planet
                     camera.position.set(planet.position.x + offset, planet.position.y + offset, planet.position.z + offset);
                     camera.lookAt(planet.position);
 
+                    // Display the information about the selected planet (optional)
+                    displayPlanetInfo(planet.name, 1); // Default to Basic Physical Properties
+
                     // Show the menu and return button
                     document.getElementById('menu').style.display = 'block';
                     document.getElementById('displayTab').style.display = 'block';
                     document.getElementById('returnButton').style.display = 'block';
-
-                    // Display the information about the selected planet (optional)
-                    displayPlanetInfo(planet.name, 1); // Default to Basic Physical Properties
 
                     // Hide the camera adjustment functionality and top right button
                     document.getElementById('controls').style.display = 'none';
@@ -366,6 +366,7 @@
                     document.getElementById('upperSection').innerText = `Planet: ${planet.name}`;
 
                     // Setup return button
+                    document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick);
                     document.getElementById('returnButton').addEventListener('click', function() {
                         // Recover the camera position
                         camera.position.copy(originalCameraPosition);
