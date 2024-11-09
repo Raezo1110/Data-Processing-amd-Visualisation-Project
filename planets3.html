@@ -263,6 +263,45 @@
                     }
                 }
 
+                // Define planet data (example for one planet)
+                const planetData = {
+                    Mercury: {
+                        mass: 0.33,
+                        diameter: 4879,
+                        density: 5427,
+                        surface_gravity: 3.7,
+                        escape_velocity: 4.3,
+                        rotation_period: 1407.6,
+                        obliquity: 0.034,
+                        moon: 0,
+                        ring: "No",
+                        temperature: 167,
+                        atmosphere: "None",
+                        orbital_period: 88,
+                        orbital_velocity: 47.87,
+                        orbital_inclination: 7.0,
+                        orbital_eccentricity: 0.2056
+                    },
+                    Earth: {
+                        mass: 5.97,
+                        diameter: 12742,
+                        density: 5514,
+                        surface_gravity: 9.8,
+                        escape_velocity: 11.2,
+                        rotation_period: 24,
+                        obliquity: 23.5,
+                        moon: 1,
+                        ring: "No",
+                        temperature: 15,
+                        atmosphere: "Oxygen, Nitrogen",
+                        orbital_period: 365,
+                        orbital_velocity: 29.78,
+                        orbital_inclination: 0,
+                        orbital_eccentricity: 0.0167
+                    },
+                    // More planets...
+                };
+
                 // Function to display specific information based on infoType
                 function displayPlanetInfo(planetName, infoType) {
                     const upperSection = document.getElementById('upperSection');
