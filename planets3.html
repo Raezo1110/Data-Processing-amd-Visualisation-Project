@@ -382,7 +382,7 @@
                                 break;
                             case 5: // Temperature and Atmospheric Conditions
                                 upperSection.innerHTML = `
-                                    <h1>Name: ${planetName}</h1>
+                                    <h1>${planetName}</h1>
                                     <p>Mean Temperature: ${data.temperature} °C</p>
                                     <p>Atmosphere: ${data.atmosphere}</p>
                                 `;
@@ -460,7 +460,22 @@
                     document.getElementById('topRightButton').style.display = 'none';
 
                     // Update displayed content of upper section
-                    document.getElementById('upperSection').innerText = `Planet: ${planetObject.name}`;
+                    if (planetObject.name === "Mercury") {
+                        document.getElementById('upperSection').innerHTML = `<h1>${planetObject.name}</h1>
+                                                                             <p>Terrestrial Planets</p>`;
+                    } else if (planetObject.name === "Venus") {
+                        document.getElementById('upperSection').innerHTML = `<h1>${planetObject.name}</h1>
+                                                                             <p>Terrestrial Planets</p>`;
+                    } else if (planetObject.name === "Earth") {
+                        document.getElementById('upperSection').innerHTML = `<h1>${planetObject.name}</h1>
+                                                                            <p>Terrestrial Planets</p>`;
+                    } else if (planetObject.name === "Mars") {
+                        document.getElementById('upperSection').innerHTML = `<h1>${planetObject.name}</h1>
+                                                                             <p>Terrestrial Planets</p>`;
+                    } else {
+                        document.getElementById('upperSection').innerHTML = `<h1>${planetObject.name}</h1>
+                                                                             <p>Gas Giants</p>`;
+                    }
 
                     // Only bind the return button click handler once
                     document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick); // 清除以前的监听
