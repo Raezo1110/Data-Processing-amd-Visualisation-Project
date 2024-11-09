@@ -407,20 +407,19 @@
                     // Setup return button
                     document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick);
                     document.getElementById('returnButton').addEventListener('click', function() {
-                        // Recover the camera position
-                        camera.position.copy(originalCameraPosition);
-                        camera.lookAt(originalCameraLookAt);
-
-                        // Clear selected planet
-                        selectedPlanet = null;
-
-                        // Recover the UI of the whole planet system
-                        document.getElementById('controls').style.display = 'block';
-                        document.getElementById('topRightButton').style.display = 'block';
-                        document.getElementById('menu').style.display = 'none';
-                        document.getElementById('displayTab').style.display = 'none';
-                        document.getElementById('returnButton').style.display = 'none';
-                    });
+                        function handleReturnButtonClick() {
+                            console.log("Return button clicked"); // 调试输出
+                            camera.position.copy(originalCameraPosition);
+                            camera.lookAt(originalCameraLookAt);
+                            
+                            selectedPlanet = null;
+                            
+                            document.getElementById('controls').style.display = 'block';
+                            document.getElementById('topRightButton').style.display = 'block';
+                            document.getElementById('menu').style.display = 'none';
+                            document.getElementById('displayTab').style.display = 'none';
+                            document.getElementById('returnButton').style.display = 'none';
+                        }
                 }
 
                 // Animation Loop
