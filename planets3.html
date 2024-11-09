@@ -29,7 +29,11 @@
             box-sizing: border-box;
             z-index: 1000; /* Make sure it appears above other content */
             }
-            #buttonContainer button {
+            .buttonContainer {
+                display: flex;
+                justify-content: space-between;
+            }
+            .buttonContainer button {
                 width: 100px;
                 cursor: pointer;
             }
@@ -43,6 +47,13 @@
                 width: 100%;  /* 设置每个图表容器的宽度 */
                 height: 100%; /* 设置每个图表容器的高度 */
                 display: none; /* 默认隐藏 */
+            }
+            .lowerSection {
+                display: none;
+                margin-top: 10px; 
+                color: white; 
+                height: 360px; 
+                width: 500px;
             }
         </style>
     </head>
@@ -68,18 +79,70 @@
 
         <div id="displayTab">
             <div id="upperSection" style="color: white; height: 200px; width: 520px;">Upper Section</div>
-            <div id="lowerSection" style="margin-top: 10px; color: white; height: 360px; width: 500px;">
-                <div id="buttonContainer" style="display: flex; justify-content: space-between;">
-                    <button id="button1" class="tabButton">1</button>
-                    <button id="button2" class="tabButton">2</button>
-                    <button id="button3" class="tabButton">3</button>
-                    <button id="button4" class="tabButton">4</button>
+            <div id="lower1" class="lowerSection">
+                <div id="buttonCon1" class="buttonContainer">
+                    <button onclick="chart(1)" class="tabButton">Mass</button>
+                    <button onclick="chart(2)" class="tabButton">Diameter</button>
+                    <button onclick="chart(3)" class="tabButton">Density</button>
                 </div>
-                <div id="chartContainer">
-                    <div id="chart1" class="chart" style="display: none;"></div>
-                    <div id="chart2" class="chart" style="display: none;"></div>
-                    <div id="chart3" class="chart" style="display: none;"></div>
+                <div id="chartCon1" class="chartContainer">
+                    <div id="chart1" class="chart"></div>
+                    <div id="chart2" class="chart"></div>
+                    <div id="chart3" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower2" class="lowerSection">
+                <div id="buttonCon2" class="buttonContainer">
+                    <button onclick="chart(4)" class="tabButton">Surface Gravity</button>
+                    <button onclick="chart(5)" class="tabButton">Escape Velocity</button>
+                </div>
+                <div id="chartCon2" class="chartContainer">
                     <div id="chart4" class="chart"></div>
+                    <div id="chart5" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower3" class="lowerSection">
+                <div id="buttonCon3" class="buttonContainer">
+                    <button onclick="chart(6)" class="tabButton">Rotation Period</button>
+                    <button onclick="chart(7)" class="tabButton">Obliquity</button>
+                </div>
+                <div id="chartCon3" class="chartContainer">
+                    <div id="chart6" class="chart"></div>
+                    <div id="chart7" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower4" class="lowerSection">
+                <div id="buttonCon4" class="buttonContainer">
+                    <button onclick="chart(8)" class="tabButton">Number of Moons</button>
+                    <button onclick="chart(9)" class="tabButton">Ring?</button>
+                </div>
+                <div id="chartCon4" class="chartContainer">
+                    <div id="chart8" class="chart"></div>
+                    <div id="chart9" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower5" class="lowerSection">
+                <div id="buttonCon5" class="buttonContainer">
+                    <button onclick="chart(10)" class="tabButton">Mean Temperature</button>
+                    <button onclick="chart(11)" class="tabButton">Atmosphere Composition</button>
+                </div>
+                <div id="chartCon5" class="chartContainer">
+                    <div id="chart10" class="chart"></div>
+                    <div id="chart11" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower6" class="lowerSection">
+                <div id="buttonCon6" class="buttonContainer">
+                    <button onclick="chart(12)" class="tabButton">Period</button>
+                    <button onclick="chart(13)" class="tabButton">Velocity</button>
+                    <button onclick="chart(14)" class="tabButton">Inclination</button>
+                    <button onclick="chart(15)" class="tabButton">Eccentricity</button>
+                </div>
+                <div id="chartCon6" class="chartContainer">
+                    <div id="chart12" class="chart"></div>
+                    <div id="chart13" class="chart"></div>
+                    <div id="chart14" class="chart"></div>
+                    <div id="chart15" class="chart"></div>
                 </div>
             </div>
         </div>
@@ -393,7 +456,7 @@
                                     <p>Orbital Period: ${data.orbital_period} days</p>
                                     <p>Orbital Velocity: ${data.orbital_velocity} km/s</p>
                                     <p>Orbital Inclination: ${data.orbital_inclination} º</p>
-                                    <p>Orbital Eccentricity: ${data.orbital_eccentricity}</p>
+                                    <p>Orbital Eccentricity: ${data.eccentricity}</p>
                                 `;
                                 break;
                             default:
