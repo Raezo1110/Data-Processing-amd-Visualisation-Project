@@ -612,65 +612,47 @@
                     renderChart(chartId);
                 }
 
-                // Function to determine the correct chartId based on the button clicked
-                function getChartId(buttonNumber) {
-                    let chartId = '';
-                    
-                    // Mapping buttonNumber to chartId based on your logic
-                    if (buttonNumber === 1) {
-                        chartId = "chart1";  // Show mass chart
-                    } else if (buttonNumber === 2) {
-                        chartId = "diameterChart";  // Show diameter chart
-                    } else if (buttonNumber === 3) {
-                        chartId = "densityChart";  // Show density chart
-                    } else if (buttonNumber === 4) {
-                        chartId = "gravityChart";  // Show gravity chart
-                    }
-                    // Add more conditions if necessary for other charts
-                    return chartId;
-                }
-
-                // Function to render the appropriate chart based on chartId
-                function renderChart(chartId) {
-                    switch (chartId) {
-                        case "chart1":
-                            renderMassChart();
+                // Function to display the appropriate chart based on button
+                function displayChart(buttonNumber) {
+                    switch (buttonNumber) {
+                        case 1:
+                            toggleChart(1);
                             break;
-                        case "diameterChart":
-                            renderDiameterChart();
+                        case 2:
+                            toggleChart(2);
                             break;
-                        case "densityChart":
-                            renderDensityChart();
+                        case 3:
+                            toggleChart(3);
                             break;
-                        case "gravityChart":
-                            renderGravityChart();
+                        case 4:
+                            toggleChart(4);
                             break;
-                        case "escapeVelocityChart":
-                            renderEscapeVelocityChart();
+                        case 5:
+                            toggleChart(5);
                             break;
-                        case "moonChart":
-                            renderMoonChart();
+                        case 6:
+                            toggleChart(6);
                             break;
-                        case "temperatureChart":
-                            renderTemperatureChart();
+                        case 7:
+                            toggleChart(7);
                             break;
-                        case "atmosphereChart":
-                            renderAtmosphereChart();
+                        case 8:
+                            toggleChart(8);
                             break;
-                        case "orbitalPeriodChart":
-                            renderOrbitalPeriodChart();
+                        case 9:
+                            toggleChart(9);
                             break;
-                        case "orbitalVelocityChart":
-                            renderOrbitalVelocityChart();
+                        case 10:
+                            toggleChart(10);
                             break;
-                        case "orbitalInclinationChart":
-                            renderOrbitalInclinationChart();
+                        case 11:
+                            toggleChart(11);
                             break;
-                        case "orbitalEccentricityChart":
-                            renderOrbitalEccentricityChart();
+                        case 12:
+                            toggleChart(12);
                             break;
                         default:
-                            console.log("Unknown chart ID: " + chartId);
+                            console.log("Unable to toggle chart);
                     }
                 }
 
