@@ -394,7 +394,115 @@
                     }
                 }
 
-                //toggle
+                function renderMassChart() {
+                    var trace = {
+                        x: ['Mercury', 'Venus', 'Earth', 'Mars']
+                        y: [0.330, 4.87, 5.97, 0.642],
+                        type: 'bar'
+                    };
+                    var layout = {
+                        title: 'Mass of Planets (in 10²⁴ kg)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Mass (10²⁴ kg)'}
+                    }
+                    Plotly.newPlot('chart1', [trace], layout);
+                }
+
+                // The toggleChart function now accepts a button number as an argument
+                window.toggleChart = function(chartId) {
+                    var charts = document.querySelectorAll(".chart");
+                    charts.forEach(function(chart) {
+                        chart.style.display = "none"; // Hide all charts first
+                    });
+
+                    var chartElement = document.getElementById(chartId);
+                    chartElement.style.display = "block";
+
+                    if (chartId === "chart1") {
+                        renderMassChart();
+                    } else if (chartId === "chart2") {
+                        renderDiameterChart();
+                    } else if (chartId === "chart3") {
+                        renderDensityChart();
+                    } else if (chartId === "chart4") {
+                        renderGravityChart();
+                    } else if (chartId === "chart5") {
+                        renderEscapeVelocityChart();
+                    } else if (chartId === "chart6") {
+                        renderRotationPeriodChart();
+                    } else if (chartId === "chart7") {
+                        renderObliquityChart();
+                    } else if (chartId === "chart8") {
+                        renderMoonChart();
+                    } else if (chartId === "chart9") {
+                        renderRingChart();
+                    } else if (chartId === "chart10") {
+                        renderTemperatureChart();
+                    } else if (chartId === "chart11") {
+                        renderAtmosphereChart();
+                    } else if (chartId === "chart12") {
+                        renderOrbitalPeriodChart();
+                    } else if (chartId === "chart13") {
+                        renderOrbitalVelocityChart();
+                    } else if (chartId === "chart14") {
+                        renderOrbitalInclinationChart();
+                    } else if (chartId === "chart15") {
+                        renderOrbitalEccentricityChart();
+                    }
+                }
+
+                // Function to display the appropriate chart based on button
+                window.displayChart = function(buttonNumber) {
+                    switch (buttonNumber) {
+                        case 1:
+                            toggleChart(chart1);
+                            break;
+                        case 2:
+                            toggleChart(chart2);
+                            break;
+                        case 3:
+                            toggleChart(chart3);
+                            break;
+                        case 4:
+                            toggleChart(chart4);
+                            break;
+                        case 5:
+                            toggleChart(chart5);
+                            break;
+                        case 6:
+                            toggleChart(chart6);
+                            break;
+                        case 7:
+                            toggleChart(chart7);
+                            break;
+                        case 8:
+                            toggleChart(chart8);
+                            break;
+                        case 9:
+                            toggleChart(chart9);
+                            break;
+                        case 10:
+                            toggleChart(chart10);
+                            break;
+                        case 11:
+                            toggleChart(chart11);
+                            break;
+                        case 12:
+                            toggleChart(chart12);
+                            break;
+                        case 13:
+                            toggleChart(chart13);
+                            break;
+                        case 14:
+                            toggleChart(chart14);
+                            break;
+                        case 15:
+                            toggleChart(chart15);
+                            break;
+                        default:
+                            console.log("Unable to toggle chart);
+                    }
+            }
 
                 // Function triggered by button clicks to show specific info
                 window.showInfo = function(infoType) {
@@ -410,7 +518,7 @@
                 window.displayPlanetInfo = function(planetName, infoType) {
                     const upperSection = document.getElementById('upperSection');
                     var lowers = document.querySelectorAll(".lowerSection");
-                    lowerSection.forEach(function(lower) {
+                    lowers.forEach(function(lower) {
                         lower.style.display = "none"; // Hide all lower sections first
                     });
 
@@ -427,7 +535,7 @@
                                     <p>Density: ${data.density} kg/m³</p>
                                 `;
                                 document.getELementById('lower1').style.display = 'block';
-                                displayChart(1)
+                                displayChart(1);
                                 break;
                             case 2: // Gravitational and Dynamic Properties
                                 upperSection.innerHTML = `
