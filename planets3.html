@@ -174,7 +174,7 @@
                         console.log("CSV data loaded:", planetData); // Confirm the data is loaded
                     })
                     .catch(error => console.error('Error loading CSV:', error));
-            }
+            };
 
             function initializeScene() {
                 scene = new THREE.Scene();
@@ -476,7 +476,7 @@
                             toggleChart("chart7");
                             break;
                         case 8:
-                            toggleChart(chart8);
+                            toggleChart("chart8");
                             break;
                         case 9:
                             toggleChart("chart9");
@@ -500,7 +500,7 @@
                             toggleChart("chart15");
                             break;
                         default:
-                            console.log("Unable to toggle chart);
+                            console.log("Unable to toggle chart");
                     }
             };
 
@@ -512,7 +512,7 @@
                     } else {
                         alert("No planet selected");
                     }
-                }
+                };
 
                 // Function to display specific information based on infoType
                 window.displayPlanetInfo = function(planetName, infoType) {
@@ -534,7 +534,7 @@
                                     <p>Diameter: ${data.diameter} km</p>
                                     <p>Density: ${data.density} kg/m³</p>
                                 `;
-                                document.getELementById('lower1').style.display = 'block';
+                                document.getElementById('lower1').style.display = 'block';
                                 displayChart(1);
                                 break;
                             case 2: // Gravitational and Dynamic Properties
@@ -607,7 +607,7 @@
                     document.getElementById('menu').style.display = 'none';
                     document.getElementById('displayTab').style.display = 'none';
                     document.getElementById('returnButton').style.display = 'none';
-                }
+                };
 
                 // Function to focus on a specific planet
                 window.focusOnPlanet = function(planetObject) {
@@ -666,8 +666,6 @@
                     document.getElementById('returnButton').addEventListener('click', handleReturnButtonClick);
                 }
 
-                
-                
                 // Animation Loop
                 var animate = function () {
                 requestAnimationFrame(animate);
@@ -703,7 +701,7 @@
                     renderer.render(scene, camera);
                 };
                 animate();
-            }
+            };
 
             window.onload = function() {
                 loadCSVData();
