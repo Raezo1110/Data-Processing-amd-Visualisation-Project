@@ -394,12 +394,12 @@
                     }
                 };
 
-                window.renderMassChart = function() {
+                window.renderMassChart = function(planetName) {
                     var planetNames = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
                     var masses = [0.330, 4.87, 5.97, 0.642, 1898, 568, 86.8, 102];
                     
                     var colors = planetNames.map(function(name) {
-                        return name === selectedPlanet.name ? '#FF5733' : '#4B8EF1';
+                        return name === planetName ? '#FF5733' : '#4B8EF1';
                     });
                     var trace = {
                         x: planetNames,
@@ -421,7 +421,7 @@
                 };
 
                 // The toggleChart function now accepts a button number as an argument
-                window.toggleChart = function(chartId) {
+                window.toggleChart = function(planetName,chartId) {
                     var charts = document.querySelectorAll(".chart");
                     charts.forEach(function(chart) {
                         chart.style.display = "none"; // Hide all charts first
@@ -433,89 +433,89 @@
                     if (chartId === "chart1") {
                         if (selectedPlanet) {
                             alert("Rendering mass chart for selected planet");
-                            renderMassChart();
+                            renderMassChart(planetName);
                         } else {
                             alert("No planet selected. Mass chart cannot be rendered.");
                         }
                         
                     } else if (chartId === "chart2") {
-                        renderDiameterChart();
+                        renderDiameterChart(planetName);
                     } else if (chartId === "chart3") {
-                        renderDensityChart();
+                        renderDensityChart(planetName);
                     } else if (chartId === "chart4") {
-                        renderGravityChart();
+                        renderGravityChart(planetName);
                     } else if (chartId === "chart5") {
-                        renderEscapeVelocityChart();
+                        renderEscapeVelocityChart(planetName);
                     } else if (chartId === "chart6") {
-                        renderRotationPeriodChart();
+                        renderRotationPeriodChart(planetName);
                     } else if (chartId === "chart7") {
-                        renderObliquityChart();
+                        renderObliquityChart(planetName);
                     } else if (chartId === "chart8") {
-                        renderMoonChart();
+                        renderMoonChart(planetName);
                     } else if (chartId === "chart9") {
-                        renderRingChart();
+                        renderRingChart(planetName);
                     } else if (chartId === "chart10") {
-                        renderTemperatureChart();
+                        renderTemperatureChart(planetName);
                     } else if (chartId === "chart11") {
-                        renderAtmosphereChart();
+                        renderAtmosphereChart(planetName);
                     } else if (chartId === "chart12") {
-                        renderOrbitalPeriodChart();
+                        renderOrbitalPeriodChart(planetName);
                     } else if (chartId === "chart13") {
-                        renderOrbitalVelocityChart();
+                        renderOrbitalVelocityChart(planetName);
                     } else if (chartId === "chart14") {
-                        renderOrbitalInclinationChart();
+                        renderOrbitalInclinationChart(planetName);
                     } else if (chartId === "chart15") {
-                        renderOrbitalEccentricityChart();
+                        renderOrbitalEccentricityChart(planetName);
                     }
                 };
 
                 // Function to display the appropriate chart based on button
-                window.displayChart = function(buttonNumber) {
+                window.displayChart = function(planetName,buttonNumber) {
                     switch (buttonNumber) {
                         case 1:
-                            toggleChart("chart1");
+                            toggleChart(planetName,"chart1");
                             break;
                         case 2:
-                            toggleChart("chart2");
+                            toggleChart(planetName,"chart2");
                             break;
                         case 3:
-                            toggleChart("chart3");
+                            toggleChart(planetName,"chart3");
                             break;
                         case 4:
-                            toggleChart("chart4");
+                            toggleChart(planetName,"chart4");
                             break;
                         case 5:
-                            toggleChart("chart5");
+                            toggleChart(planetName,"chart5");
                             break;
                         case 6:
-                            toggleChart("chart6");
+                            toggleChart(planetName,"chart6");
                             break;
                         case 7:
-                            toggleChart("chart7");
+                            toggleChart(planetName,"chart7");
                             break;
                         case 8:
-                            toggleChart("chart8");
+                            toggleChart(planetName,"chart8");
                             break;
                         case 9:
-                            toggleChart("chart9");
+                            toggleChart(planetName,"chart9");
                             break;
                         case 10:
-                            toggleChart("chart10");
+                            toggleChart(planetName,"chart10");
                             break;
                         case 11:
-                            toggleChart("chart11");
+                            toggleChart(planetName,"chart11");
                             break;
                         case 12:
-                            toggleChart("chart12");
+                            toggleChart(planetName,"chart12");
                             break;
                         case 13:
-                            toggleChart("chart13");
+                            toggleChart(planetName,"chart13");
                             break;
                         case 14:
-                            toggleChart("chart14");
+                            toggleChart(planetName,"chart14");
                             break;
                         case 15:
-                            toggleChart("chart15");
+                            toggleChart(planetName,"chart15");
                             break;
                         default:
                             console.log("Unable to toggle chart");
@@ -553,7 +553,7 @@
                                     <p>Density: ${data.density} kg/m³</p>
                                 `;
                                 document.getElementById('lower1').style.display = 'block';
-                                displayChart(1);
+                                displayChart(planetName,1);
                                 break;
                             case 2: // Gravitational and Dynamic Properties
                                 upperSection.innerHTML = `
