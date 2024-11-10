@@ -431,7 +431,13 @@
                     chartElement.style.display = "block";
 
                     if (chartId === "chart1") {
-                        renderMassChart();
+                        if (selectedPlanet) {
+                            alert("Rendering mass chart for selected planet");
+                            renderMassChart();
+                        } else {
+                            alert("No planet selected. Mass chart cannot be rendered.");
+                        }
+                        
                     } else if (chartId === "chart2") {
                         renderDiameterChart();
                     } else if (chartId === "chart3") {
