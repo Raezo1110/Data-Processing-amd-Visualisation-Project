@@ -394,9 +394,9 @@
                     }
                 }
 
-                function renderMassChart() {
+                window.renderMassChart = function() {
                     var trace = {
-                        x: ['Mercury', 'Venus', 'Earth', 'Mars']
+                        x: ['Mercury', 'Venus', 'Earth', 'Mars'],
                         y: [0.330, 4.87, 5.97, 0.642],
                         type: 'bar'
                     };
@@ -455,54 +455,54 @@
                 window.displayChart = function(buttonNumber) {
                     switch (buttonNumber) {
                         case 1:
-                            toggleChart(chart1);
+                            toggleChart("chart1");
                             break;
                         case 2:
-                            toggleChart(chart2);
+                            toggleChart("chart2");
                             break;
                         case 3:
-                            toggleChart(chart3);
+                            toggleChart("chart3");
                             break;
                         case 4:
-                            toggleChart(chart4);
+                            toggleChart("chart4");
                             break;
                         case 5:
-                            toggleChart(chart5);
+                            toggleChart("chart5");
                             break;
                         case 6:
-                            toggleChart(chart6);
+                            toggleChart("chart6");
                             break;
                         case 7:
-                            toggleChart(chart7);
+                            toggleChart("chart7");
                             break;
                         case 8:
                             toggleChart(chart8);
                             break;
                         case 9:
-                            toggleChart(chart9);
+                            toggleChart("chart9");
                             break;
                         case 10:
-                            toggleChart(chart10);
+                            toggleChart("chart10");
                             break;
                         case 11:
-                            toggleChart(chart11);
+                            toggleChart("chart11");
                             break;
                         case 12:
-                            toggleChart(chart12);
+                            toggleChart("chart12");
                             break;
                         case 13:
-                            toggleChart(chart13);
+                            toggleChart("chart13");
                             break;
                         case 14:
-                            toggleChart(chart14);
+                            toggleChart("chart14");
                             break;
                         case 15:
-                            toggleChart(chart15);
+                            toggleChart("chart15");
                             break;
                         default:
                             console.log("Unable to toggle chart);
                     }
-            }
+            };
 
                 // Function triggered by button clicks to show specific info
                 window.showInfo = function(infoType) {
