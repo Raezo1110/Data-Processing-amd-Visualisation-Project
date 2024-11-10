@@ -653,35 +653,7 @@
                 }
 
                 
-                // Function to render Mass Chart
-                function renderMassChart() {
-                    console.log("Rendering mass chart...");
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        if (!data) {
-                            console.error('Error loading data'); // 确保数据正确加载
-                            return;
-                        }
-                        console.log("Data loaded:", data);
-                        var planets = data.map(function(d) { return d.planet; });
-                        var mass = data.map(function(d) { return parseFloat(d.mass); });
-                        console.log("Masses:", mass);
-                        var trace = {
-                            x: planets,
-                            y: mass,
-                            mode: 'lines+markers', // 使用折线图和标记
-                            type: 'scatter',
-                        };
-
-                        var layout = {
-                            title: 'Masses of Planets',
-                            xaxis: { title: 'Planet' },
-                            yaxis: { title: 'Mass' }
-                        };
-
-                        Plotly.newPlot('chart1', [trace], layout);
-                    });
-                }
-
+                
                 // Animation Loop
                 var animate = function () {
                 requestAnimationFrame(animate);
