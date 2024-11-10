@@ -994,7 +994,7 @@
                                     <p>Density: ${data.density} kg/m³</p>
                                 `;
                                 document.getElementById('lower1').style.display = 'block';
-                                displayChart(planetName,1);
+                                //displayChart(planetName,1);
                                 break;
                             case 2: // Gravitational and Dynamic Properties
                                 upperSection.innerHTML = `
@@ -1003,7 +1003,7 @@
                                     <p>Escape Velocity: ${data.escape_velocity} km/s</p>
                                 `;
                                 document.getElementById('lower2').style.display = 'block';
-                                displayChart(planetName,4)
+                                //displayChart(planetName,4)
                                 break;
                                 
                             case 3: // Rotation and Tilt
@@ -1013,7 +1013,7 @@
                                     <p>Obliquity: ${data.obliquity} º</p>
                                 `;
                                 document.getElementById('lower3').style.display = 'block';
-                                displayChart(planetName,6)
+                                //displayChart(planetName,6)
                                 break;
                             case 4: // Satellite and Ring System
                                 upperSection.innerHTML = `
@@ -1022,7 +1022,7 @@
                                     <p>Ring System: ${data.ring}</p>
                                 `;
                                 document.getElementById('lower4').style.display = 'block';
-                                displayChart(planetName,8)
+                                //displayChart(planetName,8)
                                 break;
                             case 5: // Temperature and Atmospheric Conditions
                                 upperSection.innerHTML = `
@@ -1031,7 +1031,7 @@
                                     <p>Atmosphere: ${data.atmosphere}</p>
                                 `;
                                 document.getElementById('lower5').style.display = 'block';
-                                displayChart(planetName,10)
+                                //displayChart(planetName,10)
                                 break;
                             case 6: // Orbit Properties
                                 upperSection.innerHTML = `
@@ -1042,7 +1042,7 @@
                                     <p>Orbital Eccentricity: ${data.eccentricity}</p>
                                 `;
                                 document.getElementById('lower6').style.display = 'block';
-                                displayChart(planetName,12)
+                                //displayChart(planetName,12)
                                 break;
                             default:
                                 upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
@@ -1120,6 +1120,10 @@
                     } else {
                         document.getElementById('upperSection').innerHTML = `<h1>${planetObject.name}</h1>
                                                                              <p>Gas Giants</p>`;
+                    }
+                    if (planetData[planetObject.name]) {
+                        const data = planetData[planetObject.name];
+                        documeng.getElementById('uplerSection').innerHTML = `<p>Composition: data.composition</p>`;
                     }
 
                     // Display the information about the selected planet (optional)
