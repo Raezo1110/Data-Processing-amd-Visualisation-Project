@@ -554,102 +554,96 @@
                     document.getElementById('returnButton').addEventListener('click', handleReturnButtonClick);
                 }
 
-                window.displayChart = function(planetName, infoType) {
-                    const upperSection = document.getElementById('upperSection');
-                    var lowers = document.querySelectorAll(".lowerSection");
-                    lowerSection.forEach(function(lower) {
-                        lower.style.display = "none"; // Hide all lower sections first
-                    });
-
-                    if (planetData[planetName]) {
-                        const data = planetData[planetName];
-
-                        // Display different information based on the infoType
-                        switch (infoType) {
-                            case 1: // Basic Physical Properties
-                                upperSection.innerHTML = `
-                                    <h1>${planetName}</h1>
-                                    <p>Mass: ${data.mass} x 10²⁴ kg</p>
-                                    <p>Diameter: ${data.diameter} km</p>
-                                    <p>Density: ${data.density} kg/m³</p>
-                                `;
-                                document.getELementById('lower1').style.display = 'block';
-                                break;
-
-                
-
-                // Button event listeners to display the relevant chart
-                document.getElementById("button1").addEventListener('click', function() {
-                    toggleChart(1);
-                });
-                document.getElementById("button2").addEventListener('click', function() {
-                    toggleChart(2);
-                });
-                document.getElementById("button3").addEventListener('click', function() {
-                    toggleChart(3);
-                });
-                document.getElementById("button4").addEventListener('click', function() {
-                    toggleChart(4);
-                });
-
                 // The toggleChart function now accepts a button number as an argument
-                function toggleChart(buttonNumber) {
+                function toggleChart(chartId) {
                     var charts = document.querySelectorAll(".chart");
                     charts.forEach(function(chart) {
                         chart.style.display = "none"; // Hide all charts first
                     });
 
-                    var chartId = getChartId(buttonNumber);  // Get the chart id based on buttonNumber and showInfo
-                    console.log("Selected chartId: " + chartId); 
                     var chartElement = document.getElementById(chartId);
-                    console.log("CharElement: " + chartId); 
+                    chartElement.style.display = "block";
 
-                    if (chartElement) {
-                        chartElement.style.display = "block";  // Show the selected chart
+                    if (chartId === "chart1") {
+                        renderMassChart();
+                    } else if (chartId === "chart2") {
+                        renderDiameterChart();
+                    } else if (chartId === "chart3") {
+                        renderDensityChart();
+                    } else if (chartId === "chart4") {
+                        renderGravityChart();
+                    } else if (chartId === "chart5") {
+                        renderEscapeVelocityChart();
+                    } else if (chartId === "chart6") {
+                        renderRotationPeriodChart();
+                    } else if (chartId === "chart7") {
+                        renderObliquityChart();
+                    } else if (chartId === "chart8") {
+                        renderMoonChart();
+                    } else if (chartId === "chart9") {
+                        renderRingChart();
+                    } else if (chartId === "chart10") {
+                        renderTemperatureChart();
+                    } else if (chartId === "chart11") {
+                        renderAtmosphereChart();
+                    } else if (chartId === "chart12") {
+                        renderOrbitalPeriodChart();
+                    } else if (chartId === "chart13") {
+                        renderOrbitalVelocityChart();
+                    } else if (chartId === "chart14") {
+                        renderOrbitalInclinationChart();
+                    } else if (chartId === "chart15") {
+                        renderOrbitalEccentricityChart();
                     }
-
-                    // Additional logic to render chart data based on the chartId
-                    renderChart(chartId);
                 }
 
                 // Function to display the appropriate chart based on button
                 function displayChart(buttonNumber) {
                     switch (buttonNumber) {
                         case 1:
-                            toggleChart(1);
+                            toggleChart(chart1);
                             break;
                         case 2:
-                            toggleChart(2);
+                            toggleChart(chart2);
                             break;
                         case 3:
-                            toggleChart(3);
+                            toggleChart(chart3);
                             break;
                         case 4:
-                            toggleChart(4);
+                            toggleChart(chart4);
                             break;
                         case 5:
-                            toggleChart(5);
+                            toggleChart(chart5);
                             break;
                         case 6:
-                            toggleChart(6);
+                            toggleChart(chart6);
                             break;
                         case 7:
-                            toggleChart(7);
+                            toggleChart(chart7);
                             break;
                         case 8:
-                            toggleChart(8);
+                            toggleChart(chart8);
                             break;
                         case 9:
-                            toggleChart(9);
+                            toggleChart(chart9);
                             break;
                         case 10:
-                            toggleChart(10);
+                            toggleChart(chart10);
                             break;
                         case 11:
-                            toggleChart(11);
+                            toggleChart(chart11);
                             break;
                         case 12:
-                            toggleChart(12);
+                            toggleChart(chart12);
+                            break;
+                        case 13:
+                            toggleChart(chart13);
+                            break;
+                        case 14:
+                            toggleChart(chart14);
+                            break;
+                        case 15:
+                            toggleChart(chart15);
                             break;
                         default:
                             console.log("Unable to toggle chart);
