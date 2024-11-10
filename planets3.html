@@ -1059,6 +1059,8 @@
                 function handleReturnButtonClick() {
                     console.log("Return button clicked"); // 调试输出
 
+                    planetClickedEnabled = true;
+
                     // 恢复相机位置
                     camera.position.copy(originalCameraPosition);
                     camera.lookAt(originalCameraLookAt);
