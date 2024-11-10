@@ -634,7 +634,7 @@
                         // 统计每个环系统状态的数量
                         var ringCounts = {};
                         data.forEach(function(d) {
-                            var ringSystem = d.ring === 'yes' ? 'With Ring System' : 'Without Ring System';
+                            var ringSystem = d.ring === 'Yes' ? 'With Ring System' : 'Without Ring System';
                             ringCounts[ringSystem] = (ringCounts[ringSystem] || 0) + 1;
                         });
 
