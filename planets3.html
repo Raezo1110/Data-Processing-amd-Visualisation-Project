@@ -392,7 +392,7 @@
                         var clickedPlanet = intersects[0].object;
                         focusOnPlanet(clickedPlanet);
                     }
-                }
+                };
 
                 window.renderMassChart = function() {
                     var trace = {
@@ -406,7 +406,7 @@
                         yaxis: {title: 'Mass (10²⁴ kg)'}
                     }
                     Plotly.newPlot('chart1', [trace], layout);
-                }
+                };
 
                 // The toggleChart function now accepts a button number as an argument
                 window.toggleChart = function(chartId) {
@@ -449,7 +449,7 @@
                     } else if (chartId === "chart15") {
                         renderOrbitalEccentricityChart();
                     }
-                }
+                };
 
                 // Function to display the appropriate chart based on button
                 window.displayChart = function(buttonNumber) {
