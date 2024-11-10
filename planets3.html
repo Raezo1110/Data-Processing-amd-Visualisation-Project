@@ -407,11 +407,10 @@
                 // Function to display specific information based on infoType
                 window.displayPlanetInfo = function(planetName, infoType) {
                     const upperSection = document.getElementById('upperSection');
-                    var lowerId = getLowerId(lowerNumber);
-                    var lowerElement = document.getElementById(lowerId);
-                    if (lowerElement) {
-                        lowerElement.style.display = "block";  // Show the selected lower
-                    }
+                    var lowers = document.querySelectorAll(".lowerSection");
+                    lowerSection.forEach(function(lower) {
+                        lower.style.display = "none"; // Hide all lower sections first
+                    });
 
                     if (planetData[planetName]) {
                         const data = planetData[planetName];
@@ -425,7 +424,7 @@
                                     <p>Diameter: ${data.diameter} km</p>
                                     <p>Density: ${data.density} kg/m³</p>
                                 `;
-                                lowerSection
+                                document.getELementById('lower1').style.display = 'block';
                                 break;
                             case 2: // Gravitational and Dynamic Properties
                                 upperSection.innerHTML = `
@@ -433,6 +432,7 @@
                                     <p>Surface Gravity: ${data.surface_gravity} m/s²</p>
                                     <p>Escape Velocity: ${data.escape_velocity} km/s</p>
                                 `;
+                                document.getELementById('lower2').style.display = 'block';
                                 break;
                             case 3: // Rotation and Tilt
                                 upperSection.innerHTML = `
@@ -440,6 +440,7 @@
                                     <p>Rotation Period: ${data.rotation_period} hours</p>
                                     <p>Obliquity: ${data.obliquity} º</p>
                                 `;
+                                document.getELementById('lower3').style.display = 'block';
                                 break;
                             case 4: // Satellite and Ring System
                                 upperSection.innerHTML = `
@@ -447,6 +448,7 @@
                                     <p>Number of Moons: ${data.moon}</p>
                                     <p>Ring System: ${data.ring}</p>
                                 `;
+                                document.getELementById('lower4').style.display = 'block';
                                 break;
                             case 5: // Temperature and Atmospheric Conditions
                                 upperSection.innerHTML = `
@@ -454,6 +456,7 @@
                                     <p>Mean Temperature: ${data.temperature} °C</p>
                                     <p>Atmosphere: ${data.atmosphere}</p>
                                 `;
+                                document.getELementById('lower5').style.display = 'block';
                                 break;
                             case 6: // Orbit Properties
                                 upperSection.innerHTML = `
@@ -463,6 +466,7 @@
                                     <p>Orbital Inclination: ${data.orbital_inclination} º</p>
                                     <p>Orbital Eccentricity: ${data.eccentricity}</p>
                                 `;
+                                document.getELementById('lower6').style.display = 'block';
                                 break;
                             default:
                                 upperSection.innerHTML = `<p>No data available for ${planetName}</p>`;
@@ -549,6 +553,30 @@
                     document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick); // 清除以前的监听
                     document.getElementById('returnButton').addEventListener('click', handleReturnButtonClick);
                 }
+
+                window.displayChart = function(planetName, infoType) {
+                    const upperSection = document.getElementById('upperSection');
+                    var lowers = document.querySelectorAll(".lowerSection");
+                    lowerSection.forEach(function(lower) {
+                        lower.style.display = "none"; // Hide all lower sections first
+                    });
+
+                    if (planetData[planetName]) {
+                        const data = planetData[planetName];
+
+                        // Display different information based on the infoType
+                        switch (infoType) {
+                            case 1: // Basic Physical Properties
+                                upperSection.innerHTML = `
+                                    <h1>${planetName}</h1>
+                                    <p>Mass: ${data.mass} x 10²⁴ kg</p>
+                                    <p>Diameter: ${data.diameter} km</p>
+                                    <p>Density: ${data.density} kg/m³</p>
+                                `;
+                                document.getELementById('lower1').style.display = 'block';
+                                break;
+
+                
 
                 // Button event listeners to display the relevant chart
                 document.getElementById("button1").addEventListener('click', function() {
