@@ -1,176 +1,150 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Planets Creation</title>
-        <style>
-            body { margin: 0; overflow: hidden; }
-            canvas { display: block; }
-            #controls { position: absolute; top: 10px; left: 10px; color: white; }
-            #galaxyButton { position: absolute; top: 10px; right: 20px; color: white; }
-            #planetButton { position: absolute; margin-top: 10px; top: 30px; right: 20px; color: white; }
-            #creationTab {
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 45%; 
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.8);
-                display: none;
-                flex-direction: column;
-                padding: 10px;
-                box-sizing: border-box;
-                z-index: 1000;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="controls">
-            <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
-            <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
-        </div>
-        <button id="galaxyButton" onclick="window.location.href='galaxy.html'">Galaxy Showcase</button>
-        <button id="planetButton">Create Planet</button>
+<head>
+    <title>Planets Creation</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        #controls { position: absolute; top: 10px; left: 10px; color: white; }
+        #galaxyButton { position: absolute; top: 10px; right: 20px; color: white; }
+        #planetButton { position: absolute; margin-top: 10px; top: 30px; right: 20px; color: white; }
+        #creationTab {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 45%; 
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+            z-index: 1000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
+        <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
+    </div>
+    <button id="galaxyButton" onclick="window.location.href='galaxy.html'">Galaxy Showcase</button>
+    <button id="planetButton">Create Planet</button>
 
-        <div id="creationTab">
-            <label>Planet Size: <input type="range" id="sizeSlider" min="1" max="5" value="2"></label><br>
-            <label>Orbit Radius: <input type="range" id="orbitSlider" min="10" max="30" value="15"></label>
-        </div>
+    <div id="creationTab">
+        <label>Planet Size: <input type="range" id="sizeSlider" min="1" max="5" value="2"></label><br>
+        <label>Orbit Radius: <input type="range" id="orbitSlider" min="10" max="30" value="15"></label><br>
+        <label>Upload Planet Texture: <input type="file" id="textureUploader" accept="image/*"></label>
+    </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-        <script>
-            let scene, camera, renderer, sun;
-            let planet, orbit;
-            
-            function createScene() {
-                // Initialize scene, camera, and renderer
-                scene = new THREE.Scene();
-                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                renderer = new THREE.WebGLRenderer();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                document.body.appendChild(renderer.domElement);
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, sun;
+        let planet, orbit;
 
-                // Setup background
-                const textureLoader = new THREE.TextureLoader();
-                textureLoader.load('cosmos.jpg', function(texture) {
-                    scene.background = texture;
-                });
+        function createScene() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-                // Create the Sun
-                const sunGeometry = new THREE.SphereGeometry(4, 32, 32);
-                textureLoader.load('sun_texture.jpg', function(texture) {
-                    const sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
-                    sun = new THREE.Mesh(sunGeometry, sunMaterial);
-                    scene.add(sun);
-                });
+            const textureLoader = new THREE.TextureLoader();
+            textureLoader.load('cosmos.jpg', function(texture) {
+                scene.background = texture;
+            });
 
-                // Initial Camera Position
-                camera.position.set(0, 15, 20);
+            const sunGeometry = new THREE.SphereGeometry(4, 32, 32);
+            textureLoader.load('sun_texture.jpg', function(texture) {
+                const sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+                sun = new THREE.Mesh(sunGeometry, sunMaterial);
+                scene.add(sun);
+            });
+
+            camera.position.set(0, 15, 20);
+            camera.lookAt(scene.position);
+
+            var angleSlider = document.getElementById("angleSlider");
+            var zoomSlider = document.getElementById("zoomSlider");
+
+            angleSlider.addEventListener("input", updateCamera);
+            zoomSlider.addEventListener("input", updateCamera);
+
+            function updateCamera() {
+                var angle = angleSlider.value * Math.PI / 180;
+                var distance = zoomSlider.value;
+
+                camera.position.x = distance * Math.sin(angle);
+                camera.position.z = distance * Math.cos(angle);
                 camera.lookAt(scene.position);
+            }
 
-                // Camera Position Adjustment Functionality
-                var angleSlider = document.getElementById("angleSlider");
-                var zoomSlider = document.getElementById("zoomSlider");
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
 
-                angleSlider.addEventListener("input", updateCamera);
-                zoomSlider.addEventListener("input", updateCamera);
+            planetButton.addEventListener('click', function() {
+                document.getElementById('galaxyButton').style.display = 'none';
+                document.getElementById('planetButton').style.display = 'none';
+                document.getElementById('creationTab').style.display = 'block';
+                
+                createPlanetAndOrbit();
+                focusOnPlanet();
+            });
 
-                function updateCamera() {
-                    var angle = angleSlider.value * Math.PI / 180;
-                    var distance = zoomSlider.value;
-
-                    camera.position.x = distance * Math.sin(angle);
-                    camera.position.z = distance * Math.cos(angle);
-                    camera.lookAt(scene.position);
+            function animate() {
+                requestAnimationFrame(animate);
+                if (sun) {
+                    sun.rotation.y += 0.001;
                 }
+                if (planet) {
+                    planet.rotation.y += 0.01;
+                }
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
 
-                // Handle window resizing
-                window.addEventListener('resize', function() {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
+        function createPlanetAndOrbit() {
+            const planetGeometry = new THREE.SphereGeometry(2, 32, 32);
+            const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+            planet = new THREE.Mesh(planetGeometry, planetMaterial);
+            planet.position.x = 15;
+            scene.add(planet);
 
-                // Show creation tab and create planet when button is clicked
-                planetButton.addEventListener('click', function() {
-                    document.getElementById('galaxyButton').style.display = 'none';
-                    document.getElementById('planetButton').style.display = 'none';
-                    document.getElementById('creationTab').style.display = 'block';
-                    
-                    createPlanetAndOrbit();
-                    focusOnPlanet();
-                });
+            const orbitGeometry = new THREE.RingGeometry(14.5, 15.5, 64);
+            const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+            orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+            orbit.rotation.x = Math.PI / 2;
+            scene.add(orbit);
+        }
 
-                // Animation Loop
-                function animate() {
-                    requestAnimationFrame(animate);
-                    if (sun) {
-                        sun.rotation.y += 0.001;  // Rotate the sun if it's loaded
-                    }
+        function focusOnPlanet() {
+            camera.position.set(planet.position.x + 10, planet.position.y + 5, planet.position.z + 10);
+            camera.lookAt(planet.position);
+        }
+
+        document.getElementById("textureUploader").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const texture = new THREE.TextureLoader().load(e.target.result);
                     if (planet) {
-                        planet.rotation.y += 0.01;  // Rotate the planet for visual effect
+                        planet.material.map = texture;
+                        planet.material.needsUpdate = true;
                     }
-                    renderer.render(scene, camera);
-                }
-                animate();
+                };
+                reader.readAsDataURL(file);
             }
+        });
 
-            function createPlanetAndOrbit() {
-                const orbitRadius = 15;
-
-                // Create orbit
-                const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.1, orbitRadius + 0.1, 64);
-                const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-                orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-                orbit.rotation.x = Math.PI / 2;
-                scene.add(orbit);
-
-                // Create planet
-                const planetGeometry = new THREE.SphereGeometry(2, 32, 32);
-                const planetMaterial = new THREE.MeshBasicMaterial({ color: 0x4287f5 });
-                planet = new THREE.Mesh(planetGeometry, planetMaterial);
-                planet.position.x = orbitRadius;
-                scene.add(planet);
-
-                // Add sliders for adjusting planet properties
-                const sizeSlider = document.getElementById("sizeSlider");
-                const orbitSlider = document.getElementById("orbitSlider");
-
-                sizeSlider.addEventListener("input", updatePlanetProperties);
-                orbitSlider.addEventListener("input", updatePlanetProperties);
-
-                // 纹理上传函数
-                function updatePlanetTexture(file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        planetTexture = new THREE.TextureLoader().load(e.target.result);
-                        planetMaterial.map = planetTexture;
-                        planetMaterial.needsUpdate = true;
-                    };
-                    reader.readAsDataURL(file);
-                 }
-            }
-
-            function updatePlanetProperties() {
-                // Adjust planet size
-                const newSize = document.getElementById("sizeSlider").value;
-                planet.scale.set(newSize, newSize, newSize);
-
-                // Adjust orbit radius
-                const newOrbitRadius = document.getElementById("orbitSlider").value;
-                planet.position.x = newOrbitRadius;
-
-                // Update orbit radius visual
-                orbit.geometry.dispose();
-                orbit.geometry = new THREE.RingGeometry(newOrbitRadius - 0.1, newOrbitRadius + 0.1, 64);
-            }
-
-            function focusOnPlanet() {
-                // Set camera position to focus on the new planet
-                camera.position.set(planet.position.x, planet.position.y + 5, planet.position.z + 10);
-                camera.lookAt(planet.position);
-            }
-
-            window.onload = createScene;       
-        </script>
-    </body>
+        window.onload = function() {
+            createScene();
+        };
+    </script>
+</body>
 </html>
