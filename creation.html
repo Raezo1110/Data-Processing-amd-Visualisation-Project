@@ -32,13 +32,15 @@
         <button id="planetButton">Create Planet</button>
 
         <div id="creationTab">
-            create
+            <label>Planet Size: <input type="range" id="sizeSlider" min="1" max="5" value="2"></label><br>
+            <label>Orbit Radius: <input type="range" id="orbitSlider" min="10" max="30" value="15"></label>
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
         <script>
             let scene, camera, renderer, sun;
-
+            let planet, orbit;
+            
             function createScene() {
                 // Initialize scene, camera, and renderer
                 scene = new THREE.Scene();
@@ -69,18 +71,16 @@
                 var angleSlider = document.getElementById("angleSlider");
                 var zoomSlider = document.getElementById("zoomSlider");
 
-                // Listen for the changes in the sliders
                 angleSlider.addEventListener("input", updateCamera);
                 zoomSlider.addEventListener("input", updateCamera);
 
                 function updateCamera() {
-                // Convert angle to radius and set the camera's position
-                var angle = angleSlider.value * Math.PI / 180;
-                var distance = zoomSlider.value;
+                    var angle = angleSlider.value * Math.PI / 180;
+                    var distance = zoomSlider.value;
 
-                camera.position.x = distance * Math.sin(angle);
-                camera.position.z = distance * Math.cos(angle);
-                camera.lookAt(scene.position);
+                    camera.position.x = distance * Math.sin(angle);
+                    camera.position.z = distance * Math.cos(angle);
+                    camera.lookAt(scene.position);
                 }
 
                 // Handle window resizing
@@ -90,29 +90,76 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
 
-                //Creation tab button
-                // Show/Hide the info tab when the button is clicked
+                // Show creation tab and create planet when button is clicked
                 planetButton.addEventListener('click', function() {
                     document.getElementById('galaxyButton').style.display = 'none';
                     document.getElementById('planetButton').style.display = 'none';
                     document.getElementById('creationTab').style.display = 'block';
+                    
+                    createPlanetAndOrbit();
+                    focusOnPlanet();
                 });
 
-
                 // Animation Loop
-                var animate = function () {
+                function animate() {
                     requestAnimationFrame(animate);
                     if (sun) {
                         sun.rotation.y += 0.001;  // Rotate the sun if it's loaded
+                    }
+                    if (planet) {
+                        planet.rotation.y += 0.01;  // Rotate the planet for visual effect
                     }
                     renderer.render(scene, camera);
                 }
                 animate();
             }
 
-            window.onload = function() {
-                createScene();
-            };
+            function createPlanetAndOrbit() {
+                const orbitRadius = 15;
+
+                // Create orbit
+                const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.1, orbitRadius + 0.1, 64);
+                const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+                orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+                orbit.rotation.x = Math.PI / 2;
+                scene.add(orbit);
+
+                // Create planet
+                const planetGeometry = new THREE.SphereGeometry(2, 32, 32);
+                const planetMaterial = new THREE.MeshBasicMaterial({ color: 0x4287f5 });
+                planet = new THREE.Mesh(planetGeometry, planetMaterial);
+                planet.position.x = orbitRadius;
+                scene.add(planet);
+
+                // Add sliders for adjusting planet properties
+                const sizeSlider = document.getElementById("sizeSlider");
+                const orbitSlider = document.getElementById("orbitSlider");
+
+                sizeSlider.addEventListener("input", updatePlanetProperties);
+                orbitSlider.addEventListener("input", updatePlanetProperties);
+            }
+
+            function updatePlanetProperties() {
+                // Adjust planet size
+                const newSize = document.getElementById("sizeSlider").value;
+                planet.scale.set(newSize, newSize, newSize);
+
+                // Adjust orbit radius
+                const newOrbitRadius = document.getElementById("orbitSlider").value;
+                planet.position.x = newOrbitRadius;
+
+                // Update orbit radius visual
+                orbit.geometry.dispose();
+                orbit.geometry = new THREE.RingGeometry(newOrbitRadius - 0.1, newOrbitRadius + 0.1, 64);
+            }
+
+            function focusOnPlanet() {
+                // Set camera position to focus on the new planet
+                camera.position.set(planet.position.x, planet.position.y + 5, planet.position.z + 10);
+                camera.lookAt(planet.position);
+            }
+
+            window.onload = createScene;       
         </script>
     </body>
 </html>
