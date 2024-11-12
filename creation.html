@@ -115,9 +115,29 @@
             </label><br>            
         </div>
         <div id="editRing" class="editPanel">
+            <h3>Moons</h3>
+            <!-- Number of Moons --!>
+            <input type="range" id="moonSlider" min="0" max="100" value="1">
+
+            <h3>Ring System</h3>
+            <label>Add Ring?</label>
+            <input type="radio" id="ringYes" name="ringOption" value="yes">
+            <label for="ringYes">Yes</label>
+            <input type="radio" id="ringNo" name="ringOption" value="no" checked>
+            <label for="ringNo">No</label>
         
+            <!-- 颜色选择器，默认隐藏 -->
+            <div id="colorPicker" style="display: none; margin-top: 10px;">
+                <label for="ringColor">选择星环颜色：</label>
+                <input type="color" id="ringColor" value="#ff9900"> <!-- 默认颜色 -->
+            </div>
         </div>
         <div id="editAtmosphere" class="editPanel">
+            <!-- Escape Velocity -->
+            <label>Escape Velocity: 
+                <input type="range" id="escapeVelocitySlider" min="0" max="100" value="25">
+                <span id="escapeVelocityValue">25</span> km/s
+            </label><br>
             
         </div>
         <div id="editOrbit" class="editPanel">
