@@ -42,6 +42,8 @@
     <script>
         let scene, camera, renderer, sun;
         let planet, orbit;
+        let planetSize = 2;
+        let orbitRadius = 15;
 
         function createScene() {
             scene = new THREE.Scene();
@@ -95,6 +97,16 @@
                 focusOnPlanet();
             });
 
+            document.getElementById("sizeSlider").addEventListener("input", function() {
+                planetSize = parseFloat(this.value);
+                updatePlanetAndOrbit();
+            });
+
+            document.getElementById("orbitSlider").addEventListener("input", function() {
+                orbitRadius = parseFloat(this.value);
+                updatePlanetAndOrbit();
+            });
+
             function animate() {
                 requestAnimationFrame(animate);
                 if (sun) {
@@ -109,17 +121,28 @@
         }
 
         function createPlanetAndOrbit() {
-            const planetGeometry = new THREE.SphereGeometry(2, 32, 32);
+            const planetGeometry = new THREE.SphereGeometry(planetSize, 32, 32);
             const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
             planet = new THREE.Mesh(planetGeometry, planetMaterial);
             planet.position.x = 15;
             scene.add(planet);
 
-            const orbitGeometry = new THREE.RingGeometry(14.5, 15.5, 64);
+            const orbitGeometry = new THREE.RingGeometry(orbitRadius-0.5, orbitRadius+0.5, 64);
             const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
             orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
             orbit.rotation.x = Math.PI / 2;
             scene.add(orbit);
+        }
+
+        function updatePlanetAndOrbit() {
+            if (planet) {
+                scene.remove(planet);
+            }
+            if (orbit) {
+                scene.remove(orbit);
+            }
+            createPlanetAndOrbit();
+            focusOnPlanet();
         }
 
         function focusOnPlanet() {
