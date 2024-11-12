@@ -131,14 +131,52 @@
                 <label for="ringColor">选择星环颜色：</label>
                 <input type="color" id="ringColor" value="#ff9900"> <!-- 默认颜色 -->
             </div>
+            <label>Opacity: 
+                <input type="range" id="opaciySlider" min="180" max="100" value="25">
+                <span id="opacityValue">25</span>
+            </label><br>
+            <label>Tilt: 
+                <input type="range" id="tiltSlider" min="0" max="180" value="25">
+                <span id="tiltValue">25</span>º
+            </label><br>
         </div>
         <div id="editAtmosphere" class="editPanel">
-            <!-- Escape Velocity -->
-            <label>Escape Velocity: 
-                <input type="range" id="escapeVelocitySlider" min="0" max="100" value="25">
-                <span id="escapeVelocityValue">25</span> km/s
+            <label>H₂: 
+                <input type="range" id="hydrogenSlider" min="0" max="100" value="25">
+                <span id="hydrogenValue">25</span> %
             </label><br>
-            
+            <label>He: 
+                <input type="range" id="heliumSlider" min="0" max="100" value="25">
+                <span id="heliumValue">25</span> %
+            </label><br>
+            <label>N₂: 
+                <input type="range" id="nitrogenSlider" min="0" max="100" value="25">
+                <span id="nitrogenValue">25</span> %
+            </label><br>
+            <label>CO₂: 
+                <input type="range" id="carbonSlider" min="0" max="100" value="25">
+                <span id="carbonValue">25</span> %
+            </label><br>
+            <label>O₂: 
+                <input type="range" id="oxygenSlider" min="0" max="100" value="25">
+                <span id="oxygenValue">25</span> %
+            </label><br>
+            <label>Na: 
+                <input type="range" id="sodiumSlider" min="0" max="100" value="25">
+                <span id="sodiumValue">25</span> %
+            </label><br>
+            <label>Ar: 
+                <input type="range" id="argonSlider" min="0" max="100" value="25">
+                <span id="ArgonValue">25</span> %
+            </label><br>
+            <label>CH₄: 
+                <input type="range" id="methaneSlider" min="0" max="100" value="25">
+                <span id="methaneValue">25</span> %
+            </label><br>
+            <label>Other: 
+                <input type="range" id="otherSlider" min="0" max="100" value="25">
+                <span id="otherValue">25</span> %
+            </label><br>
         </div>
         <div id="editOrbit" class="editPanel">
             <h3>Appearance</h3>
@@ -168,14 +206,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script>
         let scene, camera, renderer, sun;
-        let planet, orbit;
         let planets = [];
         let orbits = [];
         let planetSizes = [];        // 存储每个行星的大小
         let orbitRadii = [];         // 存储每个行星的轨道半径
         let planetTextures = [];     // 存储每个行星的纹理
         let orbitAngles = [];        // 存储每个行星的轨道角度
-
 
         function createScene() {
             scene = new THREE.Scene();
@@ -226,7 +262,7 @@
                 document.getElementById('galaxyButton').style.display = 'none';
                 document.getElementById('planetButton').style.display = 'none';
                 document.getElementById('controls').style.display = 'none';
-                document.getElementById('creationTab').style.display = 'block';
+                document.getElementById('editTab').style.display = 'block';
                 document.getElementById('returnButton').style.display = 'block';
                 document.getElementById('menu').style.display = 'block';
                 
@@ -401,7 +437,7 @@
                 document.getElementById('galaxyButton').style.display = 'block';
                 document.getElementById('planetButton').style.display = 'block';
                 document.getElementById('controls').style.display = 'block';
-                document.getElementById('creationTab').style.display = 'none';
+                document.getElementById('editTab').style.display = 'none';
                 document.getElementById('returnButton').style.display = 'none';
                 document.getElementById('menu').style.display = 'none';
             });
