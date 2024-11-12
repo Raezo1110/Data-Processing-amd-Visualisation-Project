@@ -95,7 +95,7 @@
                 document.getElementById('creationTab').style.display = 'block';
                 
                 createPlanetAndOrbit();
-                focusOnPlanet();
+                //focusOnPlanet();
             });
 
             document.getElementById("sizeSlider").addEventListener("input", function() {
@@ -110,17 +110,26 @@
 
             function animate() {
                 requestAnimationFrame(animate);
-                if (sun) {
-                    sun.rotation.y += 0.001;
-                }
+                if (sun) sun.rotation.y += 0.001;
+
                 if (planet) {
+                    // 让行星沿轨道旋转
                     planet.rotation.y += 0.01;
                     planet.position.x = orbitRadius * Math.cos(planet.rotation.y);
                     planet.position.z = orbitRadius * Math.sin(planet.rotation.y);
+
+                    // 更新相机的位置，使其相对于行星保持一个固定偏移量
+                    const cameraOffset = 10; // 相机与行星的距离
+                    camera.position.x = planet.position.x + cameraOffset;
+                    camera.position.y = planet.position.y + 5; // 可以调节以实现不同的视角高度
+                    camera.position.z = planet.position.z + cameraOffset;
+
+                    // 相机始终面向行星
+                    camera.lookAt(planet.position);
                 }
-                renderer.render(scene, camera);
-            }
-            animate();
+                    renderer.render(scene, camera);
+                }
+                animate();
         }
 
         function createPlanetAndOrbit() {
@@ -145,12 +154,7 @@
                 scene.remove(orbit);
             }
             createPlanetAndOrbit();
-            focusOnPlanet();
-        }
-
-        function focusOnPlanet() {
-            camera.position.set(planet.position.x + 10, planet.position.y + 5, planet.position.z + 10);
-            camera.lookAt(planet.position);
+            //focusOnPlanet();
         }
 
         document.getElementById("textureUploader").addEventListener("change", function(event) {
