@@ -96,7 +96,6 @@
                 document.getElementById('creationTab').style.display = 'block';
                 
                 createPlanetAndOrbit();
-                //focusOnPlanet();
             });
 
             document.getElementById("sizeSlider").addEventListener("input", function() {
@@ -114,33 +113,29 @@
                 if (sun) sun.rotation.y += 0.001;
 
                 if (planet) {
-                    // 让行星沿轨道旋转
                     planet.rotation.y += 0.01;
-                    planet.position.x = orbitRadius * Math.cos(planet.rotation.y);
-                    planet.position.z = orbitRadius * Math.sin(planet.rotation.y);
+                    
+                    // 行星在轨道上移动
+                    orbitAngle += 0.01;
+                    planet.position.x = orbitRadius * Math.cos(orbitAngle);
+                    planet.position.z = orbitRadius * Math.sin(orbitAngle);
 
-                    // 更新相机的位置，使其相对于行星保持一个固定偏移量
-                    const cameraOffset = 10; // 相机与行星的距离
+                    // 相机保持与行星的偏移量
+                    const cameraOffset = 10;
                     camera.position.x = planet.position.x + cameraOffset;
-                    camera.position.y = planet.position.y + 5; // 可以调节以实现不同的视角高度
+                    camera.position.y = planet.position.y + 5;
                     camera.position.z = planet.position.z + cameraOffset;
 
-                    // 相机始终面向行星
                     camera.lookAt(planet.position);
-
-                    // 调整行星位置使其沿轨道旋转
-                    orbitAngle += 0.01; // 调整速度
-                    planet.position.x = orbit.geometry.parameters.innerRadius * Math.cos(orbitAngle);
-                    planet.position.z = orbit.geometry.parameters.innerRadius * Math.sin(orbitAngle);
                 }
-                    renderer.render(scene, camera);
-                }
-                animate();
+                renderer.render(scene, camera);
+            }
+            animate();
         }
 
         function createPlanetAndOrbit() {
             const planetGeometry = new THREE.SphereGeometry(planetSize, 32, 32);
-            const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, map: planetTexture});
+            const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, map: planetTexture });
             planet = new THREE.Mesh(planetGeometry, planetMaterial);
             planet.position.x = orbitRadius;
             scene.add(planet);
@@ -152,18 +147,10 @@
             scene.add(orbit);
         }
 
-        // 初始化场景时调用一次 createPlanetAndOrbit()
-        createPlanetAndOrbit();
-
         function updatePlanetAndOrbit() {
-            // 更新行星的大小
-            const newSize = sizeSlider.value;
-            planet.scale.set(newSize, newSize, newSize);
-
-            // 更新轨道的半径，而不重新创建它
-            const newOrbitRadius = orbitSlider.value;
+            planet.scale.set(planetSize, planetSize, planetSize);
             orbit.geometry.dispose();
-            orbit.geometry = new THREE.RingGeometry(newOrbitRadius - 0.05, newOrbitRadius + 0.05, 64);
+            orbit.geometry = new THREE.RingGeometry(orbitRadius - 0.5, orbitRadius + 0.5, 64);
         }
 
         document.getElementById("textureUploader").addEventListener("change", function(event) {
@@ -173,7 +160,7 @@
                 reader.onload = function(e) {
                     planetTexture = new THREE.TextureLoader().load(e.target.result);
                     if (planet) {
-                        planet.material.map = texture;
+                        planet.material.map = planetTexture;
                         planet.material.needsUpdate = true;
                     }
                 };
@@ -187,3 +174,4 @@
     </script>
 </body>
 </html>
+     
