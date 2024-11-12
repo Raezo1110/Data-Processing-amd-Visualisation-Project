@@ -44,6 +44,7 @@
         let planet, orbit;
         let planetSize = 2;
         let orbitRadius = 15;
+        let planetTexture = null;
 
         function createScene() {
             scene = new THREE.Scene();
@@ -114,6 +115,8 @@
                 }
                 if (planet) {
                     planet.rotation.y += 0.01;
+                    planet.position.x = orbitRadius * Math.cos(planet.rotation.y);
+                    planet.position.z = orbitRadius * Math.sin(planet.rotation.y)!
                 }
                 renderer.render(scene, camera);
             }
@@ -122,9 +125,9 @@
 
         function createPlanetAndOrbit() {
             const planetGeometry = new THREE.SphereGeometry(planetSize, 32, 32);
-            const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+            const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, map: planetTexture});
             planet = new THREE.Mesh(planetGeometry, planetMaterial);
-            planet.position.x = 15;
+            planet.position.x = orbitRadius;
             scene.add(planet);
 
             const orbitGeometry = new THREE.RingGeometry(orbitRadius-0.5, orbitRadius+0.5, 64);
@@ -155,7 +158,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const texture = new THREE.TextureLoader().load(e.target.result);
+                    planetTexture = new THREE.TextureLoader().load(e.target.result);
                     if (planet) {
                         planet.material.map = texture;
                         planet.material.needsUpdate = true;
