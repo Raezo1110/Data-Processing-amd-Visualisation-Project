@@ -491,86 +491,47 @@
                     const escapeVelocitySlider = document.getElementById("escapeVelocitySlider");
                     const escapeVelocityValue = document.getElementById("escapeVelocityValue");
 
+                    const moonSlider = document.getElementById("moonSlider");
+                    const moonValue = document.getElementById("moonValue");
+                    const opacitySlider = document.getElementById("opacitySlider");
+                    const opacityValue = document.getElementById("opacityValue");
+                    const tiltSlider = document.getElementById("tiltSlider");
+                    const tiltValue = document.getElementById("tiltValue");
+
+                    const hydrogenSlider = document.getElementById("hydrogenSlider");
+                    const hydrogenValue = document.getElementById("hydrogenValue");
+                    const heliumSlider = document.getElementById("heliumSlider");
+                    const heliumValue = document.getElementById("heliumValue");
+                    const nitrogenSlider = document.getElementById("nitrogenSlider");
+                    const nitrogenValue = document.getElementById("nitrogenValue");
+                    const carbonSlider = document.getElementById("carbonSlider");
+                    const carbonValue = document.getElementById("carbonValue");
+                    const oxygenSlider = document.getElementById("oxygenSlider");
+                    const oxygenValue = document.getElementById("oxygenValue");
+                    const sodiumSlider = document.getElementById("sodiumSlider");
+                    const sodiumValue = document.getElementById("sodiumValue");
+                    const argonSlider = document.getElementById("argonSlider");
+                    const argonValue = document.getElementById("argonValue");
+                    const methaneSlider = document.getElementById("methaneSlider");
+                    const methaneValue = document.getElementById("methaneValue");
+                    const otherSlider = document.getElementById("otherSlider");
+                    const otherValue = document.getElementById("otherValue");
+
                     const orbitRadiusSlider = document.getElementById("orbitRadiusSlider");
                     const orbitRadiusValue = document.getElementById("orbitRadiusValue");
                     const orbitVelocitySlider = document.getElementById("orbitVelocitySlider");
                     const orbitVelocityValue = document.getElementById("orbitVelocityValue");
-                    const G = 6.67430e-11
+                    const orbitInclinationSlider = document.getElementById("orbitInclinationSlider");
+                    const orbitInclinationValue = document.getElementById("orbitInclinationValue");
+                    const eccentricitySlider = document.getElementById("eccentricitySlider");
+                    const eccentricityValue = document.getElementById("eccentricityValue");
                                                                        
                     // Function to update the displayed value
                     function updateValue(slider, valueSpan, format = '') {
                         valueSpan.textContent = slider.value + format;
                     }
 
-                    function SizeToDiameter() {
-                        const size = parseFloat(sizeSlider.value);
-                        diameterSlider.value = size * 10000; 
-                        updateValue(diameterSlider, diameterValue, ' km');
-                    }
-
-                    function DiameterToMass() {
-                        const diameter = parseFloat(diameterSlider.value);
-                        const density = parseFloat(densitySlider.value);
-                        massSlider.value = density * Math.pow(diameter/2,3) * (4/3) * Math.PI;
-                        updateValue(massSlider, massValue, ' x10²⁴kg');
-                    }
-
-                    function MassToDensity() {
-                const mass = parseFloat(massSlider.value);
-                const diameter = parseFloat(diameterSlider.value);
-                densitySlider.value = mass / (Math.pow(diameter / 2, 3) * (4 / 3) * Math.PI);
-                updateValue(densitySlider, densityValue, ' kg/m³');
-            }
-
-            function GravityToEscapeVelocity() {
-                const gravity = parseFloat(gravitySlider.value);
-                const diameter = parseFloat(diameterSlider.value);
-                escapeVelocitySlider.value = Math.sqrt(2 * gravity * (diameter / 2));
-                updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
-            }
-
-            function OrbitRadiusToOrbitVelocity() {
-                const mass = parseFloat(massSlider.value);
-                const orbitRadius = parseFloat(orbitRadiusSlider.value);
-                orbitVelocitySlider.value = Math.sqrt(G * mass / orbitRadius);
-                updateValue(orbitVelocitySlider, orbitVelocityValue, ' km/s');
-            }
-                    // Event listeners to update values in real-time
-                    sizeSlider.addEventListener("input", function() {
-                        updateValue(sizeSlider, sizeValue);
-                        SizeToDiameter();  
-                    });
-
-                    diameterSlider.addEventListener("input", function() {
-                        updateValue(diameterSlider, diameterValue, ' km');
-                        DiameterToMass();
-                        MassToDensity();
-                        GravityToEscapeVelocity();
-                    });
-
-                    massSlider.addEventListener("input", function() {
-                        updateValue(massSlider, massValue, ' x10²⁴kg');
-                        MassToDensity();
-                        DiameterToMass();
-                        OrbitRadiusToOrbitVelocity();
-                    });
-
-                    densitySlider.addEventListener("input", function() {
-                        updateValue(densitySlider, densityValue, ' kg/m³');
-                    });
-
-                    gravitySlider.addEventListener("input", function() {
-                        updateValue(gravitySlider, gravityValue, ' m/s²');
-                        GravityToEscapeVelocity();
-                    });
-
-                    escapeVelocitySlider.addEventListener("input", function() {
-                        updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
-                    });
-
-                    orbitRadiusSlider.addEventListener("input", function() {
-                        updateValue(orbitRadiusSlider, orbitRadiusValue);
-                    });
+                    
 
                     // Initialize the values on page load
                     updateValue(sizeSlider, sizeValue);
