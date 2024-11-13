@@ -252,12 +252,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
         <script>
             let scene, camera, renderer, sun;
-            let planets = [];
-            let orbits = [];
-            let planetSizes = [];        // 存储每个行星的大小
-            let orbitRadii = [];         // 存储每个行星的轨道半径
-            let planetTextures = [];     // 存储每个行星的纹理
-            let orbitAngles = []; 
+            let selectedPlanet = null;
+            const newPlanet = { name:"", renderParams:{}, dataParams:{}};
+            const planets = [];
 
             function createScene() {
                 scene = new THREE.Scene();
@@ -289,15 +286,14 @@
                 zoomSlider.addEventListener("input", updateCamera);
 
                 function updateCamera() {
-                    if (!followingPlanet) {  // 当不跟随行星时，才能调整相机位置
-                        var angle = angleSlider.value * Math.PI / 180;
-                        var distance = zoomSlider.value;
+                    var angle = angleSlider.value * Math.PI / 180;
+                    var distance = zoomSlider.value;
 
-                        camera.position.x = distance * Math.sin(angle);
-                        camera.position.z = distance * Math.cos(angle);
-                        camera.lookAt(scene.position);
-                    }
-                }
+                    camera.position.x = distance * Math.sin(angle);
+                    camera.position.z = distance * Math.cos(angle);
+                    camera.lookAt(scene.position);
+                };
+                
 
                 window.addEventListener('resize', function() {
                     camera.aspect = window.innerWidth / window.innerHeight;
@@ -308,12 +304,34 @@
                 var originalCameraPosition = camera.position.clone(); // Save original camera position
                 var originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
 
-                let followingPlanet = null;
+                window.focusOnPlanet = function(planetObject) {
+                    //if (!planetClickedEnabled) return;
+                    
+                    //if (!planetObject) {
+                        //console.error('No planet object passed.');
+                        //return;
+                    //}
+
+                    //var planetName = planetObject.name;
+
+                    //console.log("Focusing on planet: " + planetName);
+
+                    selectedPlanet = planetObject;
+
+                    // Save current camera position
+                    originalCameraPosition.copy(camera.position);
+                    originalCameraLookAt.copy(scene.position);
+
+                    // Adjust camera position, make it focus on the selected planet
+                    var offset = 5; // Adjust distance between camera and planet
+                    camera.position.set(planetObject.position.x + offset, planetObject.position.y + offset, planetObject.position.z + offset);
+                    camera.lookAt(planetObject.position);
+                }
 
                 // Planet Creation Setups
-                function createPlanetAndOrbit() {
+                function createPlanet() {
                     const size = parseFloat(document.getElementById("sizeSlider").value);
-                    const orbitRadius = parseFloat(document.getElementById("orbitSlider").value);
+                    const orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
                     
                     planetSizes.push(size);
                     orbitRadii.push(orbitRadius);
