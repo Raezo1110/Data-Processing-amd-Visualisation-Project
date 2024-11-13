@@ -516,67 +516,67 @@
                     }
 
                     function MassToDensity() {
-                        const mass = parseFloat(massSlider.value);
-                        const diameter = parseFloat(diameterSlider.value)
-                        densitySlider.value = mass / Math.pow(diameter/2,3) * (4/3) * Math.PI;
-                        updateValue(densitySlider, densityValue, ' kg/m³');
-                    }
+                const mass = parseFloat(massSlider.value);
+                const diameter = parseFloat(diameterSlider.value);
+                densitySlider.value = mass / (Math.pow(diameter / 2, 3) * (4 / 3) * Math.PI);
+                updateValue(densitySlider, densityValue, ' kg/m³');
+            }
 
-                    function GravityToEscapeVelocity() {
-                        const gravity = parseFloat(gravitySlider.value));
-                        escapeVelocitySlider.value = sqrt()
-                        updateValue(massSlider, massValue, ' Earth Masses');
-                    }
+            function GravityToEscapeVelocity() {
+                const gravity = parseFloat(gravitySlider.value);
+                const diameter = parseFloat(diameterSlider.value);
+                escapeVelocitySlider.value = Math.sqrt(2 * gravity * (diameter / 2));
+                updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
+            }
 
+            function OrbitRadiusToOrbitVelocity() {
+                const mass = parseFloat(massSlider.value);
+                const orbitRadius = parseFloat(orbitRadiusSlider.value);
+                orbitVelocitySlider.value = Math.sqrt(G * mass / orbitRadius);
+                updateValue(orbitVelocitySlider, orbitVelocityValue, ' km/s');
+            }
                     // Event listeners to update values in real-time
                     sizeSlider.addEventListener("input", function() {
                         updateValue(sizeSlider, sizeValue);
-                        linkSizeToMassAndDiameter();   // Link sliders whenever size is adjusted
+                        SizeToDiameter();  
                     });
 
                     diameterSlider.addEventListener("input", function() {
                         updateValue(diameterSlider, diameterValue, ' km');
-                        linkMassAndDiameterToSize();
-                        linkDiameterToMass(); 
-                        linkMassToDiameter();  
+                        DiameterToMass();
                     });
 
                     massSlider.addEventListener("input", function() {
-                        updateValue(massSlider, massValue, ' Earth Masses');
-                        linkMassAndDiameterToSize();
+                        updateValue(massSlider, massValue, ' x10²⁴kg');
+                        MassToDensity();
                     });
 
                     densitySlider.addEventListener("input", function() {
-                        updateValue(densitySlider, densityValue, ' g/cm³');
+                        updateValue(densitySlider, densityValue, ' kg/m³');
                     });
 
                     gravitySlider.addEventListener("input", function() {
                         updateValue(gravitySlider, gravityValue, ' m/s²');
+                        GravityToEscapeVelocity();
                     });
 
                     escapeVelocitySlider.addEventListener("input", function() {
                         updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
                     });
 
-                    rotationPeriodSlider.addEventListener("input", function() {
-                        updateValue(rotationPeriodSlider, rotationPeriodValue, ' hours');
-                    });
-
-                    obliquitySlider.addEventListener("input", function() {
-                        updateValue(obliquitySlider, obliquityValue, ' degrees');
+                    orbitRadiusSlider.addEventListener("input", function() {
+                        updateValue(orbitRadiusSlider, orbitRadiusValue, ' hours');
                     });
 
                     // Initialize the values on page load
                     updateValue(sizeSlider, sizeValue);
                     updateValue(diameterSlider, diameterValue, ' km');
                     updateValue(massSlider, massValue, ' Earth Masses');
-                    updateValue(densitySlider, densityValue, ' g/cm³');
+                    updateValue(densitySlider, densityValue, ' kg/m³');
                     updateValue(gravitySlider, gravityValue, ' m/s²');
                     updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
                     updateValue(rotationPeriodSlider, rotationPeriodValue, ' hours');
-                    updateValue(obliquitySlider, obliquityValue, ' degrees');
-
-                    linkSizeToMassAndDiameter(); 
+                    updateValue(obliquitySlider, obliquityValue, ' º');
                 }
 
                 sliderValue();
