@@ -504,23 +504,17 @@
 
                     function SizeToDiameter() {
                         const size = parseFloat(sizeSlider.value);
-
-                        // Adjust diameter and mass based on size
-                        diameterSlider.value = size * 10000;  // Diameter increases with size
-                        massSlider.value = size * 30;         // Mass increases with size
-
-                        // Update the displayed values for diameter and mass
+                        
+                        diameterSlider.value = size * 10000; 
+                    
                         updateValue(diameterSlider, diameterValue, ' km');
-                        updateValue(massSlider, massValue, ' Earth Masses');
                     }
 
-                    // Function to link mass and diameter back to size
-                    function linkMassAndDiameterToSize() {
+                    function DiameterToMass() {
                         const diameter = parseFloat(diameterSlider.value);
-                        const mass = parseFloat(massSlider.value);
+                        const density = parseFloat(densitySlider.value);
 
-                        // Deriving size based on diameter and mass
-                        const derivedSize = Math.min(diameter / 10000, mass / 30);
+                        massSlider = density * Math.pow(diameter/2,3) * (4/3) * Math.PI
 
                         // Update the size slider accordingly
                         sizeSlider.value = derivedSize;
