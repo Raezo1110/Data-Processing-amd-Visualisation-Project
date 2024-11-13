@@ -85,8 +85,8 @@
             <button id="editButton">Customize</button>
         </div>
         <div id="editBars">
-            <button id="returnButton">Return</button>
             <button id="planetButton">Create Planet</button>
+            <button id="displayButton">Display</button>
         </div>
         <button id="doneButton">Done</button>
         
@@ -99,7 +99,7 @@
         </div>
         <div id="editTab">
             <div id="editPlanet" class="editPanel">
-                <h3>Appearance</h3>
+                <h3>Planet Appearance</h3>
                 <label>Planet Name: <input type="text" id="planetName" placeholder="Enter planet name"></label><br>
                 
                 <!-- Texture Upload -->
@@ -225,7 +225,7 @@
                 </label><br>
             </div>
             <div id="editOrbit" class="editPanel">
-                <h3>Appearance</h3>
+                <h3>Orbit Appearance</h3>
                 <!-- Orbit Radius -->
                 <label>Orbit Radius: 
                     <input type="range" id="orbitRadiusSlider" min="10" max="50" value="25">
@@ -241,6 +241,7 @@
                     <input type="range" id="orbitInclinationSlider" min="0" max="10" value="7" step="0.1">
                     <span id=orbitlinationyValue">4</span>º            
                 </label><br>
+                <h3>Orbit Properties</h3>
                 <!-- Orbit Eccentricity -->
                 <label>Orbit Eccentricity: 
                     <input type="range" id="eccentricitySlider" min="0" max="100" value="25">
@@ -347,7 +348,7 @@
                     scene.add(newPlanet);
 
                     // 设置这个新创建的行星为跟随目标
-                    followingPlanet = newPlanet;
+                    selectedPlanet = newPlanet;
 
                     // 创建行星的轨道
                     const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
@@ -385,7 +386,7 @@
                     document.getElementById('editBars').style.display = 'block';
                 });
 
-                returnButton.addEventListener('click', function() {
+                displayButton.addEventListener('click', function() {
                     document.getElementById('editBars').style.display = 'none';
                     document.getElementById('toolbars').style.display = 'block';
                 });
