@@ -544,11 +544,15 @@
                     diameterSlider.addEventListener("input", function() {
                         updateValue(diameterSlider, diameterValue, ' km');
                         DiameterToMass();
+                        MassToDensity();
+                        GravityToEscapeVelocity();
                     });
 
                     massSlider.addEventListener("input", function() {
                         updateValue(massSlider, massValue, ' x10²⁴kg');
                         MassToDensity();
+                        DiameterToMass();
+                        OrbitRadiusToOrbitVelocity();
                     });
 
                     densitySlider.addEventListener("input", function() {
