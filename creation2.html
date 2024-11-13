@@ -472,79 +472,134 @@
                 //     updatePlanetAndOrbit();
                 // });
 
-                window.sliderValue = function() {
-                    // Get all sliders and their corresponding value spans
-                    const sizeSlider = document.getElementById("sizeSlider");
-                    const sizeValue = document.getElementById("sizeValue");
-                    const rotationPeriodSlider = document.getElementById("rotationPeriodSlider");
-                    const rotationPeriodValue = document.getElementById("rotationPeriodValue");     
-                    const obliquitySlider = document.getElementById("obliquitySlider");
-                    const obliquityValue = document.getElementById("obliquityValue");
-                    const massSlider = document.getElementById("massSlider");
-                    const massValue = document.getElementById("massValue");
-                    const diameterSlider = document.getElementById("diameterSlider");
-                    const diameterValue = document.getElementById("diameterValue");    
-                    const densitySlider = document.getElementById("densitySlider");
-                    const densityValue = document.getElementById("densityValue");    
-                    const gravitySlider = document.getElementById("gravitySlider");
-                    const gravityValue = document.getElementById("gravityValue"); 
-                    const escapeVelocitySlider = document.getElementById("escapeVelocitySlider");
-                    const escapeVelocityValue = document.getElementById("escapeVelocityValue");
+                // Sliders Setups
+                const sizeSlider = document.getElementById("sizeSlider");
+                const sizeValue = document.getElementById("sizeValue");
+                const rotationPeriodSlider = document.getElementById("rotationPeriodSlider");
+                const rotationPeriodValue = document.getElementById("rotationPeriodValue");     
+                const obliquitySlider = document.getElementById("obliquitySlider");
+                const obliquityValue = document.getElementById("obliquityValue");
+                const massSlider = document.getElementById("massSlider");
+                const massValue = document.getElementById("massValue");
+                const diameterSlider = document.getElementById("diameterSlider");
+                const diameterValue = document.getElementById("diameterValue");    
+                const densitySlider = document.getElementById("densitySlider");
+                const densityValue = document.getElementById("densityValue");    
+                const gravitySlider = document.getElementById("gravitySlider");
+                const gravityValue = document.getElementById("gravityValue"); 
+                const escapeVelocitySlider = document.getElementById("escapeVelocitySlider");
+                const escapeVelocityValue = document.getElementById("escapeVelocityValue");
 
-                    const moonSlider = document.getElementById("moonSlider");
-                    const moonValue = document.getElementById("moonValue");
-                    const opacitySlider = document.getElementById("opacitySlider");
-                    const opacityValue = document.getElementById("opacityValue");
-                    const tiltSlider = document.getElementById("tiltSlider");
-                    const tiltValue = document.getElementById("tiltValue");
+                const moonSlider = document.getElementById("moonSlider");
+                const moonValue = document.getElementById("moonValue");
+                const opacitySlider = document.getElementById("opacitySlider");
+                const opacityValue = document.getElementById("opacityValue");
+                const tiltSlider = document.getElementById("tiltSlider");
+                const tiltValue = document.getElementById("tiltValue");
 
-                    const hydrogenSlider = document.getElementById("hydrogenSlider");
-                    const hydrogenValue = document.getElementById("hydrogenValue");
-                    const heliumSlider = document.getElementById("heliumSlider");
-                    const heliumValue = document.getElementById("heliumValue");
-                    const nitrogenSlider = document.getElementById("nitrogenSlider");
-                    const nitrogenValue = document.getElementById("nitrogenValue");
-                    const carbonSlider = document.getElementById("carbonSlider");
-                    const carbonValue = document.getElementById("carbonValue");
-                    const oxygenSlider = document.getElementById("oxygenSlider");
-                    const oxygenValue = document.getElementById("oxygenValue");
-                    const sodiumSlider = document.getElementById("sodiumSlider");
-                    const sodiumValue = document.getElementById("sodiumValue");
-                    const argonSlider = document.getElementById("argonSlider");
-                    const argonValue = document.getElementById("argonValue");
-                    const methaneSlider = document.getElementById("methaneSlider");
-                    const methaneValue = document.getElementById("methaneValue");
-                    const otherSlider = document.getElementById("otherSlider");
-                    const otherValue = document.getElementById("otherValue");
+                const hydrogenSlider = document.getElementById("hydrogenSlider");
+                const hydrogenValue = document.getElementById("hydrogenValue");
+                const heliumSlider = document.getElementById("heliumSlider");
+                const heliumValue = document.getElementById("heliumValue");
+                const nitrogenSlider = document.getElementById("nitrogenSlider");
+                const nitrogenValue = document.getElementById("nitrogenValue");
+                const carbonSlider = document.getElementById("carbonSlider");
+                const carbonValue = document.getElementById("carbonValue");
+                const oxygenSlider = document.getElementById("oxygenSlider");
+                const oxygenValue = document.getElementById("oxygenValue");
+                const sodiumSlider = document.getElementById("sodiumSlider");
+                const sodiumValue = document.getElementById("sodiumValue");
+                const argonSlider = document.getElementById("argonSlider");
+                const argonValue = document.getElementById("argonValue");
+                const methaneSlider = document.getElementById("methaneSlider");
+                const methaneValue = document.getElementById("methaneValue");
+                const otherSlider = document.getElementById("otherSlider");
+                const otherValue = document.getElementById("otherValue");
 
-                    const orbitRadiusSlider = document.getElementById("orbitRadiusSlider");
-                    const orbitRadiusValue = document.getElementById("orbitRadiusValue");
-                    const orbitVelocitySlider = document.getElementById("orbitVelocitySlider");
-                    const orbitVelocityValue = document.getElementById("orbitVelocityValue");
-                    const orbitInclinationSlider = document.getElementById("orbitInclinationSlider");
-                    const orbitInclinationValue = document.getElementById("orbitInclinationValue");
-                    const eccentricitySlider = document.getElementById("eccentricitySlider");
-                    const eccentricityValue = document.getElementById("eccentricityValue");
+                const orbitRadiusSlider = document.getElementById("orbitRadiusSlider");
+                const orbitRadiusValue = document.getElementById("orbitRadiusValue");
+                const orbitVelocitySlider = document.getElementById("orbitVelocitySlider");
+                const orbitVelocityValue = document.getElementById("orbitVelocityValue");
+                const orbitInclinationSlider = document.getElementById("orbitInclinationSlider");
+                const orbitInclinationValue = document.getElementById("orbitInclinationValue");
+                const eccentricitySlider = document.getElementById("eccentricitySlider");
+                const eccentricityValue = document.getElementById("eccentricityValue");
                                                                        
-                    // Function to update the displayed value
-                    function updateValue(slider, valueSpan, format = '') {
-                        valueSpan.textContent = slider.value + format;
-                    }
+                sizeSlider.addEventListener("input", function() {
+                    sizeValue.textContent = sizeSlider.value;
+                });
+                rotationPeriodSlider.addEventListener("input", function() {
+                    rotationPeriodValue.textContent = rotationPEriodSlider.value;
+                });
+                obliquitySlider.addEventListener("input", function() {
+                    obliquityValue.textContent = obliquitySlider.value;
+                });
+                massSlider.addEventListener("input", function() {
+                    massValue.textContent = massSlider.value;
+                });
+                diameterSlider.addEventListener("input", function() {
+                    diameterValue.textContent = diameterSlider.value;
+                });
+                densitySlider.addEventListener("input", function() {
+                    densityValue.textContent = densitySlider.value;
+                });
+                gravitySlider.addEventListener("input", function() {
+                    garvityValue.textContent = gravitySlider.value;
+                });
+                escapeVelocitySlider.addEventListener("input", function() {
+                    escapeVelocityValue.textContent = escapeVelocitySlider.value;
+                });
 
-                    
+                moonSlider.addEventListener("input", function() {
+                    moonValue.textContent = moonSlider.value;
+                });
+                opacitySlider.addEventListener("input", function() {
+                    opacityValue.textContent = opacitySlider.value;
+                });
+                tiltSlider.addEventListener("input", function() {
+                    tiltValue.textContent = tiltSlider.value;
+                });
 
-                    // Initialize the values on page load
-                    updateValue(sizeSlider, sizeValue);
-                    updateValue(diameterSlider, diameterValue, ' km');
-                    updateValue(massSlider, massValue, ' Earth Masses');
-                    updateValue(densitySlider, densityValue, ' kg/m³');
-                    updateValue(gravitySlider, gravityValue, ' m/s²');
-                    updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
-                    updateValue(rotationPeriodSlider, rotationPeriodValue, ' hours');
-                    updateValue(obliquitySlider, obliquityValue, ' º');
-                }
+                hydrogenSlider.addEventListener("input", function() {
+                    hydrogenValue.textContent = hydrogenSlider.value;
+                });
+                heliumSlider.addEventListener("input", function() {
+                    heliumValue.textContent = heliumSlider.value;
+                });
+                nitrogenSlider.addEventListener("input", function() {
+                    nitrogenValue.textContent = nitrogenSlider.value;
+                });
+                carbonSlider.addEventListener("input", function() {
+                    carbonValue.textContent = carbonSlider.value;
+                });
+                oxygenSlider.addEventListener("input", function() {
+                    oxygenValue.textContent = oxygenSlider.value;
+                });
+                sodiumSlider.addEventListener("input", function() {
+                    sodiumValue.textContent = sodiumSlider.value;
+                });
+                argonSlider.addEventListener("input", function() {
+                    argonValue.textContent = argonSlider.value;
+                });
+                methaneSlider.addEventListener("input", function() {
+                    methaneValue.textContent = methaneSlider.value;
+                });
+                otherSlider.addEventListener("input", function() {
+                    otherValue.textContent = otherSlider.value;
+                });
 
-                sliderValue();
+                orbitRadiusSlider.addEventListener("input", function() {
+                    orbitRadiusValue.textContent = orbitRadiusSlider.value;
+                });
+                orbitVelocitySlider.addEventListener("input", function() {
+                    orbitVelocityValue.textContent = orbitVelocitySlider.value;
+                });
+                orbitInclinationSlider.addEventListener("input", function() {
+                    orbitInclinationValue.textContent = orbitInclinationSlider.value;
+                });
+                eccentricitySlider.addEventListener("input", function() {
+                    eccentricityValue.textContent = eccentricitySlider.value;
+                });
 
                 function animate() {
                     requestAnimationFrame(animate);
