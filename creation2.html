@@ -177,8 +177,8 @@
                     <input type="colour" id="ringColour" value="#ff9900"></label> <!-- 默认颜色 -->
                 </div>
                 <label>Opacity: 
-                    <input type="range" id="opaciySlider" min="180" max="100" value="25">
-                    <span id="opacityValue">25</span>
+                    <input type="range" id="opaciySlider" min="0" max="1" value="0.7" step="0.1">
+                    <span id="opacityValue">0.7</span>
                 </label><br>
                 <label>Tilt: 
                     <input type="range" id="tiltSlider" min="0" max="180" value="25">
@@ -188,40 +188,40 @@
             <div id="editAtmosphere" class="editPanel">
                 <h3>Atmosphere Composition</h3>
                 <label>H₂: 
-                    <input type="range" id="hydrogenSlider" min="0" max="100" value="25">
-                    <span id="hydrogenValue">25</span> %
+                    <input type="range" id="hydrogenSlider" min="0" max="100" value="0">
+                    <span id="hydrogenValue">0</span> %
                 </label><br>
                 <label>He: 
-                    <input type="range" id="heliumSlider" min="0" max="100" value="25">
-                    <span id="heliumValue">25</span> %
+                    <input type="range" id="heliumSlider" min="0" max="100" value="0">
+                    <span id="heliumValue">0</span> %
                 </label><br>
                 <label>N₂: 
-                    <input type="range" id="nitrogenSlider" min="0" max="100" value="25">
-                    <span id="nitrogenValue">25</span> %
+                    <input type="range" id="nitrogenSlider" min="0" max="100" value="0">
+                    <span id="nitrogenValue">0</span> %
                 </label><br>
                 <label>CO₂: 
-                    <input type="range" id="carbonSlider" min="0" max="100" value="25">
-                    <span id="carbonValue">25</span> %
+                    <input type="range" id="carbonSlider" min="0" max="100" value="0">
+                    <span id="carbonValue">0</span> %
                 </label><br>
                 <label>O₂: 
-                    <input type="range" id="oxygenSlider" min="0" max="100" value="25">
-                    <span id="oxygenValue">25</span> %
+                    <input type="range" id="oxygenSlider" min="0" max="100" value="0">
+                    <span id="oxygenValue">0</span> %
                 </label><br>
                 <label>Na: 
-                    <input type="range" id="sodiumSlider" min="0" max="100" value="25">
-                    <span id="sodiumValue">25</span> %
+                    <input type="range" id="sodiumSlider" min="0" max="100" value="0">
+                    <span id="sodiumValue">0</span> %
                 </label><br>
                 <label>Ar: 
-                    <input type="range" id="argonSlider" min="0" max="100" value="25">
-                    <span id="argonValue">25</span> %
+                    <input type="range" id="argonSlider" min="0" max="100" value="0">
+                    <span id="argonValue">0</span> %
                 </label><br>
                 <label>CH₄: 
-                    <input type="range" id="methaneSlider" min="0" max="100" value="25">
-                    <span id="methaneValue">25</span> %
+                    <input type="range" id="methaneSlider" min="0" max="100" value="0">
+                    <span id="methaneValue">0</span> %
                 </label><br>
                 <label>Other: 
-                    <input type="range" id="otherSlider" min="0" max="100" value="25">
-                    <span id="otherValue">25</span> %
+                    <input type="range" id="otherSlider" min="0" max="100" value="0">
+                    <span id="otherValue">0</span> %
                 </label><br>
             </div>
             <div id="editOrbit" class="editPanel">
@@ -244,8 +244,8 @@
                 <h3>Orbit Properties</h3>
                 <!-- Orbit Eccentricity -->
                 <label>Orbit Eccentricity: 
-                    <input type="range" id="eccentricitySlider" min="0" max="100" value="25">
-                    <span id="eccentricityValue">25</span> km/s
+                    <input type="range" id="eccentricitySlider" min="0" max="1" value="0.0156" step="0.0001">
+                    <span id="eccentricityValue">25</span>
                 </label><br>
             </div>
         </div>
@@ -359,7 +359,7 @@
                     scene.add(newOrbit);
                 }
 
-                function updatePlanetAndOrbit() {
+                function updatePlanet() {
                     const lastPlanet = planets[planets.length - 1]; // 获取最新创建的行星
                     const lastOrbit = orbits[orbits.length - 1]; // 获取最新创建的轨道
 
@@ -444,16 +444,7 @@
                         }
                 }
 
-                document.getElementById("sizeSlider").addEventListener("input", function() {
-                    planetSize = parseFloat(this.value);
-                    updatePlanetAndOrbit();
-                });
-
-                // document.getElementById("orbitSlider").addEventListener("input", function() {
-                //     orbitRadius = parseFloat(this.value);
-                //     updatePlanetAndOrbit();
-                // });
-
+                // Sliders & Real Time Rendering Setups
                 document.getElementById("textureUploader").addEventListener("change", function(event) {
                     const file = event.target.files[0];
                     if (file) {
@@ -468,6 +459,18 @@
                         reader.readAsDataURL(file);
                     }
                 });
+
+                document.getElementById("sizeSlider").addEventListener("input", function() {
+                    planetSize = parseFloat(this.value);
+                    updatePlanet();
+                });
+
+                document.getElementById(")
+
+                // document.getElementById("orbitSlider").addEventListener("input", function() {
+                //     orbitRadius = parseFloat(this.value);
+                //     updatePlanetAndOrbit();
+                // });
 
                 window.sliderValue = function() {
                     // Get all sliders and their corresponding value spans
