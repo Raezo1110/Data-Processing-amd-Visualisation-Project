@@ -504,40 +504,27 @@
 
                     function SizeToDiameter() {
                         const size = parseFloat(sizeSlider.value);
-                        
                         diameterSlider.value = size * 10000; 
-                    
                         updateValue(diameterSlider, diameterValue, ' km');
                     }
 
                     function DiameterToMass() {
                         const diameter = parseFloat(diameterSlider.value);
                         const density = parseFloat(densitySlider.value);
-
-                        massSlider = density * Math.pow(diameter/2,3) * (4/3) * Math.PI
-
-                        // Update the size slider accordingly
-                        sizeSlider.value = derivedSize;
-
-                        // Update the displayed value for size
-                        updateValue(sizeSlider, sizeValue);
+                        massSlider.value = density * Math.pow(diameter/2,3) * (4/3) * Math.PI;
+                        updateValue(massSlider, massValue, ' x10²⁴kg');
                     }
 
-                    // Function to link mass to diameter
-                    function linkMassToDiameter() {
+                    function MassToDensity() {
                         const mass = parseFloat(massSlider.value);
-                        // Calculate diameter from mass
-                        diameterSlider.value = mass * 100;  // A multiplier for mass to diameter
-                        // Update the diameter value span
-                        updateValue(diameterSlider, diameterValue, ' km');
+                        const diameter = parseFloat(diameterSlider.value)
+                        densitySlider.value = mass / Math.pow(diameter/2,3) * (4/3) * Math.PI;
+                        updateValue(densitySlider, densityValue, ' kg/m³');
                     }
 
-                    // Function to link diameter to mass
-                    function linkDiameterToMass() {
-                        const diameter = parseFloat(diameterSlider.value);
-                        // Calculate mass from diameter
-                        massSlider.value = diameter / 100;  // A multiplier for diameter to mass
-                        // Update the mass value span
+                    function GravityToEscapeVelocity() {
+                        const gravity = parseFloat(gravitySlider.value));
+                        escapeVelocitySlider.value = sqrt()
                         updateValue(massSlider, massValue, ' Earth Masses');
                     }
 
