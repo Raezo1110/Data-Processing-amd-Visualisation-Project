@@ -53,7 +53,7 @@
 
     <div id="menu" style="display: none; position: absolute; top: 20%; left: 10px; color: white;">
         <button onclick="edit(1)">Planet</button><br>
-        <button onclick="edit(2)">Ring</button><br>
+        <button onclick="edit(2)">Monn & Ring</button><br>
         <button onclick="edit(3)">Atmosphere</button><br>
         <button onclick="edit(4)">Orbit</button><br>
     </div>
@@ -118,20 +118,23 @@
         <div id="editRing" class="editPanel">
             <h3>Moons</h3>
             <!-- Number of Moons -->
+            <label>Number of Moons:
             <input type="range" id="moonSlider" min="0" max="100" value="1">
+            <span id="moonValue">1</span>
+            </label><br>
 
             <h3>Ring System</h3>
             <label>Add Ring?</label>
             <input type="radio" id="ringYes" name="ringOption" value="yes">
             <label for="ringYes">Yes</label>
             <input type="radio" id="ringNo" name="ringOption" value="no" checked>
-            <label for="ringNo">No</label>
+            <label for="ringNo">No</label><br>
         
             <!-- 颜色选择器，默认隐藏 -->
-            <div id="colorPicker" style="display: none; margin-top: 10px;">
+            <div id="colorPicker" style="margin-top: 10px;">
                 <label for="ringColor">选择星环颜色：</label>
                 <input type="color" id="ringColor" value="#ff9900"> <!-- 默认颜色 -->
-            </div>
+            </div><br>
             <label>Opacity: 
                 <input type="range" id="opaciySlider" min="180" max="100" value="25">
                 <span id="opacityValue">25</span>
@@ -142,10 +145,65 @@
             </label><br>
         </div>
         <div id="editAtmosphere" class="editPanel">
-            
+            <label>H₂: 
+                <input type="range" id="hydrogenSlider" min="0" max="100" value="25">
+                <span id="hydrogenValue">25</span> %
+            </label><br>
+            <label>He: 
+                <input type="range" id="heliumSlider" min="0" max="100" value="25">
+                <span id="heliumValue">25</span> %
+            </label><br>
+            <label>N₂: 
+                <input type="range" id="nitrogenSlider" min="0" max="100" value="25">
+                <span id="nitrogenValue">25</span> %
+            </label><br>
+            <label>CO₂: 
+                <input type="range" id="carbonSlider" min="0" max="100" value="25">
+                <span id="carbonValue">25</span> %
+            </label><br>
+            <label>O₂: 
+                <input type="range" id="oxygenSlider" min="0" max="100" value="25">
+                <span id="oxygenValue">25</span> %
+            </label><br>
+            <label>Na: 
+                <input type="range" id="sodiumSlider" min="0" max="100" value="25">
+                <span id="sodiumValue">25</span> %
+            </label><br>
+            <label>Ar: 
+                <input type="range" id="argonSlider" min="0" max="100" value="25">
+                <span id="ArgonValue">25</span> %
+            </label><br>
+            <label>CH₄: 
+                <input type="range" id="methaneSlider" min="0" max="100" value="25">
+                <span id="methaneValue">25</span> %
+            </label><br>
+            <label>Other: 
+                <input type="range" id="otherSlider" min="0" max="100" value="25">
+                <span id="otherValue">25</span> %
+            </label><br>
         </div>
         <div id="editOrbit" class="editPanel">
-            <label>Orbit Radius: <input type="range" id="orbitSlider" min="10" max="30" value="15"></label><br>
+            <h3>Appearance</h3>
+            <!-- Orbit Radius -->
+            <label>Orbit Radius: 
+                <input type="range" id=orbitRadiusSlider" min="10" max="50" value="25">
+                <span id="orbitRadiusValue">25</span>
+            </label><br>
+           <!-- Orbit Velocity -->
+            <label>Orbit Velocity: 
+                <input type="range" id="orbitVelocitySlider" min="5" max="100" value="25">
+                <span id="orbitVelocityValue">25</span> km/s
+            </label><br>
+            <!-- Orbit Inclination -->
+            <label>Orbit Inclination: 
+                <input type="range" id="orbitInclinationSlider" min="0" max="10" value="7" step="0.1">
+                <span id=orbitlinationyValue">4</span>º            
+            </label><br>
+            <!-- Orbit Eccentricity -->
+            <label>Orbit Eccentricity: 
+                <input type="range" id=eccentricitySlider" min="0" max="100" value="25">
+                <span id="eccentricityValue">25</span> km/s
+            </label><br>
         </div>
     </div>
 
