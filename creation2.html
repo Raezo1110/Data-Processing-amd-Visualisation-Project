@@ -5,9 +5,9 @@
         body { margin: 0; overflow: hidden; }
         canvas { display: block; }
         #controls { position: absolute; top: 10px; left: 10px; color: white; }
-        #galaxyButton { position: absolute; top: 10px; right: 20px; color: white; }
-        #planetButton { position: absolute; margin-top: 10px; top: 30px; right: 20px; color: white; }
-        #returnButton { position: absolute; top: 10px; left: 10px; color: white; display: none;}
+        #toolbars {position: absolute; top: 10px; right: 20px;}
+        #editBars {position: absolute; top: 10px; right: 20px; display: none;}
+        #doneButton { position: absolute; top: 10px; left: 10px; display: none;}
         #menu button { 
             margin-bottom: 25px; /* 设置按钮间的垂直间距 */
             width: 200px; 
@@ -16,11 +16,27 @@
             padding-left: 10px;
             font-size: 16px;
             }
+        #toolbars button {
+            display: inline;
+            margin-left: 10px;
+            width: 150px;
+            height: 20px;
+            text-align: center;
+            font-size: 10px;
+        }
+        #editBars button {
+            display: inline;
+            margin-left: 20px;
+            width: 150px;
+            height: 20px;
+            text-align: center;
+            font-size: 10px;
+        }
         #editTab {
             position: absolute;
             top: 0;
             right: 0;
-            width: 45%; 
+            width: 30%; 
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             display: none;
@@ -37,7 +53,26 @@
                 color: white; 
                 height: 100%; 
                 width: 100%;
-            }
+        }
+        /* Applies block display and margin to all labels within .editPanel */
+        .editPanel label {
+            display: block;
+            padding-left: 10px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        /* Keeps labels inside .radio-group inline */
+        .radio-group label {
+            display: inline;
+            margin-right: 10px; /* Adjust spacing between "Yes" and "No" */
+        }
+
+        .radio-group {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
         </style>
     </head>
     <body>
@@ -45,9 +80,16 @@
             <label>Camera Angle: <input type="range" id="angleSlider" min="0" max="360" value="0"></label><br>
             <label>Zoom: <input type="range" id="zoomSlider" min="10" max="50" value="20"></label>
         </div>
-        <button id="galaxyButton" onclick="window.location.href='galaxy.html'">Galaxy Showcase</button>
-        <button id="planetButton">Create Planet</button>
-        <button id="returnButton">Return</button>
+        <div id="toolbars">
+            <button id="galaxyButton" onclick="window.location.href='galaxy.html'">Galaxy Showcase</button>
+            <button id="editButton">Customize</button>
+        </div>
+        <div id="editBars">
+            <button id="returnButton">Return</button>
+            <button id="planetButton">Create Planet</button>
+        </div>
+        <button id="doneButton">Done</button>
+        
 
         <div id="menu" style="display: none; position: absolute; top: 20%; left: 10px; color: white;">
             <button onclick="edit(1)">Planet</button><br>
@@ -56,205 +98,523 @@
             <button onclick="edit(4)">Orbit</button><br>
         </div>
         <div id="editTab">
-        <div id="editPlanet" class="editPanel">
-            <h3>Appearance</h3>
-            <label>Planet Name: <input type="text" id="planetName" placeholder="Enter planet name"></label><br>
-            
-            <!-- Texture Upload -->
-            <label>Upload Planet Texture: <input type="file" id="textureUploader" accept="image/*"></label><br>
-    
-            <!-- Size Adjustment -->
-            <label>Planet Size: 
-                <input type="range" id="sizeSlider" min="1" max="5" value="2" step="0.1">
-                <span id="sizeValue">2</span>
-            </label><br>
-
-            <!-- Rotation Period -->
-            <label>Rotation Period: 
-                <input type="range" id="rotationPeriodSlider" min="1" max="5000" value="24">
-                <span id="rotationPeriodValue">24</span> hours
-            </label><br>
-    
-            <!-- Obliquity -->
-            <label>Obliquity: 
-                <input type="range" id="obliquitySlider" min="0" max="180" value="23.5">
-                <span id="obliquityValue">23.5</span>º
-            </label><br>
-    
-            <h3>Physical Properties</h3>            
-            <!-- Mass Adjustment -->
-            <label>Planet Mass: 
-                <input type="range" id="massSlider" min="0.1" max="2000" value="50">
-                <span id="massValue">50</span> x10²⁴kg
-            </label><br>
-
-            <!-- Diameter Adjustment -->
-            <label>Planet Diameter: 
-                <input type="range" id="diameterSlider" min="4500" max="150000" value="20000" step="100">
-                <span id="diameterValue">20000</span> km
-            </label><br>
-    
-            <!-- Density Adjustment -->
-            <label>Planet Density: 
-                <input type="range" id="densitySlider" min="650" max="5600" value="700">
-                <span id="densityValue">700</span> kg/m³
-            </label><br>
-    
-            <!-- Surface Gravity -->
-            <label>Surface Gravity: 
-                <input type="range" id="gravitySlider" min="0" max="100" value="10">
-                <span id="gravityValue">10</span> m/s²
-            </label><br>
-    
-            <!-- Escape Velocity -->
-            <label>Escape Velocity: 
-                <input type="range" id="escapeVelocitySlider" min="0" max="100" value="25">
-                <span id="escapeVelocityValue">25</span> km/s
-            </label><br>            
-        </div>
-        <div id="editRing" class="editPanel">
-            <h3>Moons</h3>
-            <!-- Number of Moons -->
-            <label>Number of Moon:
-                <input type="range" id="moonSlider" min="0" max="100" value="1">
-                <span id="moonValue">1</span>
-            </label><br>
-
-            <h3>Ring System</h3>
-            <label>Add Ring?</label>
-            <input type="radio" id="ringYes" name="ringOption" value="yes">
-            <label for="ringYes">Yes</label>
-            <input type="radio" id="ringNo" name="ringOption" value="no" checked>
-            <label for="ringNo">No</label><br>
+            <div id="editPlanet" class="editPanel">
+                <h3>Appearance</h3>
+                <label>Planet Name: <input type="text" id="planetName" placeholder="Enter planet name"></label><br>
+                
+                <!-- Texture Upload -->
+                <label>Upload Planet Texture: <input type="file" id="textureUploader" accept="image/*"></label><br>
         
-            <!-- 颜色选择器，默认隐藏 -->
-            <div id="colourPicker" style="margin-top: 10px;">
-                <label for="ringColour">Ring Colour：</label>
-                <input type="colour" id="ringColour" value="#ff9900"> <!-- 默认颜色 -->
+                <!-- Size Adjustment -->
+                <label>Planet Size: 
+                    <input type="range" id="sizeSlider" min="1" max="5" value="2" step="0.1">
+                    <span id="sizeValue">2</span>
+                </label><br>
+
+                <!-- Rotation Period -->
+                <label>Rotation Period: 
+                    <input type="range" id="rotationPeriodSlider" min="1" max="5000" value="24">
+                    <span id="rotationPeriodValue">24</span> hours
+                </label><br>
+        
+                <!-- Obliquity -->
+                <label>Obliquity: 
+                    <input type="range" id="obliquitySlider" min="0" max="180" value="23.5">
+                    <span id="obliquityValue">23.5</span>º
+                </label><br>
+        
+                <h3>Physical Properties</h3>            
+                <!-- Mass Adjustment -->
+                <label>Planet Mass: 
+                    <input type="range" id="massSlider" min="0.1" max="2000" value="50">
+                    <span id="massValue">50</span> x10²⁴kg
+                </label><br>
+
+                <!-- Diameter Adjustment -->
+                <label>Planet Diameter: 
+                    <input type="range" id="diameterSlider" min="4500" max="150000" value="20000" step="100">
+                    <span id="diameterValue">20000</span> km
+                </label><br>
+        
+                <!-- Density Adjustment -->
+                <label>Planet Density: 
+                    <input type="range" id="densitySlider" min="650" max="5600" value="700">
+                    <span id="densityValue">700</span> kg/m³
+                </label><br>
+        
+                <!-- Surface Gravity -->
+                <label>Surface Gravity: 
+                    <input type="range" id="gravitySlider" min="0" max="100" value="10">
+                    <span id="gravityValue">10</span> m/s²
+                </label><br>
+        
+                <!-- Escape Velocity -->
+                <label>Escape Velocity: 
+                    <input type="range" id="escapeVelocitySlider" min="0" max="100" value="25">
+                    <span id="escapeVelocityValue">25</span> km/s
+                </label><br>            
             </div>
-            <label>Opacity: 
-                <input type="range" id="opaciySlider" min="180" max="100" value="25">
-                <span id="opacityValue">25</span>
-            </label><br>
-            <label>Tilt: 
-                <input type="range" id="tiltSlider" min="0" max="180" value="25">
-                <span id="tiltValue">25</span>º
-            </label><br>
+            <div id="editRing" class="editPanel">
+                <h3>Moons</h3>
+                <!-- Number of Moons -->
+                <label>Number of Moon:
+                    <input type="range" id="moonSlider" min="0" max="100" value="1">
+                    <span id="moonValue">1</span>
+                </label><br>
+
+                <h3>Ring System</h3>
+                <label>Add Ring?</label>
+                <div class="radio-group">
+                    <input type="radio" id="ringYes" name="ringOption" value="yes">
+                    <label for="ringYes">Yes</label>
+                    <input type="radio" id="ringNo" name="ringOption" value="no" checked>
+                    <label for="ringNo">No</label>
+                </div>      
+            
+                <!-- 颜色选择器，默认隐藏 -->
+                <div id="colourPicker" style="margin-top: 10px;">
+                    <label for="ringColour">Ring Colour:
+                    <input type="colour" id="ringColour" value="#ff9900"></label> <!-- 默认颜色 -->
+                </div>
+                <label>Opacity: 
+                    <input type="range" id="opaciySlider" min="180" max="100" value="25">
+                    <span id="opacityValue">25</span>
+                </label><br>
+                <label>Tilt: 
+                    <input type="range" id="tiltSlider" min="0" max="180" value="25">
+                    <span id="tiltValue">25</span>º
+                </label><br>
+            </div>
+            <div id="editAtmosphere" class="editPanel">
+                <h3>Atmosphere Composition</h3>
+                <label>H₂: 
+                    <input type="range" id="hydrogenSlider" min="0" max="100" value="25">
+                    <span id="hydrogenValue">25</span> %
+                </label><br>
+                <label>He: 
+                    <input type="range" id="heliumSlider" min="0" max="100" value="25">
+                    <span id="heliumValue">25</span> %
+                </label><br>
+                <label>N₂: 
+                    <input type="range" id="nitrogenSlider" min="0" max="100" value="25">
+                    <span id="nitrogenValue">25</span> %
+                </label><br>
+                <label>CO₂: 
+                    <input type="range" id="carbonSlider" min="0" max="100" value="25">
+                    <span id="carbonValue">25</span> %
+                </label><br>
+                <label>O₂: 
+                    <input type="range" id="oxygenSlider" min="0" max="100" value="25">
+                    <span id="oxygenValue">25</span> %
+                </label><br>
+                <label>Na: 
+                    <input type="range" id="sodiumSlider" min="0" max="100" value="25">
+                    <span id="sodiumValue">25</span> %
+                </label><br>
+                <label>Ar: 
+                    <input type="range" id="argonSlider" min="0" max="100" value="25">
+                    <span id="argonValue">25</span> %
+                </label><br>
+                <label>CH₄: 
+                    <input type="range" id="methaneSlider" min="0" max="100" value="25">
+                    <span id="methaneValue">25</span> %
+                </label><br>
+                <label>Other: 
+                    <input type="range" id="otherSlider" min="0" max="100" value="25">
+                    <span id="otherValue">25</span> %
+                </label><br>
+            </div>
+            <div id="editOrbit" class="editPanel">
+                <h3>Appearance</h3>
+                <!-- Orbit Radius -->
+                <label>Orbit Radius: 
+                    <input type="range" id="orbitRadiusSlider" min="10" max="50" value="25">
+                    <span id="orbitRadiusValue">25</span>
+                </label><br>
+            <!-- Orbit Velocity -->
+                <label>Orbit Velocity: 
+                    <input type="range" id="orbitVelocitySlider" min="5" max="100" value="25">
+                    <span id="orbitVelocityValue">25</span> km/s
+                </label><br>
+                <!-- Orbit Inclination -->
+                <label>Orbit Inclination: 
+                    <input type="range" id="orbitInclinationSlider" min="0" max="10" value="7" step="0.1">
+                    <span id=orbitlinationyValue">4</span>º            
+                </label><br>
+                <!-- Orbit Eccentricity -->
+                <label>Orbit Eccentricity: 
+                    <input type="range" id="eccentricitySlider" min="0" max="100" value="25">
+                    <span id="eccentricityValue">25</span> km/s
+                </label><br>
+            </div>
         </div>
-        <div id="editAtmosphere" class="editPanel">
-            <label>H₂: 
-                <input type="range" id="hydrogenSlider" min="0" max="100" value="25">
-                <span id="hydrogenValue">25</span> %
-            </label><br>
-            <label>He: 
-                <input type="range" id="heliumSlider" min="0" max="100" value="25">
-                <span id="heliumValue">25</span> %
-            </label><br>
-            <label>N₂: 
-                <input type="range" id="nitrogenSlider" min="0" max="100" value="25">
-                <span id="nitrogenValue">25</span> %
-            </label><br>
-            <label>CO₂: 
-                <input type="range" id="carbonSlider" min="0" max="100" value="25">
-                <span id="carbonValue">25</span> %
-            </label><br>
-            <label>O₂: 
-                <input type="range" id="oxygenSlider" min="0" max="100" value="25">
-                <span id="oxygenValue">25</span> %
-            </label><br>
-            <label>Na: 
-                <input type="range" id="sodiumSlider" min="0" max="100" value="25">
-                <span id="sodiumValue">25</span> %
-            </label><br>
-            <label>Ar: 
-                <input type="range" id="argonSlider" min="0" max="100" value="25">
-                <span id="ArgonValue">25</span> %
-            </label><br>
-            <label>CH₄: 
-                <input type="range" id="methaneSlider" min="0" max="100" value="25">
-                <span id="methaneValue">25</span> %
-            </label><br>
-            <label>Other: 
-                <input type="range" id="otherSlider" min="0" max="100" value="25">
-                <span id="otherValue">25</span> %
-            </label><br>
-        </div>
-        <div id="editOrbit" class="editPanel">
-            <h3>Appearance</h3>
-            <!-- Orbit Radius -->
-            <label>Orbit Radius: 
-                <input type="range" id=orbitRadiusSlider" min="10" max="50" value="25">
-                <span id="orbitRadiusValue">25</span>
-            </label><br>
-           <!-- Orbit Velocity -->
-            <label>Orbit Velocity: 
-                <input type="range" id="orbitVelocitySlider" min="5" max="100" value="25">
-                <span id="orbitVelocityValue">25</span> km/s
-            </label><br>
-            <!-- Orbit Inclination -->
-            <label>Orbit Inclination: 
-                <input type="range" id="orbitInclinationSlider" min="0" max="10" value="7" step="0.1">
-                <span id=orbitlinationyValue">4</span>º            
-            </label><br>
-            <!-- Orbit Eccentricity -->
-            <label>Orbit Eccentricity: 
-                <input type="range" id=eccentricitySlider" min="0" max="100" value="25">
-                <span id="eccentricityValue">25</span> km/s
-            </label><br>
-        </div>
-        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
         <script>
-            planetButton.addEventListener('click', function() {
-                document.getElementById('galaxyButton').style.display = 'none';
-                document.getElementById('planetButton').style.display = 'none';
-                document.getElementById('controls').style.display = 'none';
-                document.getElementById('editTab').style.display = 'block';
-                document.getElementById('returnButton').style.display = 'block';
-                document.getElementById('menu').style.display = 'block';
-            });
+            let scene, camera, renderer, sun;
+            let planets = [];
+            let orbits = [];
+            let planetSizes = [];        // 存储每个行星的大小
+            let orbitRadii = [];         // 存储每个行星的轨道半径
+            let planetTextures = [];     // 存储每个行星的纹理
+            let orbitAngles = []; 
 
-            document.getElementById("returnButton").addEventListener("click", function() {
-                document.getElementById('galaxyButton').style.display = 'block';
-                document.getElementById('planetButton').style.display = 'block';
-                document.getElementById('controls').style.display = 'block';
-                document.getElementById('editTab').style.display = 'none';
-                document.getElementById('returnButton').style.display = 'none';
-                document.getElementById('menu').style.display = 'none';
-            });
+            function createScene() {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
 
-            // Function triggered by button clicks to show specific info
-            window.edit = function(editType) {
-                    displayEditPanel(editType);
-            };
-
-            // Function to display specific information based on infoType
-            window.displayEditPanel =  function(editType) {
-                var panels = document.querySelectorAll(".editPanel");
-                panels.forEach(function(panel) {
-                    panel.style.display = "none"; // Hide all first
+                const textureLoader = new THREE.TextureLoader();
+                textureLoader.load('cosmos.jpg', function(texture) {
+                    scene.background = texture;
                 });
 
-                //if (planetData[planetName]) {
-                    //const data = planetData[planetName];
+                const sunGeometry = new THREE.SphereGeometry(4, 32, 32);
+                textureLoader.load('sun_texture.jpg', function(texture) {
+                    const sunMaterial = new THREE.MeshBasicMaterial({ map: texture });
+                    sun = new THREE.Mesh(sunGeometry, sunMaterial);
+                    scene.add(sun);
+                });
 
-                // Display different information based on the infoType
-                switch (editType) {
-                    case 1: // Planet
-                        document.getElementById('editPlanet').style.display = 'block';
-                        break;
-                    case 2: // Ring
-                        document.getElementById('editRing').style.display = 'block';
-                        break;                    
-                    case 3: // Atmosphere
-                        document.getElementById('editAtmosphere').style.display = 'block';
-                        break;
-                    case 4: // Orbit
-                        document.getElementById('editOrbit').style.display = 'block';
-                        break;
-                    default:
-                        document.getElementById('editTab').innerText("Select a panel to customize the planet.")
+                // Camera Setups
+                camera.position.set(0, 15, 20);
+                camera.lookAt(scene.position);
+
+                var angleSlider = document.getElementById("angleSlider");
+                var zoomSlider = document.getElementById("zoomSlider");
+
+                angleSlider.addEventListener("input", updateCamera);
+                zoomSlider.addEventListener("input", updateCamera);
+
+                function updateCamera() {
+                    if (!followingPlanet) {  // 当不跟随行星时，才能调整相机位置
+                        var angle = angleSlider.value * Math.PI / 180;
+                        var distance = zoomSlider.value;
+
+                        camera.position.x = distance * Math.sin(angle);
+                        camera.position.z = distance * Math.cos(angle);
+                        camera.lookAt(scene.position);
                     }
-            }
+                }
+
+                window.addEventListener('resize', function() {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+                var originalCameraPosition = camera.position.clone(); // Save original camera position
+                var originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
+
+                let followingPlanet = null;
+
+                // Planet Creation Setups
+                function createPlanetAndOrbit() {
+                    const size = parseFloat(document.getElementById("sizeSlider").value);
+                    const orbitRadius = parseFloat(document.getElementById("orbitSlider").value);
+                    
+                    planetSizes.push(size);
+                    orbitRadii.push(orbitRadius);
+                    orbitAngles.push(0); // 初始化每个行星的轨道角度为0
+
+                    // 创建行星
+                    const planetGeometry = new THREE.SphereGeometry(size, 32, 32);
+                    const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+                    const newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+                    newPlanet.position.x = orbitRadius;
+                    planets.push(newPlanet);
+                    scene.add(newPlanet);
+
+                    // 设置这个新创建的行星为跟随目标
+                    followingPlanet = newPlanet;
+
+                    // 创建行星的轨道
+                    const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+                    const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+                    const newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+                    newOrbit.rotation.x = Math.PI / 2;
+                    orbits.push(newOrbit);
+                    scene.add(newOrbit);
+                }
+
+                function updatePlanetAndOrbit() {
+                    const lastPlanet = planets[planets.length - 1]; // 获取最新创建的行星
+                    const lastOrbit = orbits[orbits.length - 1]; // 获取最新创建的轨道
+
+                    const planetSize = parseFloat(document.getElementById("sizeSlider").value);
+                    const orbitRadius = parseFloat(document.getElementById("orbitSlider").value);
+
+                    // 更新行星大小
+                    lastPlanet.scale.set(planetSize, planetSize, planetSize);
+
+                    // 更新轨道大小
+                    lastOrbit.geometry.dispose();
+                    lastOrbit.geometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+
+                    // 更新数组中的值
+                    planetSizes[planetSizes.length - 1] = planetSize;
+                    orbitRadii[orbitRadii.length - 1] = orbitRadius;
+
+                    lastPlanet.position.x = orbitRadius;
+                }
+
+                // UI Button Setups
+                editButton.addEventListener('click', function() {
+                    document.getElementById('toolbars').style.display = 'none';
+                    document.getElementById('editBars').style.display = 'block';
+                });
+
+                returnButton.addEventListener('click', function() {
+                    document.getElementById('editBars').style.display = 'none';
+                    document.getElementById('toolbars').style.display = 'block';
+                });
+
+
+                planetButton.addEventListener("click", function() {
+                    document.getElementById('controls').style.display = 'none';
+                    document.getElementById('editTab').style.display = 'block';
+                    document.getElementById('menu').style.display = 'block';
+                    document.getElementById('editBars').style.display = 'none';
+                    document.getElementById('doneButton').style.display = 'block';
+
+                    createPlanetAndOrbit();
+                });
+                
+                doneButton.addEventListener("click", function() {
+                    document.getElementById('controls').style.display = 'block';
+                    document.getElementById('editTab').style.display = 'none';
+                    document.getElementById('menu').style.display = 'none';
+                    document.getElementById('editBars').style.display = 'block';
+                    document.getElementById('doneButton').style.display = 'none';
+                });
+
+                // Function triggered by button clicks to show specific info
+                window.edit = function(editType) {
+                        displayEditPanel(editType);
+                };
+
+                // Function to display specific information based on infoType
+                window.displayEditPanel =  function(editType) {
+                    var panels = document.querySelectorAll(".editPanel");
+                    panels.forEach(function(panel) {
+                        panel.style.display = "none"; // Hide all first
+                    });
+
+                    //if (planetData[planetName]) {
+                        //const data = planetData[planetName];
+
+                    // Display different information based on the infoType
+                    switch (editType) {
+                        case 1: // Planet
+                            document.getElementById('editPlanet').style.display = 'block';
+                            break;
+                        case 2: // Ring
+                            document.getElementById('editRing').style.display = 'block';
+                            break;                    
+                        case 3: // Atmosphere
+                            document.getElementById('editAtmosphere').style.display = 'block';
+                            break;
+                        case 4: // Orbit
+                            document.getElementById('editOrbit').style.display = 'block';
+                            break;
+                        default:
+                            document.getElementById('editTab').innerText("Select a panel to customize the planet.")
+                        }
+                }
+
+                document.getElementById("sizeSlider").addEventListener("input", function() {
+                    planetSize = parseFloat(this.value);
+                    updatePlanetAndOrbit();
+                });
+
+                // document.getElementById("orbitSlider").addEventListener("input", function() {
+                //     orbitRadius = parseFloat(this.value);
+                //     updatePlanetAndOrbit();
+                // });
+
+                document.getElementById("textureUploader").addEventListener("change", function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const texture = new THREE.TextureLoader().load(e.target.result);
+                            if (planets.length > 0) {
+                                planets[planets.length - 1].material.map = texture;
+                                planets[planets.length - 1].material.needsUpdate = true;
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                window.sliderValue = function() {
+                    // Get all sliders and their corresponding value spans
+                    const sizeSlider = document.getElementById("sizeSlider");
+                    const sizeValue = document.getElementById("sizeValue");
+                    
+                    const diameterSlider = document.getElementById("diameterSlider");
+                    const diameterValue = document.getElementById("diameterValue");
+                    
+                    const massSlider = document.getElementById("massSlider");
+                    const massValue = document.getElementById("massValue");
+                    
+                    const densitySlider = document.getElementById("densitySlider");
+                    const densityValue = document.getElementById("densityValue");
+                    
+                    const gravitySlider = document.getElementById("gravitySlider");
+                    const gravityValue = document.getElementById("gravityValue");
+                    
+                    const escapeVelocitySlider = document.getElementById("escapeVelocitySlider");
+                    const escapeVelocityValue = document.getElementById("escapeVelocityValue");
+                    
+                    const rotationPeriodSlider = document.getElementById("rotationPeriodSlider");
+                    const rotationPeriodValue = document.getElementById("rotationPeriodValue");
+                    
+                    const obliquitySlider = document.getElementById("obliquitySlider");
+                    const obliquityValue = document.getElementById("obliquityValue");
+
+                    // Function to update the displayed value
+                    function updateValue(slider, valueSpan, format = '') {
+                        valueSpan.textContent = slider.value + format;
+                    }
+
+                    // Function to link size with mass and diameter
+                    function linkSizeToMassAndDiameter() {
+                        const size = parseFloat(sizeSlider.value);
+
+                        // Adjust diameter and mass based on size
+                        diameterSlider.value = size * 10000;  // Diameter increases with size
+                        massSlider.value = size * 30;         // Mass increases with size
+
+                        // Update the displayed values for diameter and mass
+                        updateValue(diameterSlider, diameterValue, ' km');
+                        updateValue(massSlider, massValue, ' Earth Masses');
+                    }
+
+                    // Function to link mass and diameter back to size
+                    function linkMassAndDiameterToSize() {
+                        const diameter = parseFloat(diameterSlider.value);
+                        const mass = parseFloat(massSlider.value);
+
+                        // Deriving size based on diameter and mass
+                        const derivedSize = Math.min(diameter / 10000, mass / 30);
+
+                        // Update the size slider accordingly
+                        sizeSlider.value = derivedSize;
+
+                        // Update the displayed value for size
+                        updateValue(sizeSlider, sizeValue);
+                    }
+
+                    // Function to link mass to diameter
+                    function linkMassToDiameter() {
+                        const mass = parseFloat(massSlider.value);
+                        // Calculate diameter from mass
+                        diameterSlider.value = mass * 100;  // A multiplier for mass to diameter
+                        // Update the diameter value span
+                        updateValue(diameterSlider, diameterValue, ' km');
+                    }
+
+                    // Function to link diameter to mass
+                    function linkDiameterToMass() {
+                        const diameter = parseFloat(diameterSlider.value);
+                        // Calculate mass from diameter
+                        massSlider.value = diameter / 100;  // A multiplier for diameter to mass
+                        // Update the mass value span
+                        updateValue(massSlider, massValue, ' Earth Masses');
+                    }
+
+                    // Event listeners to update values in real-time
+                    sizeSlider.addEventListener("input", function() {
+                        updateValue(sizeSlider, sizeValue);
+                        linkSizeToMassAndDiameter();   // Link sliders whenever size is adjusted
+                    });
+
+                    diameterSlider.addEventListener("input", function() {
+                        updateValue(diameterSlider, diameterValue, ' km');
+                        linkMassAndDiameterToSize();
+                        linkDiameterToMass(); 
+                        linkMassToDiameter();  
+                    });
+
+                    massSlider.addEventListener("input", function() {
+                        updateValue(massSlider, massValue, ' Earth Masses');
+                        linkMassAndDiameterToSize();
+                    });
+
+                    densitySlider.addEventListener("input", function() {
+                        updateValue(densitySlider, densityValue, ' g/cm³');
+                    });
+
+                    gravitySlider.addEventListener("input", function() {
+                        updateValue(gravitySlider, gravityValue, ' m/s²');
+                    });
+
+                    escapeVelocitySlider.addEventListener("input", function() {
+                        updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
+                    });
+
+                    rotationPeriodSlider.addEventListener("input", function() {
+                        updateValue(rotationPeriodSlider, rotationPeriodValue, ' hours');
+                    });
+
+                    obliquitySlider.addEventListener("input", function() {
+                        updateValue(obliquitySlider, obliquityValue, ' degrees');
+                    });
+
+                    // Initialize the values on page load
+                    updateValue(sizeSlider, sizeValue);
+                    updateValue(diameterSlider, diameterValue, ' km');
+                    updateValue(massSlider, massValue, ' Earth Masses');
+                    updateValue(densitySlider, densityValue, ' g/cm³');
+                    updateValue(gravitySlider, gravityValue, ' m/s²');
+                    updateValue(escapeVelocitySlider, escapeVelocityValue, ' km/s');
+                    updateValue(rotationPeriodSlider, rotationPeriodValue, ' hours');
+                    updateValue(obliquitySlider, obliquityValue, ' degrees');
+
+                    linkSizeToMassAndDiameter(); 
+                }
+
+                sliderValue();
+
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    // 让太阳自转
+                    if (sun) sun.rotation.y += 0.001;
+
+                    // //遍历所有行星，更新它们的轨道角度、位置和旋转
+                    planets.forEach((planet, index) => {
+                        orbitAngles[index] += 0.001; // 每个行星的轨道角度
+
+                        // 更新行星的自转
+                        planet.rotation.y += 0.01;
+
+                        // 更新行星的位置，使其沿轨道运动
+                        planet.position.x = orbitRadii[index] * Math.cos(orbitAngles[index]);
+                        planet.position.z = orbitRadii[index] * Math.sin(orbitAngles[index]);
+
+                        // 跟随行星
+                        if (followingPlanet === planet) {
+                            const cameraOffset = 10;
+                            camera.position.x = planet.position.x + cameraOffset;
+                            camera.position.y = planet.position.y + 5;
+                            camera.position.z = planet.position.z + cameraOffset;
+
+                            camera.lookAt(planet.position);
+                        }
+                    });
+                    renderer.render(scene, camera);
+                }
+                animate();
+            };
+
+            window.onload = function() {
+            createScene();
+            };
         </script>
     </body>
 </html>
