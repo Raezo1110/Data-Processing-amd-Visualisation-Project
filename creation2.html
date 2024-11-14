@@ -256,6 +256,10 @@
             let selectedPlanet = null;
             const newPlanet = { name:"", renderParams:{}, dataParams:{}};
             const planets = [];
+            const orbits = [];
+            const orbitAngles = [];
+            const orbitRadii = [];
+            const planetSizes = [];
 
             function createScene() {
                 scene = new THREE.Scene();
@@ -331,54 +335,99 @@
 
                 // Planet Creation Setups
                 function createPlanet() {
+                    // Appearance (3D Display)
+                    const planetNameInput = document.getElementById("planetName");
+                    const textureUploader = document.getElementById("textureUploader");
                     const size = parseFloat(document.getElementById("sizeSlider").value);
+                    const rotationPeriod = parseFloat(document.getElementById("rotationPeriodSlider").value);
+                    const obliquity = parseFloat(document.getElementById("obliquitySlider").value);
+                    const opacity = parseFloat(document.getElementById("opacitySlider").value);
+                    const tilt = parseFloat(document.getElementById("tiltSlider").value);
                     const orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
-                    
-                    planetSizes.push(size);
-                    orbitRadii.push(orbitRadius);
-                    orbitAngles.push(0); // 初始化每个行星的轨道角度为0
+                    const orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
+                    const orbitInclination = parseFloat(document.getElementById("orbitInclinationSlider").value);
 
                     // 创建行星
                     const planetGeometry = new THREE.SphereGeometry(size, 32, 32);
                     const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
                     const newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
 
+                    planetSizes.push(size);
+                    orbitRadii.push(orbitRadius);
+                    orbitAngles.push(0);
                     newPlanet.position.x = orbitRadius;
                     planets.push(newPlanet);
                     scene.add(newPlanet);
 
-                    // 设置这个新创建的行星为跟随目标
                     selectedPlanet = newPlanet;
-
-                    // 创建行星的轨道
+                    
                     const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
                     const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
                     const newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
                     newOrbit.rotation.x = Math.PI / 2;
                     orbits.push(newOrbit);
                     scene.add(newOrbit);
-                }
+                };
 
-                function updatePlanet() {
-                    const lastPlanet = planets[planets.length - 1]; // 获取最新创建的行星
-                    const lastOrbit = orbits[orbits.length - 1]; // 获取最新创建的轨道
+                // function storeData() {
+                //     //const newPlanet = { name:"", renderParams:{}, dataParams:{}};
+                //     // Properties (Chart)
+                //     const mass = parseFloat(document.getElementById("massSlider").value);
+                //     const diameter = parseFloat(document.getElementById("diameterSlider").value);
+                //     const density = parseFloat(document.getElementById("densitySlider").value);
+                //     const gravity = parseFloat(document.getElementById("gravitySlider").value);
+                //     const escapeVelocity = parseFloat(document.getElementById("escapeVelocitySlider").value);
+                //     const moon = parseFloat(document.getElementById("moonSlider").value);
+                //     const hydrogen = parseFloat(document.getElementById("hydrongenSlider").value);
+                //     const helium = parseFloat(document.getElementById("heliumSlider").value);
+                //     const nitrogen = parseFloat(document.getElementById("nitrogenSlider").value);
+                //     const carbon = parseFloat(document.getElementById("carbonSlider").value);
+                //     const oxygen = parseFloat(document.getElementById("oxygenSlider").value);
+                //     const sodium = parseFloat(document.getElementById("sodiumSlider").value);
+                //     const argon = parseFloat(document.getElementById("argonSlider").value);
+                //     const methane = parseFloat(document.getElementById("methaneSlider").value);
+                //     const other = parseFloat(document.getElementById("otherSlider").value);
+                //     const eccentricity = parseFloat(document.getElementById("eccentricitySlider").value);
+                //     planetNameInput.addEventListener("input", () => {
+                //         newPlanet.name = planetNameInput.value;
+                //     });
 
-                    const planetSize = parseFloat(document.getElementById("sizeSlider").value);
-                    const orbitRadius = parseFloat(document.getElementById("orbitSlider").value);
+                    textureUploader.addEventListener("change", function(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const texture = new THREE.TextureLoader().load(e.target.result);
+                                if (planets.length > 0) {
+                                    planets[planets.length - 1].material.map = texture;
+                                    planets[planets.length - 1].material.needsUpdate = true;
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                
 
-                    // 更新行星大小
-                    lastPlanet.scale.set(planetSize, planetSize, planetSize);
+                // function updatePlanet() {
+                //     const lastPlanet = planets[planets.length - 1]; // 获取最新创建的行星
+                //     const lastOrbit = orbits[orbits.length - 1]; // 获取最新创建的轨道
 
-                    // 更新轨道大小
-                    lastOrbit.geometry.dispose();
-                    lastOrbit.geometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+                //     const planetSize = parseFloat(document.getElementById("sizeSlider").value);
+                //     const orbitRadius = parseFloat(document.getElementById("orbitSlider").value);
 
-                    // 更新数组中的值
-                    planetSizes[planetSizes.length - 1] = planetSize;
-                    orbitRadii[orbitRadii.length - 1] = orbitRadius;
+                //     // 更新行星大小
+                //     lastPlanet.scale.set(planetSize, planetSize, planetSize);
 
-                    lastPlanet.position.x = orbitRadius;
-                }
+                //     // 更新轨道大小
+                //     lastOrbit.geometry.dispose();
+                //     lastOrbit.geometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+
+                //     // 更新数组中的值
+                //     planetSizes[planetSizes.length - 1] = planetSize;
+                //     orbitRadii[orbitRadii.length - 1] = orbitRadius;
+
+                //     lastPlanet.position.x = orbitRadius;
+                // }
 
                 // UI Button Setups
                 editButton.addEventListener('click', function() {
@@ -399,7 +448,7 @@
                     document.getElementById('editBars').style.display = 'none';
                     document.getElementById('doneButton').style.display = 'block';
 
-                    createPlanetAndOrbit();
+                    createPlanet();
                 });
                 
                 doneButton.addEventListener("click", function() {
@@ -619,7 +668,7 @@
                         planet.position.z = orbitRadii[index] * Math.sin(orbitAngles[index]);
 
                         // 跟随行星
-                        if (followingPlanet === planet) {
+                        if (selectedPlanet === newPlanet) {
                             const cameraOffset = 10;
                             camera.position.x = planet.position.x + cameraOffset;
                             camera.position.y = planet.position.y + 5;
