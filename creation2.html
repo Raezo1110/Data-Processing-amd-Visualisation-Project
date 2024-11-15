@@ -406,6 +406,7 @@
                             reader.readAsDataURL(file);
                         }
                     });
+                //Sliders Setups
                 
 
                 // function updatePlanet() {
@@ -452,6 +453,8 @@
                 });
                 
                 doneButton.addEventListener("click", function() {
+                    let selectedPlanet = null;
+                    
                     document.getElementById('controls').style.display = 'block';
                     document.getElementById('editTab').style.display = 'none';
                     document.getElementById('menu').style.display = 'none';
