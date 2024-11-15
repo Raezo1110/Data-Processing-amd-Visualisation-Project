@@ -670,11 +670,11 @@
                         // 跟随行星
                         if (selectedPlanet === newPlanet) {
                             const cameraOffset = 10;
-                            camera.position.x = planet.position.x + cameraOffset;
-                            camera.position.y = planet.position.y + 5;
-                            camera.position.z = planet.position.z + cameraOffset;
+                            camera.position.x = selectedPlanet.position.x + cameraOffset;
+                            camera.position.y = selectedPlanet.position.y + 5;
+                            camera.position.z = selectedPlanet.position.z + cameraOffset;
 
-                            camera.lookAt(planet.position);
+                            camera.lookAt(selectedPlanet.position);
                         }
                     });
                     renderer.render(scene, camera);
