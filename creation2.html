@@ -254,7 +254,6 @@
         <script>
             let scene, camera, renderer, sun;
             let selectedPlanet = null;
-            const newPlanet = { name:"", renderParams:{}, dataParams:{}};
             const planets = [];
             const orbits = [];
             const orbitAngles = [];
@@ -338,16 +337,37 @@
                     originalCameraPosition.copy(camera.position);
                     originalCameraLookAt.copy(scene.position);
                     // Appearance (3D Display)
-                    //let planetNameInput = document.getElementById("planetName");
-                    //let textureUploader = document.getElementById("textureUploader");
+                    let name = document.getElementById("planetName").value;
+                    let texture = document.getElementById("textureUploader").files[0];
                     let size = parseFloat(document.getElementById("sizeSlider").value);
                     let rotationPeriod = parseFloat(document.getElementById("rotationPeriodSlider").value);
                     let obliquity = parseFloat(document.getElementById("obliquitySlider").value);
+                    let mass = parseFloat(document.getElementById("massSlider").value);
+                    let diameter = parseFloat(document.getElementById("diameterSlider").value);
+                    let density = parseFloat(document.getElementById("densitySlider").value);
+                    let gravity = parseFloat(document.getElementById("gravitySlider").value);
+                    let escapeVelocity = parseFloat(document.getElementById("escapeVelocitySlider").value);
+
+                    let moon = parseFloat(document.getElementById("moonSlider").value);
+                    let ring = parseFloat(document.getElementById("ringYes").checked);
+                    let ringColour = document.getElementById("ringColour").value;
                     let opacity = parseFloat(document.getElementById("opacitySlider").value);
                     let tilt = parseFloat(document.getElementById("tiltSlider").value);
+
+                    let hydrogen = parseFloat(document.getElementById("hydrogenSlider").value;
+                    let helium = parseFloat(document.getElementById("heliumSlider").value;
+                    let nitrogen = parseFloat(document.getElementById("nitrogenSlider").value;
+                    let carbon = parseFloat(document.getElementById("carbonSlider").value;
+                    let oxygen = parseFloat(document.getElementById("oxygenSlider").value;
+                    let sodium = parseFloat(document.getElementById("sodiumSlider").value;
+                    let argon = parseFloat(document.getElementById("argonSlider").value;
+                    let methane = parseFloat(document.getElementById("methaneSlider").value;
+                    let other = parseFloat(document.getElementById("otherSlider").value;
+                    
                     let orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
                     let orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
                     let orbitInclination = parseFloat(document.getElementById("orbitInclinationSlider").value);
+                    let eccentricity = parseFloat(document.getElementById("eccentricitySlider").value;
 
                     // 创建行星
                     let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
@@ -358,19 +378,59 @@
 
                     newPlanet.selfRotationSpeed = rotationPeriod;
                     newPlanet.rotation.z = obliquity;
-                    //planetSizes.push(size);
-                    orbitRadii.push(orbitRadius);
-                    orbitAngles.push(0);
                     newPlanet.position.x = orbitRadius;
-                    planets.push(newPlanet);
+                    
+                    //planetSizes.push(size);
+                    //orbitRadii.push(orbitRadius);
+                    //orbitAngles.push(0);
+                    
+                    planets.push(planet);
                     scene.add(newPlanet);
                     
                     let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
                     let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
                     let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
                     newOrbit.rotation.x = Math.PI / 2;
-                    orbits.push(newOrbit);
+                    //orbits.push(newOrbit);
                     scene.add(newOrbit);
+
+                    const planet = { 
+                        name: name, 
+                        renderParams:{
+                            mesh: newPlanet,
+                            orbitMesh: newOrbit,
+                            texture: texture,
+                            size: size,
+                            rotationPeriod: rotationPeriod,
+                            obliquity: obliquity,
+                            ring: ring,
+                            ringColour: ringColour,
+                            opacity: opacity,
+                            tilt: tilt,
+                            orbitRadius: orbitRadius,
+                            orbitVelocity: orbitVelocity,
+                            orbitInclination: orbitInclination,
+                            orbitAngle: 0
+                        }, 
+                        dataParams:{
+                            mass: mass,
+                            diameter: diameter,
+                            density: density,
+                            gravity: gravity,
+                            escapeVelocity: escapeVelocity,
+                            moon: moon,
+                            hydrogen: hydrogen,
+                            helium: helium,
+                            nitrogen: nitrogen,
+                            carbon: carbon,
+                            oxygen: oxygen,
+                            sodium: sodium,
+                            argon: argon,
+                            methane: methane,
+                            other: other,
+                            eccentricity: eccentricity
+                        }
+                    };
                 };
 
                 // function storeData() {
@@ -472,9 +532,11 @@
                     if (selectedPlanet) {
                         let newSize = parseFloat(sizeSlider.value);
 
+                        selectedPlanet.renderParams.size = newSize;
+
                         // Delete current old planet and create new planet with new size
-                        selectedPlanet.geometry.dispose();
-                        selectedPlanet.geometry = new THREE.SphereGeometry(newSize, 32, 32);
+                        selectedPlanet.renderParams.mesh.geometry.dispose();
+                        selectedPlanet.renderParams.mesh.scale.set(newSize, 32, 32);
                     }
                 });
                 rotationPeriodSlider.addEventListener("input", function() {
