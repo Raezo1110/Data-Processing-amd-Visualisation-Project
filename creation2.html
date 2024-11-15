@@ -376,9 +376,9 @@
 
                     selectedPlanet = newPlanet;
 
-                    //newPlanet.selfRotationSpeed = rotationPeriod;
-                    //newPlanet.rotation.z = obliquity;
-                    //newPlanet.position.x = orbitRadius;
+                    newPlanet.rotation.y = rotationPeriod;
+                    newPlanet.rotation.z = obliquity;
+                    newPlanet.position.x = orbitRadius;
                     
                     //planetSizes.push(size);
                     //orbitRadii.push(orbitRadius);
@@ -547,7 +547,7 @@
                     if (selectedPlanet) {
                         let newRotationPeriod = parseFloat(rotationPeriodSlider.value);
 
-                        selectedPlanet.selfRotationSpeed = maxSpeed - (newRotationPeriod/5000) * (maxSpeed-minSpeed);
+                        selectedPlanet.renderParams.rotationPeriod = maxSpeed - (newRotationPeriod/5000) * (maxSpeed-minSpeed);
                     }
                 });
                 obliquitySlider.addEventListener("input", function() {
@@ -555,7 +555,8 @@
 
                     if (selectedPlanet) {
                         let newObliquity = parseFloat(obliquitySlider.value);
-                        selectedPlanet.rotation.z = newObliquity;
+                        selectedPlanet.renderParams.obliquity = newObliquity;
+                        selectedPlanet.renderParams.mesh.rotation.z = newObliquity;
                     }
                 });
                 massSlider.addEventListener("input", function() {
