@@ -284,15 +284,15 @@
                 camera.position.set(0, 15, 20);
                 camera.lookAt(scene.position);
 
-                var angleSlider = document.getElementById("angleSlider");
-                var zoomSlider = document.getElementById("zoomSlider");
+                let angleSlider = document.getElementById("angleSlider");
+                let zoomSlider = document.getElementById("zoomSlider");
 
                 angleSlider.addEventListener("input", updateCamera);
                 zoomSlider.addEventListener("input", updateCamera);
 
                 function updateCamera() {
-                    var angle = angleSlider.value * Math.PI / 180;
-                    var distance = zoomSlider.value;
+                    let angle = angleSlider.value * Math.PI / 180;
+                    let distance = zoomSlider.value;
 
                     camera.position.x = distance * Math.sin(angle);
                     camera.position.z = distance * Math.cos(angle);
@@ -306,8 +306,8 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
 
-                var originalCameraPosition = camera.position.clone(); // Save original camera position
-                var originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
+                let originalCameraPosition = camera.position.clone(); // Save original camera position
+                let originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
 
                 window.focusOnPlanet = function(planetObject) {
                     //if (!planetClickedEnabled) return;
@@ -328,7 +328,7 @@
                     originalCameraLookAt.copy(scene.position);
 
                     // Adjust camera position, make it focus on the selected planet
-                    var offset = 5; // Adjust distance between camera and planet
+                    const offset = 5; // Adjust distance between camera and planet
                     camera.position.set(planetObject.position.x + offset, planetObject.position.y + offset, planetObject.position.z + offset);
                     camera.lookAt(planetObject.position);
                 }
@@ -336,21 +336,21 @@
                 // Planet Creation Setups
                 function createPlanet() {
                     // Appearance (3D Display)
-                    const planetNameInput = document.getElementById("planetName");
-                    const textureUploader = document.getElementById("textureUploader");
-                    const size = parseFloat(document.getElementById("sizeSlider").value);
-                    const rotationPeriod = parseFloat(document.getElementById("rotationPeriodSlider").value);
-                    const obliquity = parseFloat(document.getElementById("obliquitySlider").value);
-                    const opacity = parseFloat(document.getElementById("opacitySlider").value);
-                    const tilt = parseFloat(document.getElementById("tiltSlider").value);
-                    const orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
-                    const orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
-                    const orbitInclination = parseFloat(document.getElementById("orbitInclinationSlider").value);
+                    let planetNameInput = document.getElementById("planetName");
+                    let textureUploader = document.getElementById("textureUploader");
+                    let size = parseFloat(document.getElementById("sizeSlider").value);
+                    let rotationPeriod = parseFloat(document.getElementById("rotationPeriodSlider").value);
+                    let obliquity = parseFloat(document.getElementById("obliquitySlider").value);
+                    let opacity = parseFloat(document.getElementById("opacitySlider").value);
+                    let tilt = parseFloat(document.getElementById("tiltSlider").value);
+                    let orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
+                    let orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
+                    let orbitInclination = parseFloat(document.getElementById("orbitInclinationSlider").value);
 
                     // 创建行星
-                    const planetGeometry = new THREE.SphereGeometry(size, 32, 32);
-                    const planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
-                    const newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
+                    let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
+                    let planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+                    let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
 
                     planetSizes.push(size);
                     orbitRadii.push(orbitRadius);
@@ -361,9 +361,9 @@
 
                     selectedPlanet = newPlanet;
                     
-                    const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
-                    const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-                    const newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+                    let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+                    let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+                    let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
                     newOrbit.rotation.x = Math.PI / 2;
                     orbits.push(newOrbit);
                     scene.add(newOrbit);
@@ -393,11 +393,11 @@
                 //     });
 
                     textureUploader.addEventListener("change", function(event) {
-                        const file = event.target.files[0];
+                        let file = event.target.files[0];
                         if (file) {
-                            const reader = new FileReader();
+                            let reader = new FileReader();
                             reader.onload = function(e) {
-                                const texture = new THREE.TextureLoader().load(e.target.result);
+                                let texture = new THREE.TextureLoader().load(e.target.result);
                                 if (planets.length > 0) {
                                     planets[planets.length - 1].material.map = texture;
                                     planets[planets.length - 1].material.needsUpdate = true;
@@ -466,7 +466,7 @@
 
                 // Function to display specific information based on infoType
                 window.displayEditPanel =  function(editType) {
-                    var panels = document.querySelectorAll(".editPanel");
+                    const panels = document.querySelectorAll(".editPanel");
                     panels.forEach(function(panel) {
                         panel.style.display = "none"; // Hide all first
                     });
@@ -494,25 +494,25 @@
                 }
 
                 // Sliders & Real Time Rendering Setups
-                document.getElementById("textureUploader").addEventListener("change", function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const texture = new THREE.TextureLoader().load(e.target.result);
-                            if (planets.length > 0) {
-                                planets[planets.length - 1].material.map = texture;
-                                planets[planets.length - 1].material.needsUpdate = true;
-                            }
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+                //document.getElementById("textureUploader").addEventListener("change", function(event) {
+                    //const file = event.target.files[0];
+                    //if (file) {
+                        //const reader = new FileReader();
+                       // reader.onload = function(e) {
+                            //const texture = new THREE.TextureLoader().load(e.target.result);
+                            //if (planets.length > 0) {
+                              //  planets[planets.length - 1].material.map = texture;
+                               // planets[planets.length - 1].material.needsUpdate = true;
+                           // }
+                        //};
+                       // reader.readAsDataURL(file);
+                  //  }
+                //});
 
-                document.getElementById("sizeSlider").addEventListener("input", function() {
-                    planetSize = parseFloat(this.value);
-                    updatePlanet();
-                });
+               //  document.getElementById("sizeSlider").addEventListener("input", function() {
+                   // planetSize = parseFloat(this.value);
+                   // updatePlanet();
+              //  });
 
                 //document.getElementById(")
 
@@ -522,57 +522,57 @@
                 // });
 
                 // Sliders Setups
-                const sizeSlider = document.getElementById("sizeSlider");
-                const sizeValue = document.getElementById("sizeValue");
-                const rotationPeriodSlider = document.getElementById("rotationPeriodSlider");
-                const rotationPeriodValue = document.getElementById("rotationPeriodValue");     
-                const obliquitySlider = document.getElementById("obliquitySlider");
-                const obliquityValue = document.getElementById("obliquityValue");
-                const massSlider = document.getElementById("massSlider");
-                const massValue = document.getElementById("massValue");
-                const diameterSlider = document.getElementById("diameterSlider");
-                const diameterValue = document.getElementById("diameterValue");    
-                const densitySlider = document.getElementById("densitySlider");
-                const densityValue = document.getElementById("densityValue");    
-                const gravitySlider = document.getElementById("gravitySlider");
-                const gravityValue = document.getElementById("gravityValue"); 
-                const escapeVelocitySlider = document.getElementById("escapeVelocitySlider");
-                const escapeVelocityValue = document.getElementById("escapeVelocityValue");
+                let sizeSlider = document.getElementById("sizeSlider");
+                let sizeValue = document.getElementById("sizeValue");
+                let rotationPeriodSlider = document.getElementById("rotationPeriodSlider");
+                let rotationPeriodValue = document.getElementById("rotationPeriodValue");     
+                let obliquitySlider = document.getElementById("obliquitySlider");
+                let obliquityValue = document.getElementById("obliquityValue");
+                let massSlider = document.getElementById("massSlider");
+                let massValue = document.getElementById("massValue");
+                let diameterSlider = document.getElementById("diameterSlider");
+                let diameterValue = document.getElementById("diameterValue");    
+                let densitySlider = document.getElementById("densitySlider");
+                let densityValue = document.getElementById("densityValue");    
+                let gravitySlider = document.getElementById("gravitySlider");
+                let gravityValue = document.getElementById("gravityValue"); 
+                let escapeVelocitySlider = document.getElementById("escapeVelocitySlider");
+                let escapeVelocityValue = document.getElementById("escapeVelocityValue");
 
-                const moonSlider = document.getElementById("moonSlider");
-                const moonValue = document.getElementById("moonValue");
-                const opacitySlider = document.getElementById("opacitySlider");
-                const opacityValue = document.getElementById("opacityValue");
-                const tiltSlider = document.getElementById("tiltSlider");
-                const tiltValue = document.getElementById("tiltValue");
+                let moonSlider = document.getElementById("moonSlider");
+                let moonValue = document.getElementById("moonValue");
+                let opacitySlider = document.getElementById("opacitySlider");
+                let opacityValue = document.getElementById("opacityValue");
+                let tiltSlider = document.getElementById("tiltSlider");
+                let tiltValue = document.getElementById("tiltValue");
 
-                const hydrogenSlider = document.getElementById("hydrogenSlider");
-                const hydrogenValue = document.getElementById("hydrogenValue");
-                const heliumSlider = document.getElementById("heliumSlider");
-                const heliumValue = document.getElementById("heliumValue");
-                const nitrogenSlider = document.getElementById("nitrogenSlider");
-                const nitrogenValue = document.getElementById("nitrogenValue");
-                const carbonSlider = document.getElementById("carbonSlider");
-                const carbonValue = document.getElementById("carbonValue");
-                const oxygenSlider = document.getElementById("oxygenSlider");
-                const oxygenValue = document.getElementById("oxygenValue");
-                const sodiumSlider = document.getElementById("sodiumSlider");
-                const sodiumValue = document.getElementById("sodiumValue");
-                const argonSlider = document.getElementById("argonSlider");
-                const argonValue = document.getElementById("argonValue");
-                const methaneSlider = document.getElementById("methaneSlider");
-                const methaneValue = document.getElementById("methaneValue");
-                const otherSlider = document.getElementById("otherSlider");
-                const otherValue = document.getElementById("otherValue");
+                let hydrogenSlider = document.getElementById("hydrogenSlider");
+                let hydrogenValue = document.getElementById("hydrogenValue");
+                let heliumSlider = document.getElementById("heliumSlider");
+                let heliumValue = document.getElementById("heliumValue");
+                let nitrogenSlider = document.getElementById("nitrogenSlider");
+                let nitrogenValue = document.getElementById("nitrogenValue");
+                let carbonSlider = document.getElementById("carbonSlider");
+                let carbonValue = document.getElementById("carbonValue");
+                let oxygenSlider = document.getElementById("oxygenSlider");
+                let oxygenValue = document.getElementById("oxygenValue");
+                let sodiumSlider = document.getElementById("sodiumSlider");
+                let sodiumValue = document.getElementById("sodiumValue");
+                let argonSlider = document.getElementById("argonSlider");
+                let argonValue = document.getElementById("argonValue");
+                let methaneSlider = document.getElementById("methaneSlider");
+                let methaneValue = document.getElementById("methaneValue");
+                let otherSlider = document.getElementById("otherSlider");
+                let otherValue = document.getElementById("otherValue");
 
-                const orbitRadiusSlider = document.getElementById("orbitRadiusSlider");
-                const orbitRadiusValue = document.getElementById("orbitRadiusValue");
-                const orbitVelocitySlider = document.getElementById("orbitVelocitySlider");
-                const orbitVelocityValue = document.getElementById("orbitVelocityValue");
-                const orbitInclinationSlider = document.getElementById("orbitInclinationSlider");
-                const orbitInclinationValue = document.getElementById("orbitInclinationValue");
-                const eccentricitySlider = document.getElementById("eccentricitySlider");
-                const eccentricityValue = document.getElementById("eccentricityValue");
+                let orbitRadiusSlider = document.getElementById("orbitRadiusSlider");
+                let orbitRadiusValue = document.getElementById("orbitRadiusValue");
+                let orbitVelocitySlider = document.getElementById("orbitVelocitySlider");
+                let orbitVelocityValue = document.getElementById("orbitVelocityValue");
+                let orbitInclinationSlider = document.getElementById("orbitInclinationSlider");
+                let orbitInclinationValue = document.getElementById("orbitInclinationValue");
+                let eccentricitySlider = document.getElementById("eccentricitySlider");
+                let eccentricityValue = document.getElementById("eccentricityValue");
                                                                        
                 sizeSlider.addEventListener("input", function() {
                     sizeValue.textContent = sizeSlider.value;
