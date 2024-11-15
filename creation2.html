@@ -668,12 +668,15 @@
                         planet.position.z = orbitRadii[index] * Math.sin(orbitAngles[index]);
 
                         // 跟随行星
-                        if (selectedPlanet === newPlanet) {
-                            const cameraOffset = 10;
-                            camera.position.x = selectedPlanet.position.x + cameraOffset;
-                            camera.position.y = selectedPlanet.position.y + 5;
-                            camera.position.z = selectedPlanet.position.z + cameraOffset;
-
+                        if (selectedPlanet) {
+                            camera.position.lerp(
+                                new THREE.Vector3(
+                                    selectedPlanet.position.x + 5,
+                                    selectedPlanet.position.y + 5,
+                                    selectedPlanet.position.z + 5
+                                ),
+                                0.1 // Speed adjestment factor
+                            );
                             camera.lookAt(selectedPlanet.position);
                         }
                     });
