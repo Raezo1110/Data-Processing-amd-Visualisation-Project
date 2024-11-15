@@ -753,27 +753,27 @@
                     if (sun) sun.rotation.y += 0.001;
 
                     // //遍历所有行星，更新它们的轨道角度、位置和旋转
-                    planets.forEach((planet, index) => {
-                        orbitAngles[index] += 0.001; // 每个行星的轨道角度
+                    planets.forEach((planet) => {
+                        planet.renderParams.orbitAngle += 0.001; // 每个行星的轨道角度
 
                         // 更新行星的自转
-                        planet.rotation.y += planet.selfRotationSpeed;
+                        planet.renderParams.mesh.rotation.y += planet.renderParams.rotationPeriod;
 
                         // 更新行星的位置，使其沿轨道运动
-                        planet.position.x = orbitRadii[index] * Math.cos(orbitAngles[index]);
-                        planet.position.z = orbitRadii[index] * Math.sin(orbitAngles[index]);
+                        planet.renderParams.mesh.position.x = planet.renderParams.orbitRadius * Math.cos(planet.renderParams.orbitAngle);
+                        planet.renderParams.mesh.position.z = planet.renderParams.orbitRadius * Math.sin(planet.renderParams.orbitAngle);
 
                         // 跟随行星
                         if (selectedPlanet) {
                             camera.position.lerp(
                                 new THREE.Vector3(
-                                    selectedPlanet.position.x + 5,
-                                    selectedPlanet.position.y + 5,
-                                    selectedPlanet.position.z + 5
+                                    selectedPlanet.renderParams.mesh.position.x + 5,
+                                    selectedPlanet.renderParams.mesh.position.y + 5,
+                                    selectedPlanet.renderParams.mesh.position.z + 5
                                 ),
                                 0.1 // Speed adjestment factor
                             );
-                            camera.lookAt(selectedPlanet.position);
+                            camera.lookAt(selectedPlanet.renderParams.mesh.position);
                         }
                     });
                     renderer.render(scene, camera);
