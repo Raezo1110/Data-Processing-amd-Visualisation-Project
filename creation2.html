@@ -602,7 +602,7 @@
                                 opacity:selectedPlanet.renderParams.opacity
                             });
                             let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
-                            newRing.rotation.x = THREE MathUtils.degToRad(selectedPlanet.renderParams.tilt);
+                            newRing.rotation.x = THREE.MathUtils.degToRad(selectedPlanet.renderParams.tilt);
                             newRing.rotation.z = Math.random() * Math.PI;
                             newRing.position.set(selectedPlanet.mesh.position.x, selectedPlanet.mesh.position.y, selectedPlanet.mesh.position.z);
                             selectedPlanet.renderParams.mesh.add(newRing);
@@ -633,7 +633,7 @@
                     if (selectedPlanet.renderParams.ring) {
                         let newTilt = parseFloat(tiltSlider.value);
                         selectedPlanet.renderParams.tilt = newTilt;
-                        selectedPlanet.renderParams.ringMesh.rotation.x = THREE MathUtils.degToRad(newTilt);
+                        selectedPlanet.renderParams.ringMesh.rotation.x = THREE.MathUtils.degToRad(newTilt);
                     }
                 });
 
