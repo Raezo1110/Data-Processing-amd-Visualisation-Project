@@ -238,8 +238,8 @@
                 </label><br>
                 <!-- Orbit Inclination -->
                 <label>Orbit Inclination: 
-                    <input type="range" id="orbitInclinationSlider" min="0" max="90" value="7" step="0.5">
-                    <span id="orbitInclinationValue">7</span>º            
+                    <input type="range" id="orbitInclinationSlider" min="0" max="90" value="90" step="0.5">
+                    <span id="orbitInclinationValue">90</span>º            
                 </label><br>
                 <h3>Orbit Properties</h3>
                 <!-- Orbit Eccentricity -->
@@ -376,7 +376,7 @@
                     // 设置其他行星属性
                     newPlanet.rotation.y = rotationPeriod * 0.001 * (Math.PI/180);
                     newPlanet.rotation.z = obliquity * (Math.PI/180);
-                    //newPlanet.position.x = orbitRadius;
+                    newPlanet.position.x = orbitRadius;
                     newPlanet.orbitSpeed = orbitVelocity;
                     newPlanet.orbitAngle = Math.random() * Math.PI * 2
                     scene.add(newPlanet);
@@ -385,9 +385,9 @@
                     let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
                     let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
                     newOrbit.rotation.x = orbitInclination * (Math.PI/180);
-                    newPlanet.position.x = orbitRadius * Math.cos(newPlanet.orbitAngle);
-                    newPlanet.position.y = orbitRadius+0.01 * Math.sin(newPlanet.orbitAngle) * Math.cos(newOrbit.rotation.x);
-                    newPlanet.position.z = orbitRadius+0.01 * Math.sin(newPlanet.orbitAngle) * Math.sin(newOrbit.rotation.x);
+                    //newPlanet.position.x = orbitRadius * Math.cos(newPlanet.orbitAngle);
+                    //newPlanet.position.y = orbitRadius+0.01 * Math.sin(newPlanet.orbitAngle) * Math.cos(newOrbit.rotation.x);
+                    //newPlanet.position.z = orbitRadius+0.01 * Math.sin(newPlanet.orbitAngle) * Math.sin(newOrbit.rotation.x);
                     scene.add(newOrbit);
 
                     const planet = { 
@@ -606,7 +606,7 @@
 
                             // 设置星环的位置为行星的中心
                             newRing.position.set(0, 0, 0); 
-                            newRing.rotation.z = Math.random() * Math.PI;
+                            //newRing.rotation.z = Math.random() * Math.PI;
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
                          } else {
