@@ -644,17 +644,19 @@
                 });
                 opacitySlider.addEventListener("input", function() {
                     opacityValue.textContent = opacitySlider.value;
-                    if (selectedPlanet) {
+                    if (selectedPlanet.renderParams.ring) {
                         let newOpacity = parseFloat(opacitySlider.value);
                         selectedPlanet.renderParams.opacity = newOpacity;
-                        
+                        selectedPlanet.renderParams.ringMesh.material.opacity = newOpacity;
+                        selectedPlanet.renderParams.ringMesh.material.needsUpdate = True;
                     }
                 });
                 tiltSlider.addEventListener("input", function() {
                     tiltValue.textContent = tiltSlider.value;
-                    if (selectedPlanet) {
+                    if (selectedPlanet.renderParams.ring) {
                         let newTilt = parseFloat(tiltSlider.value);
                         selectedPlanet.renderParams.tilt = newTilt;
+                        selectedPlanet.renderParams.ringMesh.rotation.x = THREE MathUtils.degToRad(newTilt);
                     }
                 });
 
@@ -884,7 +886,7 @@
 
                     // //遍历所有行星，更新它们的轨道角度、位置和旋转
                     planets.forEach((planet) => {
-                        planet.renderParams.orbitAngle += planet.renderParams.orbitVelocity; // 每个行星的轨道角度
+                        planet.renderParams.orbitAngle += planet.renderParams.orbitVelocity * 0.00001; // 每个行星的轨道角度
 
                         // 更新行星的自转
                         planet.renderParams.mesh.rotation.y += planet.renderParams.rotationPeriod;
