@@ -454,7 +454,7 @@
                 planetName.addEventListener(input", function() {
                     if (selectedPlanet) {
                         let newName = planetName.value;
-                        selectedPlanet.name = newNameselectedPlanet.renderParams.mesh.rotation.z = newObliquity;
+                        selectedPlanet.name = newName;
                     }
                 });
                 textureUploader.addEventListener("change", function(event) {
@@ -610,9 +610,18 @@
                         selectedPlanet.dataParams.moon = newMoon;
                     }
                 });
-                //RingColour,RingYes
+                document.querySelectorAll("input[name='ringOption']").forEach((radio)=> {
+                    radio.addEventListener("change", function(event) {
+                        ringYes = event.target.value === "yes";
+                        selectedPlanet.renderParams.ring = ringYes;
+                    })
+                });
+                                         
                 ringColour.addEventListener("input", function() {
-                    ribg
+                    if (selectedPlanet) {
+                        let newRingColour = ringColour.value;
+                        selectedPlanet.renderParams.ringColour = newRingColour;
+                    }
                 });
                 opacitySlider.addEventListener("input", function() {
                     opacityValue.textContent = opacitySlider.value;
