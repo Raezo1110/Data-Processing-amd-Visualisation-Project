@@ -228,7 +228,7 @@
                 <h3>Orbit Appearance</h3>
                 <!-- Orbit Radius -->
                 <label>Orbit Radius: 
-                    <input type="range" id="orbitRadiusSlider" min="10" max="50" value="10">
+                    <input type="range" id="orbitRadiusSlider" min="5" max="40" value="10">
                     <span id="orbitRadiusValue">10</span>
                 </label><br>
             <!-- Orbit Velocity -->
@@ -370,93 +370,93 @@
                     let eccentricity = parseFloat(document.getElementById("eccentricitySlider").value);
 
                     let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
-        let planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
-        let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
+                    let planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+                    let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
 
-        // 设置其他行星属性
-        newPlanet.rotation.y = rotationPeriod * 0.001;
-        newPlanet.rotation.z = obliquity;
-        newPlanet.position.x = orbitRadius;
-        newPlanet.orbitSpeed = orbitVelocity;
-        scene.add(newPlanet);
+                    // 设置其他行星属性
+                    newPlanet.rotation.y = rotationPeriod * 0.001 * (Math.PI/180);
+                    newPlanet.rotation.z = obliquity * (Math.PI/180);
+                    newPlanet.position.x = orbitRadius;
+                    newPlanet.orbitSpeed = orbitVelocity;
+                    scene.add(newPlanet);
 
-        let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
-        let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-        newOrbit.rotation.x = Math.PI / 2;
-        scene.add(newOrbit);
+                    let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+                    let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+                    let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+                    newOrbit.rotation.x = Math.PI / 2;
+                    scene.add(newOrbit);
 
-        const planet = { 
-            name: name, 
-            renderParams: {
-                mesh: newPlanet,
-                orbitMesh: newOrbit,
-                texture: null, // 无纹理时设为 null
-                size: size,
-                rotationPeriod: rotationPeriod,
-                obliquity: obliquity,
-                ring: ring,
-                ringMesh: null,
-                ringColour: ringColour,
-                opacity: opacity,
-                tilt: tilt,
-                orbitRadius: orbitRadius,
-                orbitVelocity: orbitVelocity,
-                orbitInclination: orbitInclination,
-                orbitAngle: Math.random() * Math.PI * 2
-            }, 
-            dataParams: {
-                mass: mass,
-                diameter: diameter,
-                density: density,
-                gravity: gravity,
-                escapeVelocity: escapeVelocity,
-                moon: moon,
-                hydrogen: hydrogen,
-                helium: helium,
-                nitrogen: nitrogen,
-                carbon: carbon,
-                oxygen: oxygen,
-                sodium: sodium,
-                argon: argon,
-                methane: methane,
-                other: other,
-                eccentricity: eccentricity
-            }
-        };
+                    const planet = { 
+                        name: name, 
+                        renderParams: {
+                            mesh: newPlanet,
+                            orbitMesh: newOrbit,
+                            texture: texture, 
+                            size: size,
+                            rotationPeriod: rotationPeriod,
+                            obliquity: obliquity,
+                            ring: ring,
+                            ringMesh: null,
+                            ringColour: ringColour,
+                            opacity: opacity,
+                            tilt: tilt,
+                            orbitRadius: orbitRadius,
+                            orbitVelocity: orbitVelocity,
+                            orbitInclination: orbitInclination,
+                            orbitAngle: Math.random() * Math.PI * 2
+                        }, 
+                        dataParams: {
+                            mass: mass,
+                            diameter: diameter,
+                            density: density,
+                            gravity: gravity,
+                            escapeVelocity: escapeVelocity,
+                            moon: moon,
+                            hydrogen: hydrogen,
+                            helium: helium,
+                            nitrogen: nitrogen,
+                            carbon: carbon,
+                            oxygen: oxygen,
+                            sodium: sodium,
+                            argon: argon,
+                            methane: methane,
+                            other: other,
+                            eccentricity: eccentricity
+                        }
+                    };
 
-        planets.push(planet);
-        selectedPlanet = planet;console.log(planet)
+                    planets.push(planet);
+                    selectedPlanet = planet;console.log(planet)
                 };
 
                 // Sliders Setups
-                planetName.addEventListener("input", function() {
+                planetName.addEventListener("change", function() {
                     if (selectedPlanet) {
                         let newName = planetName.value;
                         selectedPlanet.name = newName;
                     }
                 });
                 textureUploader.addEventListener("change", function(event) {
-    let file = event.target.files[0];
-    if (file) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let image = new Image();
-            image.onload = function() {
-                let texture = new THREE.Texture(image);
-                texture.needsUpdate = true;
+                    let file = event.target.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = function(e) {
+                            let image = new Image();
+                            image.onload = function() {
+                                let texture = new THREE.Texture(image);
+                                texture.needsUpdate = true;
 
-                // 检查 planets 数组是否有元素并应用纹理
-                if (planets.length > 0) {
-                    planets[planets.length - 1].renderParams.mesh.material.map = texture;
-                    planets[planets.length - 1].renderParams.mesh.material.needsUpdate = true;
-                }
-            };
-            image.src = e.target.result; // 将 DataURL 设置为 image 的源
-        };
-        reader.readAsDataURL(file);
-    }
-});
+                                // 检查 planets 数组是否有元素并应用纹理
+                                if (planets.length > 0) {
+                                    planets[planets.length - 1].renderParams.mesh.material.map = texture;
+                                    planets[planets.length - 1].renderParams.mesh.material.needsUpdate = true;
+                                }
+                            };
+                            image.src = e.target.result; // 将 DataURL 设置为 image 的源
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
 
                 let sizeSlider = document.getElementById("sizeSlider");
                 let sizeValue = document.getElementById("sizeValue");
@@ -513,13 +513,10 @@
                 sizeSlider.addEventListener("input", function() {
                     // Update displayed value
                     sizeValue.textContent = sizeSlider.value;
-
                     // Update selected planet size
                     if (selectedPlanet) {
                         let newSize = parseFloat(sizeSlider.value);
-
                         selectedPlanet.renderParams.size = newSize;
-
                         // Delete current old planet and create new planet with new size
                         selectedPlanet.renderParams.mesh.geometry.dispose();
                         selectedPlanet.renderParams.mesh.scale.set(newSize, newSize, newSize);
@@ -528,12 +525,9 @@
                 rotationPeriodSlider.addEventListener("input", function() {
                     const minSpeed = 0.0001;
                     const maxSpeed = 0.01;
-
                     rotationPeriodValue.textContent = rotationPeriodSlider.value;
-
                     if (selectedPlanet) {
                         let newRotationPeriod = parseFloat(rotationPeriodSlider.value);
-
                         selectedPlanet.renderParams.rotationPeriod = maxSpeed - (newRotationPeriod/5000) * (maxSpeed-minSpeed);
                     }
                 });
@@ -541,7 +535,7 @@
                     obliquityValue.textContent = obliquitySlider.value;
 
                     if (selectedPlanet) {
-                        let newObliquity = parseFloat(obliquitySlider.value);
+                        let newObliquity = parseFloat(obliquitySlider.value)* (Math.PI / 180);
                         selectedPlanet.renderParams.obliquity = newObliquity;
                         selectedPlanet.renderParams.mesh.rotation.z = newObliquity;
                     }
@@ -602,9 +596,9 @@
                                 opacity:selectedPlanet.renderParams.opacity
                             });
                             let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
-                            newRing.rotation.x = THREE.MathUtils.degToRad(selectedPlanet.renderParams.tilt);
+                            newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
                             newRing.rotation.z = Math.random() * Math.PI;
-                            newRing.position.set(selectedPlanet.mesh.position.x, selectedPlanet.mesh.position.y, selectedPlanet.mesh.position.z);
+                            newRing.position.set(selectedPlanet.renderParams.mesh.position.x, selectedPlanet.renderParams.mesh.position.y, selectedPlanet.renderParams.mesh.position.z);
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
                          }
@@ -616,7 +610,7 @@
                         let newRingColour = ringColour.value;
                         selectedPlanet.renderParams.ringColour = newRingColour;
                         selectedPlanet.renderParams.ringMesh.material.color.set(newRingColour);
-                        selectedPlanet.renderParams.ringMesh.material.needsUpdate = True;
+                        selectedPlanet.renderParams.ringMesh.material.needsUpdate = true;
                     }
                 });
                 opacitySlider.addEventListener("input", function() {
@@ -625,15 +619,15 @@
                         let newOpacity = parseFloat(opacitySlider.value);
                         selectedPlanet.renderParams.opacity = newOpacity;
                         selectedPlanet.renderParams.ringMesh.material.opacity = newOpacity;
-                        selectedPlanet.renderParams.ringMesh.material.needsUpdate = True;
+                        selectedPlanet.renderParams.ringMesh.material.needsUpdate = true;
                     }
                 });
                 tiltSlider.addEventListener("input", function() {
                     tiltValue.textContent = tiltSlider.value;
                     if (selectedPlanet.renderParams.ring) {
-                        let newTilt = parseFloat(tiltSlider.value);
+                        let newTilt = parseFloat(tiltSlider.value) * (Math.PI / 180);
                         selectedPlanet.renderParams.tilt = newTilt;
-                        selectedPlanet.renderParams.ringMesh.rotation.x = THREE.MathUtils.degToRad(newTilt);
+                        selectedPlanet.renderParams.ringMesh.rotation.x = newTilt;
                     }
                 });
 
@@ -708,7 +702,9 @@
                         selectedPlanet.renderParams.orbitRadius = newOrbitRadius;
                         // Delete current old planet and create new planet with new size
                         selectedPlanet.renderParams.orbitMesh.geometry.dispose();
-                        selectedPlanet.renderParams.orbitMesh.scale.set();
+                        selectedPlanet.renderParams.orbitMesh.geometry = new THREE.RingGeometry(newOrbitRadius - 0.01, newOrbitRadius + 0.01, 64);
+                        
+                        selectedPlanet.renderParams.mesh.position.x = selectedPlanet.renderParams.orbitRadius;
                     }
                 });
                 orbitVelocitySlider.addEventListener("input", function() {
@@ -721,10 +717,21 @@
                 orbitInclinationSlider.addEventListener("input", function() {
                     orbitInclinationValue.textContent = orbitInclinationSlider.value;
                     if (selectedPlanet) {
-                        let newOrbitInclination = parseFloat(orbitInclinationSlider.value);
+                        let newOrbitInclination = parseFloat(orbitInclinationSlider.value) * (Math.PI / 180);
                         selectedPlanet.renderParams.orbitInclination = newOrbitInclination;
-                        selectedPlanet.renderParams.orbitMesh.rotation.z = newOrbitInclination;
-                        
+                        selectedPlanet.renderParams.orbitMesh.rotation.x = newOrbitInclination;
+
+                        selectedPlanet.renderParams.orbitAngle += selectedPlanet.renderParams.orbitVelocity * 0.00001;
+
+                        // Update the planet's self-rotation
+                        selectedPlanet.renderParams.mesh.rotation.y += selectedPlanet.renderParams.rotationPeriod;
+
+                        // Calculate the new position along the inclined orbit
+                        selectedPlanet.renderParams.mesh.position.x = selectedPlanet.renderParams.orbitRadius * Math.cos(selectedPlanet.renderParams.orbitAngle);
+                        selectedPlanet.renderParams.mesh.position.z = selectedPlanet.renderParams.orbitRadius * Math.sin(selectedPlanet.renderParams.orbitAngle);
+
+                        // Apply inclination to the y-axis (to tilt the orbit)
+                        selectedPlanet.renderParams.mesh.position.y = selectedPlanet.renderParams.orbitRadius * Math.sin(newOrbitInclination);  
                     }
                 });
                 eccentricitySlider.addEventListener("input", function() {
@@ -734,29 +741,6 @@
                         selectedPlanet.dataParams.eccentricity = newEccentricity;
                     }
                 });
-                
-                
-
-                // function updatePlanet() {
-                //     const lastPlanet = planets[planets.length - 1]; // 获取最新创建的行星
-                //     const lastOrbit = orbits[orbits.length - 1]; // 获取最新创建的轨道
-
-                //     const planetSize = parseFloat(document.getElementById("sizeSlider").value);
-                //     const orbitRadius = parseFloat(document.getElementById("orbitSlider").value);
-
-                //     // 更新行星大小
-                //     lastPlanet.scale.set(planetSize, planetSize, planetSize);
-
-                //     // 更新轨道大小
-                //     lastOrbit.geometry.dispose();
-                //     lastOrbit.geometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
-
-                //     // 更新数组中的值
-                //     planetSizes[planetSizes.length - 1] = planetSize;
-                //     orbitRadii[orbitRadii.length - 1] = orbitRadius;
-
-                //     lastPlanet.position.x = orbitRadius;
-                // }
 
                 // UI Button Setups
                 editButton.addEventListener('click', function() {
@@ -871,6 +855,7 @@
                         // 更新行星的位置，使其沿轨道运动
                         planet.renderParams.mesh.position.x = planet.renderParams.orbitRadius * Math.cos(planet.renderParams.orbitAngle);
                         planet.renderParams.mesh.position.z = planet.renderParams.orbitRadius * Math.sin(planet.renderParams.orbitAngle);
+                        //planet.renderParams.mesh.position.y = planet.renderParams.orbitRadius * Math.sin(planet.renderParams.orbitAngle) * Math.sin(planet.renderParams.inclination);
 
                         // 跟随行星
                         if (selectedPlanet) {
