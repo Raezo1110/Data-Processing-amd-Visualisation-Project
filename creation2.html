@@ -603,13 +603,13 @@
                             });
                             console.log(selectedPlanet.renderParams.ringColour)
                             let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
-                            //newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
+                            newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
                             
-                            newRing.position.set(selectedPlanet.renderParams.mesh.position.x, selectedPlanet.renderParams.mesh.position.y, selectedPlanet.renderParams.mesh.position.z);
+                            //newRing.position.set(selectedPlanet.renderParams.mesh.position.x, selectedPlanet.renderParams.mesh.position.y, selectedPlanet.renderParams.mesh.position.z);
 
                             // 设置星环的位置为行星的中心
-                            //newRing.position.set(0, 0, 0); 
-                            //newRing.rotation.z = Math.random() * Math.PI;
+                            newRing.position.set(0, 0, 0); 
+                            newRing.rotation.z = Math.random() * Math.PI;
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
                          } else {
