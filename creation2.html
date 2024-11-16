@@ -537,7 +537,7 @@
 
                         // Delete current old planet and create new planet with new size
                         selectedPlanet.renderParams.mesh.geometry.dispose();
-                        selectedPlanet.renderParams.mesh.scale.set(newSize, 32, 32);
+                        selectedPlanet.renderParams.mesh.scale.set(newSize, newSize, newSize);
                     }
                 });
                 rotationPeriodSlider.addEventListener("input", function() {
