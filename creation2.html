@@ -376,7 +376,7 @@
                     // 设置其他行星属性
                     newPlanet.rotation.y = rotationPeriod * 0.001 * (Math.PI/180);
                     newPlanet.rotation.z = obliquity * (Math.PI/180);
-                    newPlanet.position.x = orbitRadius;
+                    //newPlanet.position.x = orbitRadius;
                     newPlanet.orbitSpeed = orbitVelocity;
                     newPlanet.orbitAngle = Math.random() * Math.PI * 2
                     scene.add(newPlanet);
@@ -592,7 +592,7 @@
                         ringYes = event.target.value === "yes";
                         selectedPlanet.renderParams.ring = ringYes;
                         if (selectedPlanet.renderParams.ring) {
-                            let ringGeometry = new THREE.RingGeometry(4.5 * selectedPlanet.renderParams.size, 5.5 * selectedPlanet.renderParams.size, 64);
+                            let ringGeometry = new THREE.RingGeometry(2.5 * selectedPlanet.renderParams.size, 3.5 * selectedPlanet.renderParams.size, 64);
                             let ringMaterial = new THREE.MeshBasicMaterial({
                                 color: new THREE.Color(selectedPlanet.renderParams.ringColour),
                                 side: THREE.DoubleSide,
@@ -606,7 +606,6 @@
 
                             // 设置星环的位置为行星的中心
                             newRing.position.set(0, 0, 0); 
-                            selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
                          } else {
