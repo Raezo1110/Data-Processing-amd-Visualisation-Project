@@ -349,7 +349,7 @@
                     let escapeVelocity = parseFloat(document.getElementById("escapeVelocitySlider").value);
 
                     let moon = parseFloat(document.getElementById("moonSlider").value);
-                    let ring = parseFloat(document.getElementById("ringYes").checked);
+                    let ring = document.getElementById("ringYes").checked;
                     let ringColour = document.getElementById("ringColour").value;
                     let opacity = parseFloat(document.getElementById("opacitySlider").value);
                     let tilt = parseFloat(document.getElementById("tiltSlider").value);
@@ -381,13 +381,6 @@
                     newPlanet.orbitAngle = Math.random() * Math.PI * 2
                     console.log(size)
                     scene.add(newPlanet);
-
-                    if (ring) {
-                            selectedPlanet.renderParams.mesh.remove(selectedPlanet.renderParams.ringMesh);
-                            selectedPlanet.renderParams.ringMesh = null;
-        selectedPlanet.renderParams.ringMesh.geometry.dispose();
-        selectedPlanet.renderParams.ringMesh.material.dispose();
-                    }
 
                     let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
                     let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
@@ -532,35 +525,9 @@
                         selectedPlanet.renderParams.size = newSize;
                         // Delete current old planet and create new planet with new size
                         selectedPlanet.renderParams.mesh.geometry.dispose();
-                        selectedPlanet.renderParams.mesh.scale.set(newSize, newSize, newSize);
-                        if (selectedPlanet.renderParams.ring) {
-                            let ringGeometry = new THREE.RingGeometry(1.1*selectedPlanet.renderParams.size, 1.3 * selectedPlanet.renderParams.size, 64);
-                            let ringMaterial = new THREE.MeshBasicMaterial({
-                                color: new THREE.Color(selectedPlanet.renderParams.ringColour),
-                                side: THREE.DoubleSide,
-                                transparent: true,
-                                opacity:selectedPlanet.renderParams.opacity
-                            });
-                            console.log(selectedPlanet.renderParams.size)
-                            console.log(1.1*selectedPlanet.renderParams.size)
-                            let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
-                            newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
-                            
-                            //newRing.position.set(selectedPlanet.renderParams.mesh.position.x, selectedPlanet.renderParams.mesh.position.y, selectedPlanet.renderParams.mesh.position.z);
-
-                            // 设置星环的位置为行星的中心
-                            newRing.position.set(0, 0, 0); 
-                            newRing.rotation.z = Math.random() * Math.PI;
-                            selectedPlanet.renderParams.mesh.add(newRing);
-                            selectedPlanet.renderParams.ringMesh = newRing;
-                         } else {
-                            if (selectedPlanet.renderParams.ringMesh) {
-        selectedPlanet.renderParams.mesh.remove(selectedPlanet.renderParams.ringMesh);
-                            selectedPlanet.renderParams.ringMesh = null;
-        selectedPlanet.renderParams.ringMesh.geometry.dispose();
-        selectedPlanet.renderParams.ringMesh.material.dispose();
-                            }
-            }}
+                        //selectedPlanet.renderParams.mesh.scale.set(newSize, newSize, newSize);
+                        selectedPlanet.renderParams.mesh.geometry = new THREE.SphereGeometry(newSize, 32, 32);
+                    }
                 });
                 rotationPeriodSlider.addEventListener("input", function() {
                     const minSpeed = 0.0001;
