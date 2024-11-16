@@ -377,6 +377,7 @@
         newPlanet.rotation.y = rotationPeriod * 0.001;
         newPlanet.rotation.z = obliquity;
         newPlanet.position.x = orbitRadius;
+        newPlanet.orbitSpeed = orbitVelocity;
         scene.add(newPlanet);
 
         let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
@@ -395,13 +396,14 @@
                 rotationPeriod: rotationPeriod,
                 obliquity: obliquity,
                 ring: ring,
+                ringMesh: null,
                 ringColour: ringColour,
                 opacity: opacity,
                 tilt: tilt,
                 orbitRadius: orbitRadius,
                 orbitVelocity: orbitVelocity,
                 orbitInclination: orbitInclination,
-                orbitAngle: 0
+                orbitAngle: Math.random() * Math.PI * 2
             }, 
             dataParams: {
                 mass: mass,
@@ -614,13 +616,30 @@
                     radio.addEventListener("change", function(event) {
                         ringYes = event.target.value === "yes";
                         selectedPlanet.renderParams.ring = ringYes;
+                        if (selectedPlanet.renderParams.ring) {
+                            let ringGeometry = new THREE.RingGeometry(4.5 * selectedPlanet.renderParams.size, 5.5 * selectedPlanet.renderParams.size, 64);
+                            let ringMaterial = new THREE.MeshBasicMaterial({
+                                color: 0x+selectedPlanet.renderParams.ringColour,
+                                side: THREE.DoubleSide,
+                                transparent: true,
+                                opacity:selectedPlanet.renderParams.opacity
+                            });
+                            let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
+                            newRing.rotation.x = selectedPlanet.renderParams.tilt;
+                            newRing.rotation.z = Math.random() * Math.PI;
+                            newRing.position.set(selectedPlanet.mesh.position.x, selectedPlanet.mesh.position.y, selectedPlanet.mesh.position.z);
+                            selectedPlanet.renderParams.mesh.add(ringMesh);
+                            selectedPlanet.renderParams.ringMesh = ringMesh;
+                         }
                     })
                 });
                                          
                 ringColour.addEventListener("input", function() {
-                    if (selectedPlanet) {
+                    if (selectedPlanet.renderParams.ring) {
                         let newRingColour = ringColour.value;
                         selectedPlanet.renderParams.ringColour = newRingColour;
+                        selectedPlanet.renderParams.ringMesh.material.color.set(newRingColour);
+                        selectedPlanet.renderParams.ringMesh.material.needsUpdate = True;
                     }
                 });
                 opacitySlider.addEventListener("input", function() {
@@ -628,6 +647,7 @@
                     if (selectedPlanet) {
                         let newOpacity = parseFloat(opacitySlider.value);
                         selectedPlanet.renderParams.opacity = newOpacity;
+                        
                     }
                 });
                 tiltSlider.addEventListener("input", function() {
@@ -864,7 +884,7 @@
 
                     // //遍历所有行星，更新它们的轨道角度、位置和旋转
                     planets.forEach((planet) => {
-                        planet.renderParams.orbitAngle += 0.001; // 每个行星的轨道角度
+                        planet.renderParams.orbitAngle += planet.renderParams.orbitVelocity; // 每个行星的轨道角度
 
                         // 更新行星的自转
                         planet.renderParams.mesh.rotation.y += planet.renderParams.rotationPeriod;
