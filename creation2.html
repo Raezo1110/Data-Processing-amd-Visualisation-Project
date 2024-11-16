@@ -424,7 +424,7 @@
         };
 
         planets.push(planet);
-        selectedPlanet = planet;
+        selectedPlanet = planet;console.log(planet)
                 };
 
                 // function storeData() {
@@ -451,6 +451,12 @@
                 //     });
 
                 // Sliders Setups
+                planetName.addEventListener(input", function() {
+                    if (selectedPlanet) {
+                        let newName = planetName.value;
+                        selectedPlanet.name = newNameselectedPlanet.renderParams.mesh.rotation.z = newObliquity;
+                    }
+                });
                 textureUploader.addEventListener("change", function(event) {
     let file = event.target.files[0];
     if (file) {
@@ -563,69 +569,154 @@
                 });
                 massSlider.addEventListener("input", function() {
                     massValue.textContent = massSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 diameterSlider.addEventListener("input", function() {
                     diameterValue.textContent = diameterSlider.value;
+                    if (selectedPlanet) {
+                        let newDiameter = parseFloat(diameterSlider.value);
+                        selectedPlanet.dataParams.diameter = newDiameter;
+                    }
                 });
                 densitySlider.addEventListener("input", function() {
                     densityValue.textContent = densitySlider.value;
+                    if (selectedPlanet) {
+                        let newDensity = parseFloat(densitySlider.value);
+                        selectedPlanet.dataParams.density = newDensity;
+                    }
                 });
                 gravitySlider.addEventListener("input", function() {
                     gravityValue.textContent = gravitySlider.value;
+                    if (selectedPlanet) {
+                        let newGravity = parseFloat(gravitySlider.value);
+                        selectedPlanet.dataParams.gravity = newGravity;
+                    }
                 });
                 escapeVelocitySlider.addEventListener("input", function() {
                     escapeVelocityValue.textContent = escapeVelocitySlider.value;
+                    if (selectedPlanet) {
+                        let newEscapeVelocity = parseFloat(escapeVelocitySlider.value);
+                        selectedPlanet.dataParams.escapeVelocity = newEscapeVelocity;
+                    }
                 });
 
                 moonSlider.addEventListener("input", function() {
                     moonValue.textContent = moonSlider.value;
+                    if (selectedPlanet) {
+                        let newMoon = parseFloat(moonSlider.value);
+                        selectedPlanet.dataParams.moon = newMoom;
+                    }
                 });
+                //RingColour,RingYes
                 opacitySlider.addEventListener("input", function() {
                     opacityValue.textContent = opacitySlider.value;
+                    if (selectedPlanet) {
+                        let newOpacity = parseFloat(opacitySlider.value);
+                        selectedPlanet.renderParams.opacity = newOpacity;
+                    }
                 });
                 tiltSlider.addEventListener("input", function() {
                     tiltValue.textContent = tiltSlider.value;
+                    if (selectedPlanet) {
+                        let newTilt = parseFloat(tiltSlider.value);
+                        selectedPlanet.renderParams.tilt = newTilt;
+                    }
                 });
 
                 hydrogenSlider.addEventListener("input", function() {
                     hydrogenValue.textContent = hydrogenSlider.value;
+                    if (selectedPlanet) {
+                        let newHydrogen = parseFloat(hydrogenSlider.value);
+                        selectedPlanet.dataParams.hydrogen = newHydrogen;
+                    }
                 });
                 heliumSlider.addEventListener("input", function() {
                     heliumValue.textContent = heliumSlider.value;
+                    if (selectedPlanet) {
+                        let new = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 nitrogenSlider.addEventListener("input", function() {
                     nitrogenValue.textContent = nitrogenSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 carbonSlider.addEventListener("input", function() {
                     carbonValue.textContent = carbonSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 oxygenSlider.addEventListener("input", function() {
                     oxygenValue.textContent = oxygenSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 sodiumSlider.addEventListener("input", function() {
                     sodiumValue.textContent = sodiumSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 argonSlider.addEventListener("input", function() {
                     argonValue.textContent = argonSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 methaneSlider.addEventListener("input", function() {
                     methaneValue.textContent = methaneSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 otherSlider.addEventListener("input", function() {
                     otherValue.textContent = otherSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
 
                 orbitRadiusSlider.addEventListener("input", function() {
                     orbitRadiusValue.textContent = orbitRadiusSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 orbitVelocitySlider.addEventListener("input", function() {
                     orbitVelocityValue.textContent = orbitVelocitySlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 orbitInclinationSlider.addEventListener("input", function() {
                     orbitInclinationValue.textContent = orbitInclinationSlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 eccentricitySlider.addEventListener("input", function() {
                     eccentricityValue.textContent = eccentricitySlider.value;
+                    if (selectedPlanet) {
+                        let newMass = parseFloat(massSlider.value);
+                        selectedPlanet.dataParams.mass = newMass;
+                    }
                 });
                 
                 
