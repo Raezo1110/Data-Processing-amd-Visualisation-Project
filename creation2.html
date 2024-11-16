@@ -385,9 +385,9 @@
                     let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
                     let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
                     newOrbit.rotation.x = orbitInclination * (Math.PI/180);
-                    newPlanet.position.x = (orbitRadius-0.01) * Math.cos(newPlanet.orbitAngle);
-                    newPlanet.position.y = (orbitRadius+0.01) * Math.sin(newPlanet.orbitAngle) * Math.cos(newOrbit.rotation.x);
-                    newPlanet.position.z = (orbitRadius+0.01) * Math.sin(newPlanet.orbitAngle) * Math.sin(newOrbit.rotation.x);
+                    newPlanet.position.x = orbitRadius * Math.cos(newPlanet.orbitAngle);
+                    newPlanet.position.y = orbitRadius+0.01 * Math.sin(newPlanet.orbitAngle) * Math.cos(newOrbit.rotation.x);
+                    newPlanet.position.z = orbitRadius+0.01 * Math.sin(newPlanet.orbitAngle) * Math.sin(newOrbit.rotation.x);
                     scene.add(newOrbit);
 
                     const planet = { 
@@ -592,7 +592,7 @@
                         ringYes = event.target.value === "yes";
                         selectedPlanet.renderParams.ring = ringYes;
                         if (selectedPlanet.renderParams.ring) {
-                            let ringGeometry = new THREE.RingGeometry(2.5 * selectedPlanet.renderParams.size, 3.5 * selectedPlanet.renderParams.size, 64);
+                            let ringGeometry = new THREE.RingGeometry(1.1 * selectedPlanet.renderParams.size, 1.3 * selectedPlanet.renderParams.size, 64);
                             let ringMaterial = new THREE.MeshBasicMaterial({
                                 color: new THREE.Color(selectedPlanet.renderParams.ringColour),
                                 side: THREE.DoubleSide,
@@ -601,15 +601,20 @@
                             });
                             let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
                             newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
-                            newRing.rotation.z = Math.random() * Math.PI;
+                            
                             //newRing.position.set(selectedPlanet.renderParams.mesh.position.x, selectedPlanet.renderParams.mesh.position.y, selectedPlanet.renderParams.mesh.position.z);
 
                             // 设置星环的位置为行星的中心
                             newRing.position.set(0, 0, 0); 
+                            newRing.rotation.z = Math.random() * Math.PI;
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
                          } else {
-                            selectedPlanet.renderParams.ringMesh.geometry.dispose();
+                            if (selectedPlanet.renderParams.ringMesh) {
+        selectedPlanet.renderParams.mesh.remove(selectedPlanet.renderParams.ringMesh);
+        selectedPlanet.renderParams.ringMesh.geometry.dispose();
+        selectedPlanet.renderParams.ringMesh.material.dispose();
+                            }
                          }
                     })
                 });
