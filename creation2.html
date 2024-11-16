@@ -383,7 +383,7 @@
                     let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
                     let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
                     let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-                    newOrbit.rotation.x = Math.PI / 2;
+                    newOrbit.rotation.x = orbitInclination * (Math.PI/180);
                     scene.add(newOrbit);
 
                     const planet = { 
