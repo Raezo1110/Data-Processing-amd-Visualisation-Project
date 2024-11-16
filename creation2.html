@@ -354,15 +354,15 @@
                     let opacity = parseFloat(document.getElementById("opacitySlider").value);
                     let tilt = parseFloat(document.getElementById("tiltSlider").value);
 
-                    let hydrogen = parseFloat(document.getElementById("hydrogenSlider").value;
-                    let helium = parseFloat(document.getElementById("heliumSlider").value;
-                    let nitrogen = parseFloat(document.getElementById("nitrogenSlider").value;
-                    let carbon = parseFloat(document.getElementById("carbonSlider").value;
-                    let oxygen = parseFloat(document.getElementById("oxygenSlider").value;
-                    let sodium = parseFloat(document.getElementById("sodiumSlider").value;
-                    let argon = parseFloat(document.getElementById("argonSlider").value;
-                    let methane = parseFloat(document.getElementById("methaneSlider").value;
-                    let other = parseFloat(document.getElementById("otherSlider").value;
+                    let hydrogen = parseFloat(document.getElementById("hydrogenSlider").value);
+                    let helium = parseFloat(document.getElementById("heliumSlider").value);
+                    let nitrogen = parseFloat(document.getElementById("nitrogenSlider").value);
+                    let carbon = parseFloat(document.getElementById("carbonSlider").value);
+                    let oxygen = parseFloat(document.getElementById("oxygenSlider").value);
+                    let sodium = parseFloat(document.getElementById("sodiumSlider").value);
+                    let argon = parseFloat(document.getElementById("argonSlider").value);
+                    let methane = parseFloat(document.getElementById("methaneSlider").value);
+                    let other = parseFloat(document.getElementById("otherSlider").value);
                     
                     let orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
                     let orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
@@ -376,7 +376,7 @@
 
                     selectedPlanet = newPlanet;
 
-                    newPlanet.rotation.y = rotationPeriod;
+                    newPlanet.rotation.y = rotationPeriod * 0.001;
                     newPlanet.rotation.z = obliquity;
                     newPlanet.position.x = orbitRadius;
                     
