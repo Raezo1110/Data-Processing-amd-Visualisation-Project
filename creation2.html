@@ -594,7 +594,7 @@
                         ringYes = event.target.value === "yes";
                         selectedPlanet.renderParams.ring = ringYes;
                         if (selectedPlanet.renderParams.ring) {
-                            let ringGeometry = new THREE.RingGeometry(selectedPlanet.renderParams.size, 1.1 * selectedPlanet.renderParams.size, 64);
+                            let ringGeometry = new THREE.RingGeometry(1.1*selectedPlanet.renderParams.size, 1.3 * selectedPlanet.renderParams.size, 64);
                             let ringMaterial = new THREE.MeshBasicMaterial({
                                 color: new THREE.Color(selectedPlanet.renderParams.ringColour),
                                 side: THREE.DoubleSide,
@@ -615,6 +615,7 @@
                          } else {
                             if (selectedPlanet.renderParams.ringMesh) {
         selectedPlanet.renderParams.mesh.remove(selectedPlanet.renderParams.ringMesh);
+                            selectedPlanet.renderParams.ringMesh = null;
         selectedPlanet.renderParams.ringMesh.geometry.dispose();
         selectedPlanet.renderParams.ringMesh.material.dispose();
                             }
