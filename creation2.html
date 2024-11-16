@@ -107,20 +107,20 @@
         
                 <!-- Size Adjustment -->
                 <label>Planet Size: 
-                    <input type="range" id="sizeSlider" min="1" max="5" value="2" step="0.1">
-                    <span id="sizeValue">2</span>
+                    <input type="range" id="sizeSlider" min="0.1" max="5" value="0.5" step="0.1">
+                    <span id="sizeValue">0.5</span>
                 </label><br>
 
                 <!-- Rotation Period -->
                 <label>Rotation Period: 
-                    <input type="range" id="rotationPeriodSlider" min="1" max="5000" value="24">
-                    <span id="rotationPeriodValue">24</span> hours
+                    <input type="range" id="rotationPeriodSlider" min="1" max="5000" value="1">
+                    <span id="rotationPeriodValue">1</span> hours
                 </label><br>
         
                 <!-- Obliquity -->
                 <label>Obliquity: 
-                    <input type="range" id="obliquitySlider" min="0" max="180" value="23.5">
-                    <span id="obliquityValue">23.5</span>º
+                    <input type="range" id="obliquitySlider" min="0" max="90" value="10">
+                    <span id="obliquityValue">10</span>º
                 </label><br>
         
                 <h3>Physical Properties</h3>            
@@ -181,7 +181,7 @@
                     <span id="opacityValue">0.7</span>
                 </label><br>
                 <label>Tilt: 
-                    <input type="range" id="tiltSlider" min="0" max="180" value="25">
+                    <input type="range" id="tiltSlider" min="0" max="90" value="25">
                     <span id="tiltValue">25</span>º
                 </label><br>
             </div>
@@ -228,8 +228,8 @@
                 <h3>Orbit Appearance</h3>
                 <!-- Orbit Radius -->
                 <label>Orbit Radius: 
-                    <input type="range" id="orbitRadiusSlider" min="10" max="50" value="25">
-                    <span id="orbitRadiusValue">25</span>
+                    <input type="range" id="orbitRadiusSlider" min="10" max="50" value="10">
+                    <span id="orbitRadiusValue">10</span>
                 </label><br>
             <!-- Orbit Velocity -->
                 <label>Orbit Velocity: 
@@ -238,14 +238,14 @@
                 </label><br>
                 <!-- Orbit Inclination -->
                 <label>Orbit Inclination: 
-                    <input type="range" id="orbitInclinationSlider" min="0" max="10" value="7" step="0.1">
-                    <span id="orbitInclinationValue">4</span>º            
+                    <input type="range" id="orbitInclinationSlider" min="0" max="90" value="7" step="0.5">
+                    <span id="orbitInclinationValue">7</span>º            
                 </label><br>
                 <h3>Orbit Properties</h3>
                 <!-- Orbit Eccentricity -->
                 <label>Orbit Eccentricity: 
                     <input type="range" id="eccentricitySlider" min="0" max="1" value="0.0156" step="0.0001">
-                    <span id="eccentricityValue">25</span>
+                    <span id="eccentricityValue">0.0156</span>
                 </label><br>
             </div>
         </div>
@@ -429,31 +429,8 @@
         selectedPlanet = planet;console.log(planet)
                 };
 
-                // function storeData() {
-                //     //const newPlanet = { name:"", renderParams:{}, dataParams:{}};
-                //     // Properties (Chart)
-                //     const mass = parseFloat(document.getElementById("massSlider").value);
-                //     const diameter = parseFloat(document.getElementById("diameterSlider").value);
-                //     const density = parseFloat(document.getElementById("densitySlider").value);
-                //     const gravity = parseFloat(document.getElementById("gravitySlider").value);
-                //     const escapeVelocity = parseFloat(document.getElementById("escapeVelocitySlider").value);
-                //     const moon = parseFloat(document.getElementById("moonSlider").value);
-                //     const hydrogen = parseFloat(document.getElementById("hydrongenSlider").value);
-                //     const helium = parseFloat(document.getElementById("heliumSlider").value);
-                //     const nitrogen = parseFloat(document.getElementById("nitrogenSlider").value);
-                //     const carbon = parseFloat(document.getElementById("carbonSlider").value);
-                //     const oxygen = parseFloat(document.getElementById("oxygenSlider").value);
-                //     const sodium = parseFloat(document.getElementById("sodiumSlider").value);
-                //     const argon = parseFloat(document.getElementById("argonSlider").value);
-                //     const methane = parseFloat(document.getElementById("methaneSlider").value);
-                //     const other = parseFloat(document.getElementById("otherSlider").value);
-                //     const eccentricity = parseFloat(document.getElementById("eccentricitySlider").value);
-                //     planetNameInput.addEventListener("input", () => {
-                //         newPlanet.name = planetNameInput.value;
-                //     });
-
                 // Sliders Setups
-                planetName.addEventListener(input", function() {
+                planetName.addEventListener("input", function() {
                     if (selectedPlanet) {
                         let newName = planetName.value;
                         selectedPlanet.name = newName;
@@ -619,17 +596,17 @@
                         if (selectedPlanet.renderParams.ring) {
                             let ringGeometry = new THREE.RingGeometry(4.5 * selectedPlanet.renderParams.size, 5.5 * selectedPlanet.renderParams.size, 64);
                             let ringMaterial = new THREE.MeshBasicMaterial({
-                                color: 0x+selectedPlanet.renderParams.ringColour,
+                                color: new THREE.Color(selectedPlanet.renderParams.ringColour),
                                 side: THREE.DoubleSide,
                                 transparent: true,
                                 opacity:selectedPlanet.renderParams.opacity
                             });
                             let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
-                            newRing.rotation.x = selectedPlanet.renderParams.tilt;
+                            newRing.rotation.x = THREE MathUtils.degToRad(selectedPlanet.renderParams.tilt);
                             newRing.rotation.z = Math.random() * Math.PI;
                             newRing.position.set(selectedPlanet.mesh.position.x, selectedPlanet.mesh.position.y, selectedPlanet.mesh.position.z);
-                            selectedPlanet.renderParams.mesh.add(ringMesh);
-                            selectedPlanet.renderParams.ringMesh = ringMesh;
+                            selectedPlanet.renderParams.mesh.add(newRing);
+                            selectedPlanet.renderParams.ringMesh = newRing;
                          }
                     })
                 });
