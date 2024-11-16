@@ -382,6 +382,27 @@
                     console.log(size)
                     scene.add(newPlanet);
 
+                    if (selectedPlanet.renderParams.ring) {
+                            let ringGeometry = new THREE.RingGeometry(1.1*selectedPlanet.renderParams.size, 1.3 * selectedPlanet.renderParams.size, 64);
+                            let ringMaterial = new THREE.MeshBasicMaterial({
+                                color: new THREE.Color(selectedPlanet.renderParams.ringColour),
+                                side: THREE.DoubleSide,
+                                transparent: true,
+                                opacity:selectedPlanet.renderParams.opacity
+                            });
+                            console.log(selectedPlanet.renderParams.ringColour)
+                            let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
+                            newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
+                            
+                            //newRing.position.set(selectedPlanet.renderParams.mesh.position.x, selectedPlanet.renderParams.mesh.position.y, selectedPlanet.renderParams.mesh.position.z);
+
+                            // 设置星环的位置为行星的中心
+                            newRing.position.set(0, 0, 0); 
+                            newRing.rotation.z = Math.random() * Math.PI;
+                            selectedPlanet.renderParams.mesh.add(newRing);
+                            selectedPlanet.renderParams.ringMesh = newRing;
+                    }
+
                     let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
                     let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
                     let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
