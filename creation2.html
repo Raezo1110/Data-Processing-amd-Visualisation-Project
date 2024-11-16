@@ -721,17 +721,17 @@
                         selectedPlanet.renderParams.orbitInclination = newOrbitInclination;
                         selectedPlanet.renderParams.orbitMesh.rotation.x = newOrbitInclination;
 
-                        selectedPlanet.renderParams.orbitAngle += selectedPlanet.renderParams.orbitVelocity * 0.00001;
+                        //selectedPlanet.renderParams.orbitAngle += selectedPlanet.renderParams.orbitVelocity * 0.00001;
 
                         // Update the planet's self-rotation
-                        selectedPlanet.renderParams.mesh.rotation.y += selectedPlanet.renderParams.rotationPeriod;
+                        //selectedPlanet.renderParams.mesh.rotation.y += selectedPlanet.renderParams.rotationPeriod;
 
                         // Calculate the new position along the inclined orbit
-                        selectedPlanet.renderParams.mesh.position.x = selectedPlanet.renderParams.orbitRadius * Math.cos(selectedPlanet.renderParams.orbitAngle);
-                        selectedPlanet.renderParams.mesh.position.z = selectedPlanet.renderParams.orbitRadius * Math.sin(selectedPlanet.renderParams.orbitAngle);
+                        //selectedPlanet.renderParams.mesh.position.x = selectedPlanet.renderParams.orbitRadius * Math.cos(selectedPlanet.renderParams.orbitAngle);
+                        //selectedPlanet.renderParams.mesh.position.z = selectedPlanet.renderParams.orbitRadius * Math.sin(selectedPlanet.renderParams.orbitAngle);
 
                         // Apply inclination to the y-axis (to tilt the orbit)
-                        selectedPlanet.renderParams.mesh.position.y = selectedPlanet.renderParams.orbitRadius * Math.sin(newOrbitInclination);  
+                        //selectedPlanet.renderParams.mesh.position.y = selectedPlanet.renderParams.orbitRadius * Math.sin(newOrbitInclination);  
                     }
                 });
                 eccentricitySlider.addEventListener("input", function() {
@@ -853,10 +853,9 @@
                         planet.renderParams.mesh.rotation.y += planet.renderParams.rotationPeriod;
 
                         // 更新行星的位置，使其沿轨道运动
-                        planet.renderParams.mesh.position.x = planet.renderParams.orbitRadius * Math.cos(planet.renderParams.orbitAngle);
-                        planet.renderParams.mesh.position.z = planet.renderParams.orbitRadius * Math.sin(planet.renderParams.orbitAngle);
-                        //planet.renderParams.mesh.position.y = planet.renderParams.orbitRadius * Math.sin(planet.renderParams.orbitAngle) * Math.sin(planet.renderParams.inclination);
-
+                        planet.renderParams.mesh.position.x = (planet.renderParams.orbitRadius-0.01) * Math.cos(planet.renderParams.orbitAngle);
+                        planet.renderParams.mesh.position.y = (planet.renderParams.orbitRadius+0.01) * Math.sin(planet.renderParams.orbitAngle) * Math.cos(planet.renderParams.orbitInclination);
+                        planet.renderParams.mesh.position.z = (planet.renderParams.orbitRadius+0.01) * Math.sin(planet.renderParams.orbitAngle) * Math.sin(planet.renderParams.orbitInclination);
                         // 跟随行星
                         if (selectedPlanet) {
                             camera.position.lerp(
