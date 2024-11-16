@@ -374,7 +374,7 @@
                     let planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
                     let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
 
-                    selectedPlanet = newPlanet;
+                    //selectedPlanet = newPlanet;
 
                     newPlanet.rotation.y = rotationPeriod * 0.001;
                     newPlanet.rotation.z = obliquity;
@@ -430,6 +430,7 @@
                         }
                     };
                     planets.push(planet);
+                    selectedPlanet = planet;
                 };
 
                 // function storeData() {
