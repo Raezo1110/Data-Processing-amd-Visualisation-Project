@@ -369,68 +369,140 @@
                     let orbitInclination = parseFloat(document.getElementById("orbitInclinationSlider").value);
                     let eccentricity = parseFloat(document.getElementById("eccentricitySlider").value);
 
-                    // 创建行星
-                    let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
-                    let planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
-                    let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
+                    // 检查是否上传了纹理文件
+    if (textureFile) {
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            const image = new Image();
+            
+            image.onload = function() {
+                const texture = new THREE.Texture(image);
+                texture.needsUpdate = true;
 
-                    //selectedPlanet = newPlanet;
+                // 创建行星材质并应用纹理
+                let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
+                let planetMaterial = new THREE.MeshBasicMaterial({ map: texture });
+                let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
 
-                    newPlanet.rotation.y = rotationPeriod * 0.001;
-                    newPlanet.rotation.z = obliquity;
-                    newPlanet.position.x = orbitRadius;
-                    
-                    //planetSizes.push(size);
-                    //orbitRadii.push(orbitRadius);
-                    //orbitAngles.push(0);
-                    scene.add(newPlanet);
-                    
-                    let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
-                    let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-                    let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-                    newOrbit.rotation.x = Math.PI / 2;
-                    //orbits.push(newOrbit);
-                    scene.add(newOrbit);
+                // 继续创建行星的其他属性
+                newPlanet.rotation.y = rotationPeriod * 0.001;
+                newPlanet.rotation.z = obliquity;
+                newPlanet.position.x = orbitRadius;
+                scene.add(newPlanet);
 
-                    const planet = { 
-                        name: name, 
-                        renderParams:{
-                            mesh: newPlanet,
-                            orbitMesh: newOrbit,
-                            texture: texture,
-                            size: size,
-                            rotationPeriod: rotationPeriod,
-                            obliquity: obliquity,
-                            ring: ring,
-                            ringColour: ringColour,
-                            opacity: opacity,
-                            tilt: tilt,
-                            orbitRadius: orbitRadius,
-                            orbitVelocity: orbitVelocity,
-                            orbitInclination: orbitInclination,
-                            orbitAngle: 0
-                        }, 
-                        dataParams:{
-                            mass: mass,
-                            diameter: diameter,
-                            density: density,
-                            gravity: gravity,
-                            escapeVelocity: escapeVelocity,
-                            moon: moon,
-                            hydrogen: hydrogen,
-                            helium: helium,
-                            nitrogen: nitrogen,
-                            carbon: carbon,
-                            oxygen: oxygen,
-                            sodium: sodium,
-                            argon: argon,
-                            methane: methane,
-                            other: other,
-                            eccentricity: eccentricity
-                        }
-                    };
-                    planets.push(planet);
-                    selectedPlanet = planet;
+                // 创建轨道环
+                let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+                let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+                let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+                newOrbit.rotation.x = Math.PI / 2;
+                scene.add(newOrbit);
+
+                // 创建 planet 对象
+                const planet = { 
+                    name: name, 
+                    renderParams: {
+                        mesh: newPlanet,
+                        orbitMesh: newOrbit,
+                        texture: texture,  // 这里是已加载的 texture
+                        size: size,
+                        rotationPeriod: rotationPeriod,
+                        obliquity: obliquity,
+                        ring: ring,
+                        ringColour: ringColour,
+                        opacity: opacity,
+                        tilt: tilt,
+                        orbitRadius: orbitRadius,
+                        orbitVelocity: orbitVelocity,
+                        orbitInclination: orbitInclination,
+                        orbitAngle: 0
+                    }, 
+                    dataParams: {
+                        mass: mass,
+                        diameter: diameter,
+                        density: density,
+                        gravity: gravity,
+                        escapeVelocity: escapeVelocity,
+                        moon: moon,
+                        hydrogen: hydrogen,
+                        helium: helium,
+                        nitrogen: nitrogen,
+                        carbon: carbon,
+                        oxygen: oxygen,
+                        sodium: sodium,
+                        argon: argon,
+                        methane: methane,
+                        other: other,
+                        eccentricity: eccentricity
+                    }
+                };
+                
+                planets.push(planet);
+                selectedPlanet = planet;
+            };
+            image.src = event.target.result;
+        };
+        
+        reader.readAsDataURL(textureFile);
+    } else {
+        // 如果没有纹理文件，使用默认材质颜色
+        let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
+        let planetMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+        let newPlanet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+        // 设置其他行星属性
+        newPlanet.rotation.y = rotationPeriod * 0.001;
+        newPlanet.rotation.z = obliquity;
+        newPlanet.position.x = orbitRadius;
+        scene.add(newPlanet);
+
+        let orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.01, orbitRadius + 0.01, 64);
+        let orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+        let newOrbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+        newOrbit.rotation.x = Math.PI / 2;
+        scene.add(newOrbit);
+
+        const planet = { 
+            name: name, 
+            renderParams: {
+                mesh: newPlanet,
+                orbitMesh: newOrbit,
+                texture: null, // 无纹理时设为 null
+                size: size,
+                rotationPeriod: rotationPeriod,
+                obliquity: obliquity,
+                ring: ring,
+                ringColour: ringColour,
+                opacity: opacity,
+                tilt: tilt,
+                orbitRadius: orbitRadius,
+                orbitVelocity: orbitVelocity,
+                orbitInclination: orbitInclination,
+                orbitAngle: 0
+            }, 
+            dataParams: {
+                mass: mass,
+                diameter: diameter,
+                density: density,
+                gravity: gravity,
+                escapeVelocity: escapeVelocity,
+                moon: moon,
+                hydrogen: hydrogen,
+                helium: helium,
+                nitrogen: nitrogen,
+                carbon: carbon,
+                oxygen: oxygen,
+                sodium: sodium,
+                argon: argon,
+                methane: methane,
+                other: other,
+                eccentricity: eccentricity
+            }
+        };
+
+        planets.push(planet);
+        selectedPlanet = planet;
+        }
                 };
 
                 // function storeData() {
