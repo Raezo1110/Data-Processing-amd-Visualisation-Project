@@ -622,7 +622,8 @@
                                 transparent: true,
                                 opacity:selectedPlanet.renderParams.opacity
                             });
-                            console.log(selectedPlanet.renderParams.ringColour)
+                            console.log(selectedPlanet.renderParams.size)
+                            console.log(1.1*selectedPlanet.renderParams.size)
                             let newRing = new THREE.Mesh(ringGeometry, ringMaterial);
                             newRing.rotation.x = selectedPlanet.renderParams.tilt * (Math.PI / 180);
                             
