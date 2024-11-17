@@ -808,6 +808,7 @@
                     camera.lookAt(originalCameraLookAt);
 
                     selectedPlanet = null;
+                    resetSliders();
                     
                     document.getElementById('controls').style.display = 'block';
                     document.getElementById('editTab').style.display = 'none';
@@ -850,34 +851,62 @@
                         }
                 }
 
-                // Sliders & Real Time Rendering Setups
-                //document.getElementById("textureUploader").addEventListener("change", function(event) {
-                    //const file = event.target.files[0];
-                    //if (file) {
-                        //const reader = new FileReader();
-                       // reader.onload = function(e) {
-                            //const texture = new THREE.TextureLoader().load(e.target.result);
-                            //if (planets.length > 0) {
-                              //  planets[planets.length - 1].material.map = texture;
-                               // planets[planets.length - 1].material.needsUpdate = true;
-                           // }
-                        //};
-                       // reader.readAsDataURL(file);
-                  //  }
-                //});
+                function resetSliders() {
+                    document.querySelectorAll("input[type='range']").forEach(slider => {
+                        slider.value = slider.defaultValue;
+                    });
+                    document.querySelectorAll("input[type='radio']").forEach(radio => {
+                        radio.checked = radio.defaultChecked;
+                    });
+                    document.getElementById("planetName").value = "";
+                    document.getElementById("ringColour").value = "#ffffff";
+                    document.getElementById("textureUploader").value = "";
+                };
 
-               //  document.getElementById("sizeSlider").addEventListener("input", function() {
-                   // planetSize = parseFloat(this.value);
-                   // updatePlanet();
-              //  });
+                // 重新编辑指定行星时恢复控件值
+                function editPlanet(planetObject) {
+                    if (!planetObject) {
+                        console.error('No planet object passed.');
+                        return;
+                    }
+                    
+                    selectedPlanet = planetObject;
 
-                //document.getElementById(")
+                    // 恢复行星的控件值name = ;
+                    document.getElementById("planetName").value = selectedPlanet.name;
+                    document.getElementById("textureUploader").files[0] = selectedPlanet.renderParams.texture;
+                    document.getElementById("sizeSlider").value = selectedPlanet.renderParams.size;
+                    document.getElementById("rotationPeriodSlider").value = selectedPlanet.renderParams.rotationPeriod;
+                    document.getElementById("obliquitySlider").value = selectedPlanet.renderParams.obliquity;
+                    document.getElementById("massSlider").value = selectedPlanet.dataParams.mass;
+                    document.getElementById("diameterSlider").value = selectedPlanet.dataParams.diameter;
+                    document.getElementById("densitySlider").value = selectedPlanet.dataParams.density;
+                    document.getElementById("gravitySlider").value = selectedPlanet.dataParams.gravity;
+                    document.getElementById("escapeVelocitySlider").value = selectedPlanet.dataParams.escapeVelocity;
 
-                // document.getElementById("orbitSlider").addEventListener("input", function() {
-                //     orbitRadius = parseFloat(this.value);
-                //     updatePlanetAndOrbit();
-                // });
+                    document.getElementById("moonSlider").value = selectedPlanet.dataParams.moon;
+                    document.getElementById("ringYes").checked = selectedPlanet.renderParams.ring;
+                    document.getElementById("ringColour").value = selectedPlanet.renderParams.ringColour;
+                    document.getElementById("opacitySlider").value = selectedPlanet.renderParams.opacity;
+                    document.getElementById("tiltSlider").value = selectedPlanet.renderParams.tilt;
+                    
+                    document.getElementById("hydrogenSlider").value = selectedPlanet.dataParams.hydrogen;
+                    document.getElementById("heliumSlider").value = selectedPlanet.dataParams.helium;
+                    document.getElementById("nitrogenSlider").value= selectedPlanet.dataParams.nitrogen;
+                    document.getElementById("carbonSlider").value= selectedPlanet.dataParams.carbon;
+                    document.getElementById("oxygenSlider").value= selectedPlanet.dataParams.oxygen;
+                    document.getElementById("sodiumSlider").value= selectedPlanet.dataParams.sodium;
+                    document.getElementById("argonSlider").value= selectedPlanet.dataParams.argon;
+                    document.getElementById("methaneSlider").value= selectedPlanet.dataParams.methane;
+                    document.getElementById("otherSlider").value= selectedPlanet.dataParams.other;
 
+                    document.getElementById("orbitRadiusSlider").value= selectedPlanet.renderParams.orbitRadius;
+                    document.getElementById("orbitVelocitySlider").value= selectedPlanet.renderParams.orbitVelocity;
+                    document.getElementById("orbitInclinationSlider").value= selectedPlanet.renderParams.orbitInclination;
+                    document.getElementById("eccentricitySlider").value= selectedPlanet.dataParams.eccentricity;
+                };
+
+            
                 function animate() {
                     requestAnimationFrame(animate);
 
