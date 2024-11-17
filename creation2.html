@@ -317,12 +317,17 @@
                     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
                     raycaster.setFromCamera(mouse, camera);
 
-                    let intersects = raycaster.intersectObjects(planets);
+                    let planetMeshes = planets.map(planet => planet.renderParams.mesh);
+                    let intersects = raycaster.intersectObjects(planetMeshes);
+
                     if (intersects.length > 0) {
-                        let clickedPlanet = intersects[0].object;
-                        focusOnPlanet(clickedPlanet);
-                    }
-                };
+        let clickedMesh = intersects[0].object;
+        let clickedPlanet = planets.find(planet => planet.renderParams.mesh === clickedMesh);
+        if (clickedPlanet) {
+            focusOnPlanet(clickedPlanet);
+        }
+    }
+};
 
                 let planetClickedEnabled = true;
                 window.focusOnPlanet = function(planetObject) {
@@ -340,8 +345,12 @@
 
                     // Adjust camera position, make it focus on the selected planet
                     const offset = 5; // Adjust distance between camera and planet
-                    camera.position.set(selectedPlanet.position.x + offset, selectedPlanet.position.y + offset, selectedPlanet.position.z + offset);
-                    camera.lookAt(selectedPlanet.position);
+                    camera.position.set(
+                        selectedPlanet.renderParams.mesh.position.x + offset, 
+                        selectedPlanet.renderParams.mesh.position.y + offset, 
+                        selectedPlanet.renderParams.mesh.position.z + offset
+                    );
+                    camera.lookAt(selectedPlanet.renderParams.mesh.position);
 
                     document.getElementById('controls').style.display = 'none';
                     document.getElementById('editTab').style.display = 'block';
