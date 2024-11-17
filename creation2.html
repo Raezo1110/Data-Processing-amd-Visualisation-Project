@@ -920,12 +920,12 @@
                     sodiumValue.textContent = sodiumSlider.value;
                     argonValue.textContent = argonSlider.value;
                     methaneValue.textContent = methaneSlider.value;
-                    sizeValue.textContent = sizeSlider.value;
+                    otherValue.textContent = otherSlider.value;
 
-                    sizeValue.textContent = sizeSlider.value;
-                    sizeValue.textContent = sizeSlider.value;
-                    sizeValue.textContent = sizeSlider.value;
-                    sizeValue.textContent = sizeSlider.value;
+                    orbitRadiusValue.textContent = orbitRadiusSlider.value;
+                    orbitVelocityValue.textContent = orbitVelocitySlider.value;
+                    orbitInclinationValue.textContent = orbitInclinationSlider.value;
+                    eccentricityValue.textContent = eccentricitySlider.value;
                 };
 
                 // 重新编辑指定行星时恢复控件值
@@ -935,7 +935,6 @@
                         return;
                     }
                     document.getElementById("planetName").value = selectedPlanet.name;
-                    //document.getElementById("textureUploader").files[0] = selectedPlanet.renderParams.texture;
                     document.getElementById("sizeSlider").value = selectedPlanet.renderParams.size;
                     document.getElementById("rotationPeriodSlider").value = selectedPlanet.renderParams.rotationPeriod;
                     document.getElementById("obliquitySlider").value = selectedPlanet.renderParams.obliquity;
@@ -946,8 +945,7 @@
                     document.getElementById("escapeVelocitySlider").value = selectedPlanet.dataParams.escapeVelocity;
 
                     document.getElementById("moonSlider").value = selectedPlanet.dataParams.moon;
-                    document.getElementById("ringYes").checked = Boolean(selectedPlanet.renderParams.ring);
-                    document.getElementById("ringNo").checked = !Boolean(selectedPlanet.renderParams.ring);
+                    document.getElementById("ringYes").checked = selectedPlanet.renderParams.ring;
                     document.getElementById("ringColour").value = selectedPlanet.renderParams.ringColour;
                     document.getElementById("opacitySlider").value = selectedPlanet.renderParams.opacity;
                     document.getElementById("tiltSlider").value = selectedPlanet.renderParams.tilt;
@@ -966,6 +964,34 @@
                     document.getElementById("orbitVelocitySlider").value= selectedPlanet.renderParams.orbitVelocity;
                     document.getElementById("orbitInclinationSlider").value= selectedPlanet.renderParams.orbitInclination;
                     document.getElementById("eccentricitySlider").value= selectedPlanet.dataParams.eccentricity;
+
+                    sizeValue.textContent = sizeSlider.value;
+                    rotationPeriodValue.textContent = rotationPeriodSlider.value;
+                    obliquityValue.textContent = obliquitySlider.value;
+                    massValue.textContent = massSlider.value;
+                    diameterValue.textContent = diameterSlider.value;
+                    densityValue.textContent = densitySlider.value;
+                    gravityValue.textContent = gravitySlider.value;
+                    escapeVelocityValue.textContent = escapeVelocitySlider.value;
+
+                    moonValue.textContent = moonSlider.value;
+                    opacityValue.textContent = opacitySlider.value;
+                    tiltValue.textContent = tiltSlider.value;
+
+                    hydrogenValue.textContent = hydrogenSlider.value;
+                    heliumValue.textContent = heliumSlider.value;
+                    nitrogenValue.textContent = nitrogenSlider.value;
+                    carbonValue.textContent = carbonSlider.value;
+                    oxygenValue.textContent = oxygenSlider.value;
+                    sodiumValue.textContent = sodiumSlider.value;
+                    argonValue.textContent = argonSlider.value;
+                    methaneValue.textContent = methaneSlider.value;
+                    otherValue.textContent = otherSlider.value;
+
+                    orbitRadiusValue.textContent = orbitRadiusSlider.value;
+                    orbitVelocityValue.textContent = orbitVelocitySlider.value;
+                    orbitInclinationValue.textContent = orbitInclinationSlider.value;
+                    eccentricityValue.textContent = eccentricitySlider.value;
                 };
 
             
