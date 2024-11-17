@@ -302,8 +302,8 @@
                 });
 
                 // Add Raycaster for detecting clicks on planets
-                let raycaster = new THREE.Raycaster();
-                let mouse = new THREE.Vector2();
+                //let raycaster = new THREE.Raycaster();
+                //let mouse = new THREE.Vector2();
                 let selectedPlanet = null; // Current selected planet
                 let originalCameraPosition = camera.position.clone(); // Save original camera position
                 let originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
@@ -311,62 +311,12 @@
                 // Add event listener for mouse clicks
                 window.addEventListener('click', onMouseClick, false);
 
-                function onMouseClick(event) {
-                    event.preventDefault();
-                    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-                    raycaster.setFromCamera(mouse, camera);
-
-                    let planetMeshes = planets.map(planet => planet.renderParams.mesh);
-                    let intersects = raycaster.intersectObjects(planetMeshes);
-
-                    if (intersects.length > 0) {
-        let clickedMesh = intersects[0].object;
-        let clickedPlanet = planets.find(planet => planet.renderParams.mesh === clickedMesh);
-        if (clickedPlanet) {
-            focusOnPlanet(clickedPlanet);
-        }
-    }
-};
-
-                let planetClickedEnabled = true;
-                window.focusOnPlanet = function(planetObject) {
-                    if (!planetClickedEnabled) return;
-                    
-                    if (!planetObject) {
-                        console.error('No planet object passed.');
-                        return;
-                    }
-                    selectedPlanet = planetObject;
-
-                    // Save current camera position
-                    originalCameraPosition.copy(camera.position);
-                    originalCameraLookAt.copy(scene.position);
-
-                    // Adjust camera position, make it focus on the selected planet
-                    const offset = 5; // Adjust distance between camera and planet
-                    camera.position.set(
-                        selectedPlanet.renderParams.mesh.position.x + offset, 
-                        selectedPlanet.renderParams.mesh.position.y + offset, 
-                        selectedPlanet.renderParams.mesh.position.z + offset
-                    );
-                    camera.lookAt(selectedPlanet.renderParams.mesh.position);
-
-                    document.getElementById('controls').style.display = 'none';
-                    document.getElementById('editTab').style.display = 'block';
-                    document.getElementById('menu').style.display = 'block';
-                    document.getElementById('editBars').style.display = 'none';
-                    document.getElementById('doneButton').style.display = 'block';
-
-                    planetClickedEnabled = false;
-
-                    if (!selectedPlanet.fresh) {
-                        redoPlanet(selectedPlanet)
-                    }
-                }
+                
 
                 // Planet Creation Setups
                 function createPlanet() {
+                    originalCameraPosition.copy(camera.position);
+                    originalCameraLookAt.copy(scene.position);
                     let name = document.getElementById("planetName").value;
                     let texture = document.getElementById("textureUploader").files[0];
                     let size = parseFloat(document.getElementById("sizeSlider").value);
@@ -460,7 +410,8 @@
                         }
                     };
                     planets.push(planet);
-                    focusOnPlanet(planet);
+                    selectedPlanet = planet;
+                    //focusOnPlanet(planet);
                 };
 
                 // Sliders Setups
