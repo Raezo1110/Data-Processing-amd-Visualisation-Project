@@ -255,10 +255,6 @@
             let scene, camera, renderer, sun;
             let selectedPlanet = null;
             const planets = [];
-            const orbits = [];
-            const orbitAngles = [];
-            const orbitRadii = [];
-            const planetSizes = [];
 
             function createScene() {
                 scene = new THREE.Scene();
@@ -308,18 +304,36 @@
                 let originalCameraPosition = camera.position.clone(); // Save original camera position
                 let originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
 
+                // Add Raycaster for detecting clicks on planets
+                var raycaster = new THREE.Raycaster();
+                var mouse = new THREE.Vector2();
+                var selectedPlanet = null; // Current selected planet
+                var originalCameraPosition = camera.position.clone(); // Save original camera position
+                var originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
+
+                // Add event listener for mouse clicks
+                window.addEventListener('click', onMouseClick, false);
+
+                function onMouseClick(event) {
+                    event.preventDefault();
+                    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+                    raycaster.setFromCamera(mouse, camera);
+
+                    let intersects = raycaster.intersectObjects(planets);
+                    if (intersects.length > 0) {
+                        var clickedPlanet = intersects[0].object;
+                        focusOnPlanet(clickedPlanet);
+                    }
+                };
+
                 window.focusOnPlanet = function(planetObject) {
                     //if (!planetClickedEnabled) return;
                     
-                    //if (!planetObject) {
-                        //console.error('No planet object passed.');
-                        //return;
-                    //}
-
-                    //var planetName = planetObject.name;
-
-                    //console.log("Focusing on planet: " + planetName);
-
+                    if (!planetObject) {
+                        console.error('No planet object passed.');
+                        return;
+                    }
                     selectedPlanet = planetObject;
 
                     // Save current camera position
@@ -328,15 +342,22 @@
 
                     // Adjust camera position, make it focus on the selected planet
                     const offset = 5; // Adjust distance between camera and planet
-                    camera.position.set(planetObject.position.x + offset, planetObject.position.y + offset, planetObject.position.z + offset);
-                    camera.lookAt(planetObject.position);
+                    camera.position.set(selectedPlanet.position.x + offset, selectedPlanet.position.y + offset, selectedPlanet.position.z + offset);
+                    camera.lookAt(selectedPlanet.position);
+
+                    document.getElementById('controls').style.display = 'none';
+                    document.getElementById('editTab').style.display = 'block';
+                    document.getElementById('menu').style.display = 'block';
+                    document.getElementById('editBars').style.display = 'none';
+                    document.getElementById('doneButton').style.display = 'block';
+
+                    if (!selectedPlanet.fresh) {
+                        redoPlanet(selectedPlanet)
+                    }
                 }
 
                 // Planet Creation Setups
                 function createPlanet() {
-                    originalCameraPosition.copy(camera.position);
-                    originalCameraLookAt.copy(scene.position);
-                    // Appearance (3D Display)
                     let name = document.getElementById("planetName").value;
                     let texture = document.getElementById("textureUploader").files[0];
                     let size = parseFloat(document.getElementById("sizeSlider").value);
@@ -392,6 +413,7 @@
 
                     const planet = { 
                         name: name, 
+                        fresh: true,
                         renderParams: {
                             mesh: newPlanet,
                             orbitMesh: newOrbit,
@@ -428,9 +450,8 @@
                             eccentricity: eccentricity
                         }
                     };
-
                     planets.push(planet);
-                    selectedPlanet = planet;console.log(planet)
+                    focusOnPlanet(planet);
                 };
 
                 // Sliders Setups
@@ -807,6 +828,7 @@
                     camera.position.copy(originalCameraPosition);
                     camera.lookAt(originalCameraLookAt);
 
+                    selectedPlanet.fresh = false;
                     selectedPlanet = null;
                     resetSliders();
                     
@@ -864,15 +886,11 @@
                 };
 
                 // 重新编辑指定行星时恢复控件值
-                function editPlanet(planetObject) {
-                    if (!planetObject) {
+                function redoPlanet(selectedPlanet) {
+                    if (!selectedPlanet) {
                         console.error('No planet object passed.');
                         return;
                     }
-                    
-                    selectedPlanet = planetObject;
-
-                    // 恢复行星的控件值name = ;
                     document.getElementById("planetName").value = selectedPlanet.name;
                     document.getElementById("textureUploader").files[0] = selectedPlanet.renderParams.texture;
                     document.getElementById("sizeSlider").value = selectedPlanet.renderParams.size;
