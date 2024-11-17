@@ -324,8 +324,9 @@
                     }
                 };
 
+                let planetClickedEnabled = true;
                 window.focusOnPlanet = function(planetObject) {
-                    //if (!planetClickedEnabled) return;
+                    if (!planetClickedEnabled) return;
                     
                     if (!planetObject) {
                         console.error('No planet object passed.');
@@ -347,6 +348,8 @@
                     document.getElementById('menu').style.display = 'block';
                     document.getElementById('editBars').style.display = 'none';
                     document.getElementById('doneButton').style.display = 'block';
+
+                    planetClickedEnabled = false;
 
                     if (!selectedPlanet.fresh) {
                         redoPlanet(selectedPlanet)
@@ -825,6 +828,7 @@
                     camera.position.copy(originalCameraPosition);
                     camera.lookAt(originalCameraLookAt);
 
+                    planetClickedEnabled = true;
                     selectedPlanet.fresh = false;
                     selectedPlanet = null;
                     resetSliders();
