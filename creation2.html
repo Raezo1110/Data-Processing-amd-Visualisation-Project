@@ -471,6 +471,7 @@
                     }
                 });
                 textureUploader.addEventListener("change", function(event) {
+                    console.log("File input changed");
                     let file = event.target.files[0];
                     if (file) {
                         let reader = new FileReader();
