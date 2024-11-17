@@ -301,15 +301,12 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
 
+                // Add Raycaster for detecting clicks on planets
+                let raycaster = new THREE.Raycaster();
+                let mouse = new THREE.Vector2();
+                let selectedPlanet = null; // Current selected planet
                 let originalCameraPosition = camera.position.clone(); // Save original camera position
                 let originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
-
-                // Add Raycaster for detecting clicks on planets
-                var raycaster = new THREE.Raycaster();
-                var mouse = new THREE.Vector2();
-                var selectedPlanet = null; // Current selected planet
-                var originalCameraPosition = camera.position.clone(); // Save original camera position
-                var originalCameraLookAt = new THREE.Vector3(0, 0, 0); // Original camera look-at point
 
                 // Add event listener for mouse clicks
                 window.addEventListener('click', onMouseClick, false);
@@ -322,7 +319,7 @@
 
                     let intersects = raycaster.intersectObjects(planets);
                     if (intersects.length > 0) {
-                        var clickedPlanet = intersects[0].object;
+                        let clickedPlanet = intersects[0].object;
                         focusOnPlanet(clickedPlanet);
                     }
                 };
