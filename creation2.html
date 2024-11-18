@@ -755,43 +755,37 @@
                     Plotly.newPlot('chart8', [trace], layout);
                 });
 
-                //window.renderRingChart = function() {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        // 统计每个环系统状态的数量
-                        var ringCounts = {};
-                        data.forEach(function(d) {
-                            var ringSystem = d.ring === 'Yes' ? 'With Ring System' : 'Without Ring System';
-                            ringCounts[ringSystem] = (ringCounts[ringSystem] || 0) + 1;
-                        });
-
-                        // 转换数据格式以适配饼图绘制
-                        var labels = Object.keys(ringCounts);
-                        var values = Object.values(ringCounts);
-
-                        var trace = {
-                            values: values,
-                            labels: labels,
-                            type: 'pie',
-                            textinfo: 'label+percent',
-                            insidetextorientation: 'radial',
-                            marker: {
-                                colors: ['#FF5733', '#4B8EF1']  // 可根据需要调整颜色
-                            }
-                        };
-
-                        var layout = {
-                            title: 'Planets with Ring Systems',
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: { color: 'white' },
-                            width: 550,  
-                            height: 420
-                        };
-
-                        Plotly.newPlot('chart9', [trace], layout);
+                window.renderRingChart = function() {
+                    const ringCounts = { 'With Ring System': 0, 'Without Ring System': 0 };
+                    planets.forEach(planet => {
+                        const ringStatus = planet.renderParams.ring ? 'With Ring System' : 'Without Ring System';
+                        ringCounts[ringStatus] += 1;
                     });
-                };
 
+                    let labels = Object.keys(ringCounts);
+                    let values = Object.values(ringCounts);
+
+                    let trace = {
+                        values: values,
+                        labels: labels,
+                        type: 'pie',
+                        textinfo: 'label+percent',
+                        insidetextorientation: 'radial',
+                        marker: {
+                            colors: ['#FF5733', '#4B8EF1']    
+                        }
+                     };
+
+                     let layout = {
+                         title: 'Planets with Ring Systems',
+                         plot_bgcolor: 'rgba(0,0,0,0)',
+                         paper_bgcolor: 'rgba(0,0,0,0)',
+                         font: { color: 'white' },
+                         width: 550,  
+                         height: 420
+                     };
+                     Plotly.newPlot('chart9', [trace], layout);
+                   };                    
 
                 window.renderTemperatureChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -819,50 +813,36 @@
                     Plotly.newPlot('chart10', [trace], layout);
                 })
             
-                // Need to change other csv source
                 window.renderAtmosphereChart = function(selectedPlanet) {
-                    Plotly.d3.csv('planet_atmosphere.csv', function(data) {
-                        var planetData = data.find(function(d) { return d.Planet === planetName; });
+                    if (!selectedPlanet || !selectedPlanet.atmosphere) {
+                        alert("No atmospheric composition data available for the selected planet.");
+                        return;
+                    }
+                    const atmosphereData = selectedPlanet.atmosphere;
+                    let gasNames = Object.keys(atmosphereData);
+                    let gasValues = Object.values(atmosphereData);
 
-                        if (!planetData) {
-                            alert("No data available for " + planetName);
-                            return;
+                    let trace = {
+                         values: gasValues,
+                         labels: gasNames,
+                         type: 'pie',
+                         textinfo: 'label+percent',
+                         insidetextorientation: 'radial',
+                         marker: {
+                             colors: ['#FF5733', '#4B8EF1', '#FFC300', '#DAF7A6', '#581845', '#C70039', '#900C3F', '#FF5733', '#FFC300']
                         }
+                     };
 
-                        // 提取行星的气体成分数据并移除'Planet'列
-                        var gasNames = Object.keys(planetData).filter(function(key) { return key !== 'Planet'; });
-                        var gasValues = gasNames.map(function(name) { return parseFloat(planetData[name]); });
-
-                        // 检查气体成分数据是否有效
-                        if (gasValues.length === 0) {
-                            alert("No atmospheric composition data available for " + planetName);
-                            return;
-                        }
-
-                        var trace = {
-                            values: gasValues,
-                            labels: gasNames,
-                            type: 'pie',
-                            textinfo: 'label+percent',
-                            insidetextorientation: 'radial',
-                            marker: {
-                                colors: ['#FF5733', '#4B8EF1', '#FFC300', '#DAF7A6', '#581845']  // 你可以选择不同的颜色
-                            }
-                        };
-
-                        var layout = {
-                            title: 'Atmospheric Composition of ' + planetName,
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: { color: 'white' },
-                            width: 550,  
-                            height: 420
-                        };
-
-                        Plotly.newPlot('chart11', [trace], layout);
-                    });
-                };
-
+                     let layout = {
+                         title: 'Atmospheric Composition of ' + selectedPlanet.name,
+                         plot_bgcolor: 'rgba(0,0,0,0)',
+                         paper_bgcolor: 'rgba(0,0,0,0)',
+                         font: { color: 'white' },
+                         width: 550,  
+                         height: 420
+                      };
+                      Plotly.newPlot('chart11', [trace], layout);
+                     };
 
                 window.renderOrbitalPeriodChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -1125,20 +1105,19 @@
                                 upperSection.innerHTML = `
                                     <h1>${selectedPlanet.name}</h1>
                                     <p>Mean Temperature: ${selectedPlanet.dataParams.temp} °C</p>
-                                    
+                                    <p>Atmosphere: ${formatAtmosphere(selectedPlanet.dataParams.atmosphere)}</p>
                                 `;
-                                // <p>Atmosphere: ${selectedPlanet.}</p>
                                 document.getElementById('lower5').style.display = 'block';
-                                displayChart(selectedPlanet,10)
+                                displayChart(selectedPlanet, 10);
                                 break;
-                            case 6: // Orbit Properties, 我有放过orbitalPeriod的slider码？
+                            case 6: // Orbit Propertie
                                 upperSection.innerHTML = `
                                     <h1>${selectedPlanet.name}</h1>
-                                    
+                                    <p>Orbital Period: ${selectedPlanet.dataParams.orbitalPeriods} days</p>
                                     <p>Orbital Velocity: ${selectedPlanet.renderParams.orbitVelocity} km/s</p>
                                     <p>Orbital Inclination: ${selectedPlanet.dataParams.orbitInclination} º</p>
                                     <p>Orbital Eccentricity: ${selectedPlanet.dataParams.eccentricity}</p>
-                                `; //<p>Orbital Period: ${selectedPlanet.renderParams.orbitalPeriods} days</p>
+                                `;
                                 document.getElementById('lower6').style.display = 'block';
                                 displayChart(selectedPlanet,12)
                                 break;
@@ -1147,6 +1126,24 @@
                                 lowerSection.innerHTML = '';
                         }
                 };
+
+                function formatAtmosphere(atmosphere) {
+                    const gasSymbols = {
+                        Nitrogen: 'N₂',
+                        Oxygen: 'O₂',
+                        Argon: 'Ar',
+                        CarbonDioxide: 'CO₂',
+                        Sodium: 'Na',
+                        Helium: 'He',
+                        Methane: 'CH₄',
+                        Other: 'Other',
+                        Hydrogen: 'H₂'
+                    };
+
+                 return Object.entries(atmosphere)
+                 .map(([gas, percentage]) => `${gasSymbols[gas] || gas} ${percentage}%`)
+                 .join(', ');
+                 }
 
                 // Function triggered by button clicks to show specific info
                 window.showInfo = function(infoType) {
