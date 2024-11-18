@@ -10,10 +10,10 @@
         #returnButton { position: absolute; top: 10px; left: 10px; }
         #doneButton { position: absolute; top: 10px; left: 10px; display: none;}
         #displayInfoMenu button { 
-            margin-bottom: 25px; /* 设置按钮间的垂直间距 */
-            width: 200px; /* Set the desired width */
-            height: 40px; /* Set the desired height */
-            text-align: left;
+            margin-bottom: 25px;
+            width: 200px;
+            height: 40px;
+            text-align: center;
             padding-left: 10px;
             font-size: 16px;
         }
@@ -57,10 +57,10 @@
             width: 100%;
         }
         #menu button { 
-            margin-bottom: 25px; /* 设置按钮间的垂直间距 */
+            margin-bottom: 25px;
             width: 200px; 
             height: 40px; 
-            text-align: left;
+            text-align: center;
             padding-left: 10px;
             font-size: 16px;
             }
@@ -148,7 +148,7 @@
             <button onclick="showInfo(6)">Orbit Properties</button><br>
         </div>
         <div id="displayTab">
-            <div id="upperSection" style="position: relative; top: -20px; color: white; height: 30%; width: 100%;">Upper Section</div>
+            <div id="upperSection" style="position: relative; top: -20px; color: white; height: 30%; width: 100%;"></div>
             <div id="lower1" class="lowerSection">
                 <div id="buttonCon1" class="buttonContainer">
                     <button onclick="chart(1)" class="tabButton">Mass</button>
@@ -217,7 +217,7 @@
             </div>
         </div>
 
-        <div id="menu" style="display: none; position: absolute; top: 20%; left: 10px; color: white;">
+        <div id="menu" style="display: none; position: absolute; top: 20%; left: 10px;">
             <button onclick="edit(1)">Planet</button><br>
             <button onclick="edit(2)">Moon & Ring</button><br>
             <button onclick="edit(3)">Atmosphere</button><br>
@@ -374,9 +374,9 @@
                 </label><br>
                 <h3>Orbit Properties</h3>
                 <!-- Orbit Period -->
-                <label>Orbit Eccentricity: 
+                <label>Orbit Period: 
                     <input type="range" id="orbitPeriodSlider" min="1" max="60000" value="300" step="1">
-                    <span id="orbitPeriodValue">300</span>
+                    <span id="orbitPeriodValue">300</span> days
                 </label><br>
                 <!-- Orbit Eccentricity -->
                 <label>Orbit Eccentricity: 
@@ -1076,7 +1076,7 @@
                             case 2: // Gravitational and Dynamic Properties
                                 upperSection.innerHTML = `
                                     <h1>${selectedPlanet.name}</h1>
-                                    <p>Surface Gravity: ${selectedPlanet.dataParams.ravity} m/s²</p>
+                                    <p>Surface Gravity: ${selectedPlanet.dataParams.gravity} m/s²</p>
                                     <p>Escape Velocity: ${selectedPlanet.dataParams.escapeVelocity} km/s</p>
                                 `;
                                 document.getElementById('lower2').style.display = 'block';
@@ -1105,7 +1105,7 @@
                                 upperSection.innerHTML = `
                                     <h1>${selectedPlanet.name}</h1>
                                     <p>Mean Temperature: ${selectedPlanet.dataParams.temp} °C</p>
-                                    <p>Atmosphere: ${formatAtmosphere(selectedPlanet.dataParams.atmosphere)}</p>
+                                    <p>Atmosphere: ${formatAtmosphere(selectedPlanet.atmosphere)}</p>
                                 `;
                                 document.getElementById('lower5').style.display = 'block';
                                 displayChart(selectedPlanet, 10);
@@ -1147,9 +1147,8 @@
 
                 // Function triggered by button clicks to show specific info
                 window.showInfo = function(infoType) {
-                    const planetName = selectedPlanet ? selectedPlanet.name : null; // Ensure there's a selected planet
-                    if (planetName) {
-                        displayPlanetInfo(planetName, infoType);
+                    if (selectedPlanet) {
+                        displayPlanetInfo(selectedPlanet, infoType);
                     } else {
                         alert("No planet selected");
                     }
