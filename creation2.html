@@ -373,6 +373,11 @@
                     <span id="orbitInclinationValue">90</span>º            
                 </label><br>
                 <h3>Orbit Properties</h3>
+                <!-- Orbit Period -->
+                <label>Orbit Eccentricity: 
+                    <input type="range" id="orbitPeriodSlider" min="1" max="60000" value="300" step="1">
+                    <span id="orbitPeriodValue">300</span>
+                </label><br>
                 <!-- Orbit Eccentricity -->
                 <label>Orbit Eccentricity: 
                     <input type="range" id="eccentricitySlider" min="0" max="1" value="0.0156" step="0.0001">
@@ -1760,13 +1765,13 @@
                     
                     document.getElementById("hydrogenSlider").value = selectedPlanet.atmosphere.hydrogen;
                     document.getElementById("heliumSlider").value = selectedPlanet.atmosphere.helium;
-                    document.getElementById("nitrogenSlider").value= selectedPlanet..nitrogen;
-                    document.getElementById("carbonSlider").value= selectedPlanet.dataParams.carbon;
-                    document.getElementById("oxygenSlider").value= selectedPlanet.dataParams.oxygen;
-                    document.getElementById("sodiumSlider").value= selectedPlanet.dataParams.sodium;
-                    document.getElementById("argonSlider").value= selectedPlanet.dataParams.argon;
-                    document.getElementById("methaneSlider").value= selectedPlanet.dataParams.methane;
-                    document.getElementById("otherSlider").value= selectedPlanet.dataParams.other;
+                    document.getElementById("nitrogenSlider").value= selectedPlanet.atmosphere.nitrogen;
+                    document.getElementById("carbonSlider").value= selectedPlanet.atmosphere.carbon;
+                    document.getElementById("oxygenSlider").value= selectedPlanet.atmosphere.oxygen;
+                    document.getElementById("sodiumSlider").value= selectedPlanet.atmosphere.sodium;
+                    document.getElementById("argonSlider").value= selectedPlanet.atmosphere.argon;
+                    document.getElementById("methaneSlider").value= selectedPlanet.atmosphere.methane;
+                    document.getElementById("otherSlider").value= selectedPlanet.atmosphere.other;
                     document.getElementById("tempSlider").value= selectedPlanet.dataParams.temp;
 
                     document.getElementById("orbitRadiusSlider").value= selectedPlanet.renderParams.orbitRadius;
