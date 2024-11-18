@@ -1188,6 +1188,7 @@
                     let orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
                     let orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
                     let orbitInclination = parseFloat(document.getElementById("orbitInclinationSlider").value);
+                    let orbitPeriod = parseFloat(document.getElementById("orbitPeriodSlider").value);
                     let eccentricity = parseFloat(document.getElementById("eccentricitySlider").value);
 
                     let planetGeometry = new THREE.SphereGeometry(size, 32, 32);
@@ -1241,6 +1242,12 @@
                             escapeVelocity: escapeVelocity,
                             moon: moon,
                             tilt: tilt,
+                            temp: temp,
+                            orbitPeriod: orbitPeriod,
+                            orbitInclination: orbitInclination,
+                            eccentricity: eccentricity
+                        },
+                        atmosphere: {
                             hydrogen: hydrogen,
                             helium: helium,
                             nitrogen: nitrogen,
@@ -1250,9 +1257,6 @@
                             argon: argon,
                             methane: methane,
                             other: other,
-                            temp: temp,
-                            orbitInclination: orbitInclination,
-                            eccentricity: eccentricity
                         }
                     };
                     planets.push(planet);
@@ -1341,6 +1345,8 @@
                 let orbitVelocityValue = document.getElementById("orbitVelocityValue");
                 let orbitInclinationSlider = document.getElementById("orbitInclinationSlider");
                 let orbitInclinationValue = document.getElementById("orbitInclinationValue");
+                let orbitPeriodSlider = document.getElementById("orbitPeriodSlider");
+                let orbitPeriodValue = document.getElementById("orbitPeriodValue");
                 let eccentricitySlider = document.getElementById("eccentricitySlider");
                 let eccentricityValue = document.getElementById("eccentricityValue");
                                                                        
@@ -1507,63 +1513,63 @@
                     hydrogenValue.textContent = hydrogenSlider.value;
                     if (selectedPlanet) {
                         let newHydrogen = parseFloat(hydrogenSlider.value);
-                        selectedPlanet.dataParams.hydrogen = newHydrogen;
+                        selectedPlanet.atmosphere.hydrogen = newHydrogen;
                     }
                 });
                 heliumSlider.addEventListener("input", function() {
                     heliumValue.textContent = heliumSlider.value;
                     if (selectedPlanet) {
                         let newHelium = parseFloat(heliumSlider.value);
-                        selectedPlanet.dataParams.helium = newHelium;
+                        selectedPlanet.atmosphere.helium = newHelium;
                     }
                 });
                 nitrogenSlider.addEventListener("input", function() {
                     nitrogenValue.textContent = nitrogenSlider.value;
                     if (selectedPlanet) {
                         let newNitrogen = parseFloat(nitrogenSlider.value);
-                        selectedPlanet.dataParams.nitrogen = newNitrogen;
+                        selectedPlanet.atmosphere.nitrogen = newNitrogen;
                     }
                 });
                 carbonSlider.addEventListener("input", function() {
                     carbonValue.textContent = carbonSlider.value;
                     if (selectedPlanet) {
                         let newCarbon = parseFloat(carbonSlider.value);
-                        selectedPlanet.dataParams.carbon = newCarbon;
+                        selectedPlanet.atmosphere.carbon = newCarbon;
                     }
                 });
                 oxygenSlider.addEventListener("input", function() {
                     oxygenValue.textContent = oxygenSlider.value;
                     if (selectedPlanet) {
                         let newOxygen = parseFloat(oxygenSlider.value);
-                        selectedPlanet.dataParams.oxygen = newOxygen;
+                        selectedPlanet.atmosphere.oxygen = newOxygen;
                     }
                 });
                 sodiumSlider.addEventListener("input", function() {
                     sodiumValue.textContent = sodiumSlider.value;
                     if (selectedPlanet) {
                         let newSodium = parseFloat(sodiumSlider.value);
-                        selectedPlanet.dataParams.sodium = newSodium;
+                        selectedPlanet.atmosphere.sodium = newSodium;
                     }
                 });
                 argonSlider.addEventListener("input", function() {
                     argonValue.textContent = argonSlider.value;
                     if (selectedPlanet) {
                         let newArgon = parseFloat(argonSlider.value);
-                        selectedPlanet.dataParams.argon = newArgon;
+                        selectedPlanet.atmosphere.argon = newArgon;
                     }
                 });
                 methaneSlider.addEventListener("input", function() {
                     methaneValue.textContent = methaneSlider.value;
                     if (selectedPlanet) {
                         let newMethane = parseFloat(methaneSlider.value);
-                        selectedPlanet.dataParams.methane = newMethane;
+                        selectedPlanet.atmosphere.methane = newMethane;
                     }
                 });
                 otherSlider.addEventListener("input", function() {
                     otherValue.textContent = otherSlider.value;
                     if (selectedPlanet) {
                         let newOther = parseFloat(otherSlider.value);
-                        selectedPlanet.dataParams.other = newOther;
+                        selectedPlanet.atmosphere.other = newOther;
                     }
                 });
                 tempSlider.addEventListener("input", function() {
@@ -1600,6 +1606,13 @@
                         selectedPlanet.renderParams.orbitInclination = newOrbitInclination;
                         selectedPlanet.renderParams.orbitMesh.rotation.x = newOrbitInclination;
                         selectedPlanet.dataParams.orbitInclination = parseFloat(orbitInclinationSlider.value);
+                    }
+                });
+                orbitPeriodSlider.addEventListener("input", function() {
+                    orbitPeriodValue.textContent = orbitPeriodSlider.value;
+                    if (selectedPlanet) {
+                        let newOrbitPeriod = parseFloat(orbitPeriodSlider.value);
+                        selectedPlanet.dataParams.orbitPeriod = newOrbitPeriod;
                     }
                 });
                 eccentricitySlider.addEventListener("input", function() {
@@ -1719,6 +1732,7 @@
                     orbitRadiusValue.textContent = orbitRadiusSlider.value;
                     orbitVelocityValue.textContent = orbitVelocitySlider.value;
                     orbitInclinationValue.textContent = orbitInclinationSlider.value;
+                    orbitPeriodValue.textContent = orbitPeriodSlider.value;
                     eccentricityValue.textContent = eccentricitySlider.value;
                 };
 
@@ -1744,9 +1758,9 @@
                     document.getElementById("opacitySlider").value = selectedPlanet.renderParams.opacity;
                     document.getElementById("tiltSlider").value = selectedPlanet.dataParams.tilt;
                     
-                    document.getElementById("hydrogenSlider").value = selectedPlanet.dataParams.hydrogen;
-                    document.getElementById("heliumSlider").value = selectedPlanet.dataParams.helium;
-                    document.getElementById("nitrogenSlider").value= selectedPlanet.dataParams.nitrogen;
+                    document.getElementById("hydrogenSlider").value = selectedPlanet.atmosphere.hydrogen;
+                    document.getElementById("heliumSlider").value = selectedPlanet.atmosphere.helium;
+                    document.getElementById("nitrogenSlider").value= selectedPlanet..nitrogen;
                     document.getElementById("carbonSlider").value= selectedPlanet.dataParams.carbon;
                     document.getElementById("oxygenSlider").value= selectedPlanet.dataParams.oxygen;
                     document.getElementById("sodiumSlider").value= selectedPlanet.dataParams.sodium;
@@ -1758,6 +1772,7 @@
                     document.getElementById("orbitRadiusSlider").value= selectedPlanet.renderParams.orbitRadius;
                     document.getElementById("orbitVelocitySlider").value= selectedPlanet.renderParams.orbitVelocity;
                     document.getElementById("orbitInclinationSlider").value= selectedPlanet.dataParams.orbitInclination;
+                    document.getElementById("orbitPeriodSlider").value= selectedPlanet.dataParams.orbitPeriod;
                     document.getElementById("eccentricitySlider").value= selectedPlanet.dataParams.eccentricity;
 
                     sizeValue.textContent = sizeSlider.value;
@@ -1787,6 +1802,7 @@
                     orbitRadiusValue.textContent = orbitRadiusSlider.value;
                     orbitVelocityValue.textContent = orbitVelocitySlider.value;
                     orbitInclinationValue.textContent = orbitInclinationSlider.value;
+                    orbitPeriodValue.textContent = orbitPeriodSlider.value;
                     eccentricityValue.textContent = eccentricitySlider.value;
                 };
 
