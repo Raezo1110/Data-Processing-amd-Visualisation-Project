@@ -7,7 +7,55 @@
         #controls { position: absolute; top: 10px; left: 10px; color: white; }
         #toolbars {position: absolute; top: 10px; right: 20px;}
         #editBars {position: absolute; top: 10px; right: 20px; display: none;}
+        #returnButton { position: absolute; top: 10px; left: 10px; }
         #doneButton { position: absolute; top: 10px; left: 10px; display: none;}
+        #displayInfoMenu button { 
+            margin-bottom: 25px; /* 设置按钮间的垂直间距 */
+            width: 200px; /* Set the desired width */
+            height: 40px; /* Set the desired height */
+            text-align: left;
+            padding-left: 10px;
+            font-size: 16px;
+        }
+        #displayTab {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+            z-index: 1000; /* Make sure it appears above other content */
+        }
+        .buttonContainer {
+            display: flex;
+            justify-content: space-between;
+        }
+        .buttonContainer button {
+            width: 100px;
+            cursor: pointer;
+        }
+        #chartContainer {
+            width: 100%;  /* 设置容器宽度 */
+            height: 100%; /* 设置容器高度 */
+            position: relative;
+        }
+        .chart {
+            width: 100%;  /* 设置每个图表容器的宽度 */
+            height: 100%; /* 设置每个图表容器的高度 */
+            display: none; /* 默认隐藏 */
+        }
+        .lowerSection {
+            display: none;
+            position: relative;
+            top: -10px;
+            color: white; 
+            height: 68%; 
+            width: 100%;
+        }
         #menu button { 
             margin-bottom: 25px; /* 设置按钮间的垂直间距 */
             width: 200px; 
@@ -88,8 +136,86 @@
             <button id="planetButton">Create Planet</button>
             <button id="displayButton">Display</button>
         </div>
+        <button id="returnButton" style="display: none;">Return</button>
         <button id="doneButton">Done</button>
         
+        <div id="displayInfoMenu" style="display: none; position: absolute; top: 20%; left: 10px; color: white;">
+            <button onclick="showInfo(1)">Basic Physical Properties</button><br>
+            <button onclick="showInfo(2)">Gravitational and Dynamic</button><br>
+            <button onclick="showInfo(3)">Rotation and Tilt</button><br>
+            <button onclick="showInfo(4)">Satellite and Ring System</button><br>
+            <button onclick="showInfo(5)">Temperature and Atmospheric</button><br>
+            <button onclick="showInfo(6)">Orbit Properties</button><br>
+        </div>
+        <div id="displayTab">
+            <div id="upperSection" style="position: relative; top: -20px; color: white; height: 30%; width: 100%;">Upper Section</div>
+            <div id="lower1" class="lowerSection">
+                <div id="buttonCon1" class="buttonContainer">
+                    <button onclick="chart(1)" class="tabButton">Mass</button>
+                    <button onclick="chart(2)" class="tabButton">Diameter</button>
+                    <button onclick="chart(3)" class="tabButton">Density</button>
+                </div>
+                <div id="chartCon1" class="chartContainer">
+                    <div id="chart1" class="chart"></div>
+                    <div id="chart2" class="chart"></div>
+                    <div id="chart3" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower2" class="lowerSection">
+                <div id="buttonCon2" class="buttonContainer">
+                    <button onclick="chart(4)" class="tabButton">Surface Gravity</button>
+                    <button onclick="chart(5)" class="tabButton">Escape Velocity</button>
+                </div>
+                <div id="chartCon2" class="chartContainer">
+                    <div id="chart4" class="chart"></div>
+                    <div id="chart5" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower3" class="lowerSection">
+                <div id="buttonCon3" class="buttonContainer">
+                    <button onclick="chart(6)" class="tabButton">Rotation Period</button>
+                    <button onclick="chart(7)" class="tabButton">Obliquity</button>
+                </div>
+                <div id="chartCon3" class="chartContainer">
+                    <div id="chart6" class="chart"></div>
+                    <div id="chart7" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower4" class="lowerSection">
+                <div id="buttonCon4" class="buttonContainer">
+                    <button onclick="chart(8)" class="tabButton">Number of Moons</button>
+                    <button onclick="chart(9)" class="tabButton">Ring?</button>
+                </div>
+                <div id="chartCon4" class="chartContainer">
+                    <div id="chart8" class="chart"></div>
+                    <div id="chart9" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower5" class="lowerSection">
+                <div id="buttonCon5" class="buttonContainer">
+                    <button onclick="chart(10)" class="tabButton">Mean Temperature</button>
+                    <button onclick="chart(11)" class="tabButton">Atmosphere Composition</button>
+                </div>
+                <div id="chartCon5" class="chartContainer">
+                    <div id="chart10" class="chart"></div>
+                    <div id="chart11" class="chart"></div>
+                </div>
+            </div>
+            <div id="lower6" class="lowerSection">
+                <div id="buttonCon6" class="buttonContainer">
+                    <button onclick="chart(12)" class="tabButton">Period</button>
+                    <button onclick="chart(13)" class="tabButton">Velocity</button>
+                    <button onclick="chart(14)" class="tabButton">Inclination</button>
+                    <button onclick="chart(15)" class="tabButton">Eccentricity</button>
+                </div>
+                <div id="chartCon6" class="chartContainer">
+                    <div id="chart12" class="chart"></div>
+                    <div id="chart13" class="chart"></div>
+                    <div id="chart14" class="chart"></div>
+                    <div id="chart15" class="chart"></div>
+                </div>
+            </div>
+        </div>
 
         <div id="menu" style="display: none; position: absolute; top: 20%; left: 10px; color: white;">
             <button onclick="edit(1)">Planet</button><br>
@@ -223,6 +349,11 @@
                     <input type="range" id="otherSlider" min="0" max="100" value="0">
                     <span id="otherValue">0</span> %
                 </label><br>
+                <h3>Temperature</h3>
+                <label>Mean Temperature: 
+                    <input type="range" id="tempSlider" min="-273" max="273" value="25">
+                    <span id="tempValue">25</span> °C
+                </label><br>
             </div>
             <div id="editOrbit" class="editPanel">
                 <h3>Orbit Appearance</h3>
@@ -317,15 +448,42 @@
                     let intersects = raycaster.intersectObjects(planetMeshes);
 
                     if (intersects.length > 0) {
-        let clickedMesh = intersects[0].object;
-        let clickedPlanet = planets.find(planet => planet.renderParams.mesh === clickedMesh);
-        if (clickedPlanet) {
-            focusOnPlanet(clickedPlanet);
-        }
-    }
-};
+                        let clickedMesh = intersects[0].object;
+                        let clickedPlanet = planets.find(planet => planet.renderParams.mesh === clickedMesh);
+                        if (clickedPlanet) {
+                            focusOnPlanet(clickedPlanet);
+                        }
+                    }
+                };
+
+                // Function to handle return button click
+                function handleReturnButtonClick() {
+                    console.log("Return button clicked"); // 调试输出
+
+                    planetClickedEnabled = true;
+
+                    // 恢复相机位置
+                    camera.position.copy(originalCameraPosition);
+                    camera.lookAt(originalCameraLookAt);
+
+                    // 清除选中的行星
+                    selectedPlanet = null;
+
+                    // 恢复整个星球系统的UI
+                    document.getElementById('controls').style.display = 'block';
+                    document.getElementById('creationButton').style.display = 'block';
+                    document.getElementById('displayInfoMenu').style.display = 'none';
+                    document.getElementById('displayTab').style.display = 'none';
+                    document.getElementById('returnButton').style.display = 'none';
+                    var lowers = document.querySelectorAll(".lowerSection");
+                    lowers.forEach(function(lower) {
+                        lower.style.display = "none"; // Hide all lower sections first
+                    });
+                };
 
                 let planetClickedEnabled = true;
+                let editMode = false;
+
                 window.focusOnPlanet = function(planetObject) {
                     if (!planetClickedEnabled) return;
                     
@@ -348,23 +506,689 @@
                     );
                     camera.lookAt(selectedPlanet.renderParams.mesh.position);
 
-                    document.getElementById('controls').style.display = 'none';
-                    document.getElementById('editTab').style.display = 'block';
-                    document.getElementById('menu').style.display = 'block';
-                    document.getElementById('editBars').style.display = 'none';
-                    document.getElementById('doneButton').style.display = 'block';
+                    if (editMode) {
+                        document.getElementById('controls').style.display = 'none';
+                        document.getElementById('editTab').style.display = 'block';
+                        document.getElementById('menu').style.display = 'block';
+                        document.getElementById('editBars').style.display = 'none';
+                        document.getElementById('doneButton').style.display = 'block';
 
-                    planetClickedEnabled = false;
+                        planetClickedEnabled = false;
 
-                    if (!selectedPlanet.fresh) {
-                        redoPlanet(selectedPlanet)
+                        if (!selectedPlanet.fresh) {
+                            redoPlanet(selectedPlanet)
+                        }
+                    } else {
+                        document.getElementById('displayInfoMenu').style.display = 'block';
+                        document.getElementById('displayTab').style.display = 'block';
+                        document.getElementById('returnButton').style.display = 'block';
+                        document.getElementById('controls').style.display = 'none';
+                        document.getElementById('creationButton').style.display = 'none';
+
+                        planetClickedEnabled = false;
                     }
+
+                        // Display the information about the selected planet (optional)
+                        //displayPlanetInfo(planetName, 1); // Default to Basic Physical Properties
+
+                        // Only bind the return button click handler once
+                        document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick); // 清除以前的监听
+                        document.getElementById('returnButton').addEventListener('click', handleReturnButtonClick);
                 }
 
                 // Add event listener for mouse clicks
                 window.addEventListener('click', onMouseClick, false);
 
-                
+                window.renderMassChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var masses = data.map(function(d) { return parseFloat(d.mass); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: masses,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: masses.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Mass of Planets (in 10²⁴ kg)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Mass (10²⁴ kg)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart1', [trace], layout);
+                    });
+                }
+
+                window.renderDiameterChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var diameters = data.map(function(d) { return parseFloat(d.diameter); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: diameters,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: diameters.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Diameter of Planets (in km)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Diameter (km)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart2', [trace], layout);
+                    });
+                }
+
+                window.renderDensityChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var densities = data.map(function(d) { return parseFloat(d.density); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: densities,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: densities.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Density of Planets (in kg/m3)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Density (kg/m3)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart3', [trace], layout);
+                    });
+                }
+
+                window.renderGravityChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var gravities = data.map(function(d) { return parseFloat(d.surface_gravity); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: gravities,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: gravities.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Surface Gravity of Planets (in m/s2)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Surface Gravity (m/s2)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart4', [trace], layout);
+                    });
+                }
+
+                window.renderEscapeVelocityChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var velocities = data.map(function(d) { return parseFloat(d.escape_velocity); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: velocities,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: velocities.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Escape Velocity of Planets (in km/s)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Escape Velocity (km/s)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart5', [trace], layout);
+                    });
+                }
+
+                window.renderRotationPeriodChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var rotations = data.map(function(d) { return parseFloat(d.rotation_period); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: rotations,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: rotations.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Rotation Period of Planets (in hours)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Rotation Period (hours)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart6', [trace], layout);
+                    });
+                }
+
+                window.renderObliquityChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var obliquities = data.map(function(d) { return parseFloat(d.obliquity); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: obliquities,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: obliquities.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Obliquity to Orbit of Planets (in degrees)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Obliquity to Orbit (degrees)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart7', [trace], layout);
+                    });
+                }
+
+                window.renderMoonChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var moons = data.map(function(d) { return parseFloat(d.moon); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: moons,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: moons.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Number of Moons for Each Planet',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Number of Moons'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart8', [trace], layout);
+                    });
+                }
+
+                // Need to change, not a bar
+                window.renderRingChart = function() {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        // 统计每个环系统状态的数量
+                        var ringCounts = {};
+                        data.forEach(function(d) {
+                            var ringSystem = d.ring === 'Yes' ? 'With Ring System' : 'Without Ring System';
+                            ringCounts[ringSystem] = (ringCounts[ringSystem] || 0) + 1;
+                        });
+
+                        // 转换数据格式以适配饼图绘制
+                        var labels = Object.keys(ringCounts);
+                        var values = Object.values(ringCounts);
+
+                        var trace = {
+                            values: values,
+                            labels: labels,
+                            type: 'pie',
+                            textinfo: 'label+percent',
+                            insidetextorientation: 'radial',
+                            marker: {
+                                colors: ['#FF5733', '#4B8EF1']  // 可根据需要调整颜色
+                            }
+                        };
+
+                        var layout = {
+                            title: 'Planets with Ring Systems',
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: { color: 'white' },
+                            width: 550,  
+                            height: 420
+                        };
+
+                        Plotly.newPlot('chart9', [trace], layout);
+                    });
+                };
+
+
+                window.renderTemperatureChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var temperatures = data.map(function(d) { return parseFloat(d.temperature); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: temperatures,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: temperatures.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Mean Temperature of Planets (C)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Mean Temperature (C)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart10', [trace], layout);
+                    });
+                }
+
+                // Need to change other csv source
+                window.renderAtmosphereChart = function(planetName) {
+                    Plotly.d3.csv('planet_atmosphere.csv', function(data) {
+                        var planetData = data.find(function(d) { return d.Planet === planetName; });
+
+                        if (!planetData) {
+                            alert("No data available for " + planetName);
+                            return;
+                        }
+
+                        // 提取行星的气体成分数据并移除'Planet'列
+                        var gasNames = Object.keys(planetData).filter(function(key) { return key !== 'Planet'; });
+                        var gasValues = gasNames.map(function(name) { return parseFloat(planetData[name]); });
+
+                        // 检查气体成分数据是否有效
+                        if (gasValues.length === 0) {
+                            alert("No atmospheric composition data available for " + planetName);
+                            return;
+                        }
+
+                        var trace = {
+                            values: gasValues,
+                            labels: gasNames,
+                            type: 'pie',
+                            textinfo: 'label+percent',
+                            insidetextorientation: 'radial',
+                            marker: {
+                                colors: ['#FF5733', '#4B8EF1', '#FFC300', '#DAF7A6', '#581845']  // 你可以选择不同的颜色
+                            }
+                        };
+
+                        var layout = {
+                            title: 'Atmospheric Composition of ' + planetName,
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: { color: 'white' },
+                            width: 550,  
+                            height: 420
+                        };
+
+                        Plotly.newPlot('chart11', [trace], layout);
+                    });
+                };
+
+
+                // window.renderOrbitalPeriodChart = function(planetName) {
+                //     Plotly.d3.csv('planet_system2.csv', function(data) {
+                //         var planets = data.map(function(d) { return d.Planet; });
+                //         var orbitalPeriods = data.map(function(d) { return parseFloat(d.orbital_period); });
+                //         var colors = planets.map(function(name) {
+                //             return name === planetName ? '#FF5733' : '#4B8EF1';
+                //         });
+                //         var trace = {
+                //             x: planets,
+                //             y: orbitalPeriods,
+                //             type: 'bar',
+                //             marker: {color: colors},
+                //             text: orbitalPeriods.map(String),
+                //             textposition: 'outside'
+                //         };
+                //         var layout = {
+                //             title: 'Orbital Period of Planets (in days)',
+                //             xaxis: {title: 'Planet'},
+                //             yaxis: {title: 'Orbital Period (days)'},
+                //             plot_bgcolor: 'rgba(0,0,0,0)',
+                //             paper_bgcolor: 'rgba(0,0,0,0)',
+                //             font: {color: 'white'},
+                //             width: 550,  
+                //             height: 420
+                //         };
+                //     Plotly.newPlot('chart12', [trace], layout);
+                //     });
+                // }
+
+                window.renderOrbitalVelocityChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var orbitalVelocities = data.map(function(d) { return parseFloat(d.orbital_velocity); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: orbitalVelocities,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: orbitalVelocities.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Orbital Velocity of Planets (in km/s)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Orbital Velocity (km/s)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart13', [trace], layout);
+                    });
+                }
+
+                window.renderOrbitalInclinationChart = function(planetName) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var inclinations = data.map(function(d) { return parseFloat(d.orbital_inclination); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: inclinations,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: inclinations.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Orbital Inclination of Planets (in degrees)',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Orbital Inclination (degrees)'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart14', [trace], layout);
+                    });
+                }
+
+                window.renderOrbitalEccentricityChart = function(selectedPlanet) {
+                    Plotly.d3.csv('planet_system2.csv', function(data) {
+                        var planets = data.map(function(d) { return d.Planet; });
+                        var eccentricities = data.map(function(d) { return parseFloat(d.eccentricity); });
+                        var colors = planets.map(function(name) {
+                            return name === planetName ? '#FF5733' : '#4B8EF1';
+                        });
+                        var trace = {
+                            x: planets,
+                            y: eccentricities,
+                            type: 'bar',
+                            marker: {color: colors},
+                            text: eccentricities.map(String),
+                            textposition: 'outside'
+                        };
+                        var layout = {
+                            title: 'Orbital Eccentricity of Planets',
+                            xaxis: {title: 'Planet'},
+                            yaxis: {title: 'Eccentricity'},
+                            plot_bgcolor: 'rgba(0,0,0,0)',
+                            paper_bgcolor: 'rgba(0,0,0,0)',
+                            font: {color: 'white'},
+                            width: 550,  
+                            height: 420
+                        };
+                    Plotly.newPlot('chart15', [trace], layout);
+                    });
+                }
+
+                // The toggleChart function now accepts a button number as an argument
+                window.toggleChart = function(selectedPlanet,chartId) {
+                    const charts = document.querySelectorAll(".chart");
+                    charts.forEach(function(chart) {
+                        chart.style.display = "none"; // Hide all charts first
+                    });
+
+                    let chartElement = document.getElementById(chartId);
+                    chartElement.style.display = "block";
+
+                    if (chartId === "chart1") {
+                        renderMassChart(selectedPlanet);
+                    } else if (chartId === "chart2") {
+                        renderDiameterChart(selectedPlanet);
+                    } else if (chartId === "chart3") {
+                        renderDensityChart(selectedPlanet);
+                    } else if (chartId === "chart4") {
+                        renderGravityChart(selectedPlanet);
+                    } else if (chartId === "chart5") {
+                        renderEscapeVelocityChart(selectedPlanet);
+                    } else if (chartId === "chart6") {
+                        renderRotationPeriodChart(selectedPlanet);
+                    } else if (chartId === "chart7") {
+                        renderObliquityChart(selectedPlanet);
+                    } else if (chartId === "chart8") {
+                        renderMoonChart(selectedPlanet);
+                    } else if (chartId === "chart9") {
+                        renderRingChart(selectedPlanet);
+                    } else if (chartId === "chart10") {
+                        renderTemperatureChart(selectedPlanet);
+                    } else if (chartId === "chart11") {
+                        renderAtmosphereChart(selectedPlanet);
+                    } else if (chartId === "chart12") {
+                        renderOrbitalPeriodChart(selectedPlanet);
+                    } else if (chartId === "chart13") {
+                        renderOrbitalVelocityChart(selectedPlanet);
+                    } else if (chartId === "chart14") {
+                        renderOrbitalInclinationChart(selectedPlanet);
+                    } else if (chartId === "chart15") {
+                        renderOrbitalEccentricityChart(selectedPlanet);
+                    }
+                };
+
+                // Function to display the appropriate chart based on button
+                window.displayChart = function(selectedPlanet,buttonNumber) {
+                    switch (buttonNumber) {
+                        case 1:
+                            toggleChart(selectedPlanet,"chart1");
+                            break;
+                        case 2:
+                            toggleChart(selectedPlanet,"chart2");
+                            break;
+                        case 3:
+                            toggleChart(selectedPlanet,"chart3");
+                            break;
+                        case 4:
+                            toggleChart(selectedPlanet,"chart4");
+                            break;
+                        case 5:
+                            toggleChart(selectedPlanet,"chart5");
+                            break;
+                        case 6:
+                            toggleChart(selectedPlanet,"chart6");
+                            break;
+                        case 7:
+                            toggleChart(selectedPlanet,"chart7");
+                            break;
+                        case 8:
+                            toggleChart(selectedPlanet,"chart8");
+                            break;
+                        case 9:
+                            toggleChart(selectedPlanet,"chart9");
+                            break;
+                        case 10:
+                            toggleChart(selectedPlanet,"chart10");
+                            break;
+                        case 11:
+                            toggleChart(selectedPlanet,"chart11");
+                            break;
+                        case 12:
+                            toggleChart(selectedPlanet,"chart12");
+                            break;
+                        case 13:
+                            toggleChart(selectedPlanet,"chart13");
+                            break;
+                        case 14:
+                            toggleChart(selectedPlanet,"chart14");
+                            break;
+                        case 15:
+                            toggleChart(selectedPlanet,"chart15");
+                            break;
+                        default:
+                            console.log("Unable to toggle chart");
+                    }
+                };
+
+                // Function triggered by button clicks to show specific chart
+                window.chart = function(chartType) {
+                    if (selectedPlanet) {
+                        displayChart(selectedPlanet, chartType);
+                    } else {
+                        alert("No planet selected");
+                    }
+                };
+
+                // Function to display specific information based on infoType
+                window.displayPlanetInfo = function(selectedPlanet, infoType) {
+                    const upperSection = document.getElementById('upperSection');
+                    let lowers = document.querySelectorAll(".lowerSection");
+                    lowers.forEach(function(lower) {
+                        lower.style.display = "none"; // Hide all lower sections first
+                    });
+
+                    // Display different information based on the infoType
+                    switch (infoType) {
+                            case 1: // Basic Physical Properties
+                                upperSection.innerHTML = `
+                                    <h1>${selectedPlanet.name}</h1>
+                                    <p>Mass: ${selectedPlanet.dataParams.mass} x 10²⁴ kg</p>
+                                    <p>Diameter: ${selectedPlanet.dataParams.diameter} km</p>
+                                    <p>Density: ${selectedPlanet.dataParams.density} kg/m³</p>
+                                `;
+                                document.getElementById('lower1').style.display = 'block';
+                                displayChart(selectedPlanet,1);
+                                break;
+                            case 2: // Gravitational and Dynamic Properties
+                                upperSection.innerHTML = `
+                                    <h1>${selectedPlanet.name}</h1>
+                                    <p>Surface Gravity: ${selectedPlanet.dataParams.ravity} m/s²</p>
+                                    <p>Escape Velocity: ${selectedPlanet.dataParams.escapeVelocity} km/s</p>
+                                `;
+                                document.getElementById('lower2').style.display = 'block';
+                                displayChart(selectedPlanet,4)
+                                break;
+                                
+                            case 3: // Rotation and Tilt
+                                upperSection.innerHTML = `
+                                    <h1>${selectedPlanet.name}</h1>
+                                    <p>Rotation Period: ${selectedPlanet.dataParams.rotationPeriod} hours</p>
+                                    <p>Obliquity: ${selectedPlanet.dataParams.obliquity} º</p>
+                                `;
+                                document.getElementById('lower3').style.display = 'block';
+                                displayChart(selectedPlanet,6)
+                                break;
+                            case 4: // Satellite and Ring System
+                                upperSection.innerHTML = `
+                                    <h1>${selectedPlanet.name}</h1>
+                                    <p>Number of Moons: ${selectedPlanet.dataParams.moon}</p>
+                                    <p>Ring System: ${selectedPlanet.renderParams.ring}</p>
+                                `;
+                                document.getElementById('lower4').style.display = 'block';
+                                displayChart(selectedPlanet,8)
+                                break;
+                            case 5: // Temperature and Atmospheric Conditions
+                                upperSection.innerHTML = `
+                                    <h1>${selectedPlanet.name}</h1>
+                                    <p>Mean Temperature: ${selectedPlanet.dataParams.temp} °C</p>
+                                    
+                                `;
+                                // <p>Atmosphere: ${selectedPlanet.}</p>
+                                document.getElementById('lower5').style.display = 'block';
+                                displayChart(selectedPlanet,10)
+                                break;
+                            case 6: // Orbit Properties, 我有放过orbitalPeriod的slider码？
+                                upperSection.innerHTML = `
+                                    <h1>${selectedPlanet.name}</h1>
+                                    
+                                    <p>Orbital Velocity: ${selectedPlanet.renderParams.orbitVelocity} km/s</p>
+                                    <p>Orbital Inclination: ${selectedPlanet.dataParams.orbitInclination} º</p>
+                                    <p>Orbital Eccentricity: ${selectedPlanet.dataParams.eccentricity}</p>
+                                `; //<p>Orbital Period: ${selectedPlanet.renderParams.orbitalPeriods} days</p>
+                                document.getElementById('lower6').style.display = 'block';
+                                displayChart(selectedPlanet,12)
+                                break;
+                            default:
+                                upperSection.innerHTML = `<p>No data available for ${selectedPlanet.name}</p>`;
+                                lowerSection.innerHTML = '';
+                        }
+                };
+
+                // Function triggered by button clicks to show specific info
+                window.showInfo = function(infoType) {
+                    const planetName = selectedPlanet ? selectedPlanet.name : null; // Ensure there's a selected planet
+                    if (planetName) {
+                        displayPlanetInfo(planetName, infoType);
+                    } else {
+                        alert("No planet selected");
+                    }
+                };
 
                 // Planet Creation Setups
                 function createPlanet() {
@@ -396,6 +1220,7 @@
                     let argon = parseFloat(document.getElementById("argonSlider").value);
                     let methane = parseFloat(document.getElementById("methaneSlider").value);
                     let other = parseFloat(document.getElementById("otherSlider").value);
+                    let temp = parseFloat(document.getElementById("tempSlider").value);
                     
                     let orbitRadius = parseFloat(document.getElementById("orbitRadiusSlider").value);
                     let orbitVelocity = parseFloat(document.getElementById("orbitVelocitySlider").value);
@@ -444,12 +1269,15 @@
                             orbitAngle: Math.random() * Math.PI * 2
                         }, 
                         dataParams: {
+                            rotationPeriod: rotationPeriod,
+                            obliquity: obliquity,
                             mass: mass,
                             diameter: diameter,
                             density: density,
                             gravity: gravity,
                             escapeVelocity: escapeVelocity,
                             moon: moon,
+                            tilt: tilt,
                             hydrogen: hydrogen,
                             helium: helium,
                             nitrogen: nitrogen,
@@ -459,6 +1287,8 @@
                             argon: argon,
                             methane: methane,
                             other: other,
+                            temp: temp,
+                            orbitInclination: orbitInclination,
                             eccentricity: eccentricity
                         }
                     };
@@ -539,6 +1369,8 @@
                 let methaneValue = document.getElementById("methaneValue");
                 let otherSlider = document.getElementById("otherSlider");
                 let otherValue = document.getElementById("otherValue");
+                let tempSlider = document.getElementById("tempSlider");
+                let tempValue = document.getElementById("tempValue");
 
                 let orbitRadiusSlider = document.getElementById("orbitRadiusSlider");
                 let orbitRadiusValue = document.getElementById("orbitRadiusValue");
@@ -583,7 +1415,7 @@
                             newRing.rotation.z = Math.random() * Math.PI;
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
-                    }console.log(selectedPlanet);console.log(planets)
+                    }
                 });
                 rotationPeriodSlider.addEventListener("input", function() {
                     const minSpeed = 0.0001;
@@ -592,6 +1424,7 @@
                     if (selectedPlanet) {
                         let newRotationPeriod = parseFloat(rotationPeriodSlider.value);
                         selectedPlanet.renderParams.rotationPeriod = maxSpeed - (newRotationPeriod/5000) * (maxSpeed-minSpeed);
+                        selectedPlanet.dataParams.rotationPeriod = newRotationPeriod;
                     }
                 });
                 obliquitySlider.addEventListener("input", function() {
@@ -601,6 +1434,7 @@
                         let newObliquity = parseFloat(obliquitySlider.value)* (Math.PI / 180);
                         selectedPlanet.renderParams.obliquity = newObliquity;
                         selectedPlanet.renderParams.mesh.rotation.z = newObliquity;
+                        selectedPlanet.dataParams.obliquity = parseFloat(obliquitySlider.value);
                     }
                 });
                 massSlider.addEventListener("input", function() {
@@ -668,14 +1502,14 @@
                             newRing.rotation.z = Math.random() * Math.PI;
                             selectedPlanet.renderParams.mesh.add(newRing);
                             selectedPlanet.renderParams.ringMesh = newRing;
-                         } else {
+                        } else {
                             if (selectedPlanet.renderParams.ringMesh) {
-        selectedPlanet.renderParams.mesh.remove(selectedPlanet.renderParams.ringMesh);
-                            selectedPlanet.renderParams.ringMesh = null;
-        selectedPlanet.renderParams.ringMesh.geometry.dispose();
-        selectedPlanet.renderParams.ringMesh.material.dispose();
+                                selectedPlanet.renderParams.mesh.remove(selectedPlanet.renderParams.ringMesh);
+                                                    selectedPlanet.renderParams.ringMesh = null;
+                                selectedPlanet.renderParams.ringMesh.geometry.dispose();
+                                selectedPlanet.renderParams.ringMesh.material.dispose();
                             }
-                         }
+                        }
                     })
                 });
                                          
@@ -702,6 +1536,7 @@
                         let newTilt = parseFloat(tiltSlider.value) * (Math.PI / 180);
                         selectedPlanet.renderParams.tilt = newTilt;
                         selectedPlanet.renderParams.ringMesh.rotation.x = newTilt;
+                        selectedPlanet.dataParams.tilt = parseFloat(tiltSlider.value);
                     }
                 });
 
@@ -768,6 +1603,13 @@
                         selectedPlanet.dataParams.other = newOther;
                     }
                 });
+                tempSlider.addEventListener("input", function() {
+                    tempValue.textContent = tempSlider.value;
+                    if (selectedPlanet) {
+                        let newTemp = parseFloat(tempSlider.value);
+                        selectedPlanet.dataParams.temp = newTemp;
+                    }
+                });
 
                 orbitRadiusSlider.addEventListener("input", function() {
                     orbitRadiusValue.textContent = orbitRadiusSlider.value;
@@ -794,18 +1636,7 @@
                         let newOrbitInclination = parseFloat(orbitInclinationSlider.value) * (Math.PI / 180);
                         selectedPlanet.renderParams.orbitInclination = newOrbitInclination;
                         selectedPlanet.renderParams.orbitMesh.rotation.x = newOrbitInclination;
-
-                        //selectedPlanet.renderParams.orbitAngle += selectedPlanet.renderParams.orbitVelocity * 0.00001;
-
-                        // Update the planet's self-rotation
-                        //selectedPlanet.renderParams.mesh.rotation.y += selectedPlanet.renderParams.rotationPeriod;
-
-                        // Calculate the new position along the inclined orbit
-                        //selectedPlanet.renderParams.mesh.position.x = selectedPlanet.renderParams.orbitRadius * Math.cos(selectedPlanet.renderParams.orbitAngle);
-                        //selectedPlanet.renderParams.mesh.position.z = selectedPlanet.renderParams.orbitRadius * Math.sin(selectedPlanet.renderParams.orbitAngle);
-
-                        // Apply inclination to the y-axis (to tilt the orbit)
-                        //selectedPlanet.renderParams.mesh.position.y = selectedPlanet.renderParams.orbitRadius * Math.sin(newOrbitInclination);  
+                        selectedPlanet.dataParams.orbitInclination = parseFloat(orbitInclinationSlider.value);
                     }
                 });
                 eccentricitySlider.addEventListener("input", function() {
@@ -818,11 +1649,13 @@
 
                 // UI Button Setups
                 editButton.addEventListener('click', function() {
+                    editMode = true;
                     document.getElementById('toolbars').style.display = 'none';
                     document.getElementById('editBars').style.display = 'block';
                 });
 
                 displayButton.addEventListener('click', function() {
+                    editMode = false;
                     document.getElementById('editBars').style.display = 'none';
                     document.getElementById('toolbars').style.display = 'block';
                 });
@@ -865,9 +1698,6 @@
                     panels.forEach(function(panel) {
                         panel.style.display = "none"; // Hide all first
                     });
-
-                    //if (planetData[planetName]) {
-                        //const data = planetData[planetName];
 
                     // Display different information based on the infoType
                     switch (editType) {
@@ -921,6 +1751,7 @@
                     argonValue.textContent = argonSlider.value;
                     methaneValue.textContent = methaneSlider.value;
                     otherValue.textContent = otherSlider.value;
+                    tempValue.textContent = tempSlider.value;
 
                     orbitRadiusValue.textContent = orbitRadiusSlider.value;
                     orbitVelocityValue.textContent = orbitVelocitySlider.value;
@@ -936,8 +1767,8 @@
                     }
                     document.getElementById("planetName").value = selectedPlanet.name;
                     document.getElementById("sizeSlider").value = selectedPlanet.renderParams.size;
-                    document.getElementById("rotationPeriodSlider").value = selectedPlanet.renderParams.rotationPeriod;
-                    document.getElementById("obliquitySlider").value = selectedPlanet.renderParams.obliquity;
+                    document.getElementById("rotationPeriodSlider").value = selectedPlanet.dataParams.rotationPeriod;
+                    document.getElementById("obliquitySlider").value = selectedPlanet.dataParams.obliquity;
                     document.getElementById("massSlider").value = selectedPlanet.dataParams.mass;
                     document.getElementById("diameterSlider").value = selectedPlanet.dataParams.diameter;
                     document.getElementById("densitySlider").value = selectedPlanet.dataParams.density;
@@ -948,7 +1779,7 @@
                     document.getElementById("ringYes").checked = selectedPlanet.renderParams.ring;
                     document.getElementById("ringColour").value = selectedPlanet.renderParams.ringColour;
                     document.getElementById("opacitySlider").value = selectedPlanet.renderParams.opacity;
-                    document.getElementById("tiltSlider").value = selectedPlanet.renderParams.tilt;
+                    document.getElementById("tiltSlider").value = selectedPlanet.dataParams.tilt;
                     
                     document.getElementById("hydrogenSlider").value = selectedPlanet.dataParams.hydrogen;
                     document.getElementById("heliumSlider").value = selectedPlanet.dataParams.helium;
@@ -959,10 +1790,11 @@
                     document.getElementById("argonSlider").value= selectedPlanet.dataParams.argon;
                     document.getElementById("methaneSlider").value= selectedPlanet.dataParams.methane;
                     document.getElementById("otherSlider").value= selectedPlanet.dataParams.other;
+                    document.getElementById("tempSlider").value= selectedPlanet.dataParams.temp;
 
                     document.getElementById("orbitRadiusSlider").value= selectedPlanet.renderParams.orbitRadius;
                     document.getElementById("orbitVelocitySlider").value= selectedPlanet.renderParams.orbitVelocity;
-                    document.getElementById("orbitInclinationSlider").value= selectedPlanet.renderParams.orbitInclination;
+                    document.getElementById("orbitInclinationSlider").value= selectedPlanet.dataParams.orbitInclination;
                     document.getElementById("eccentricitySlider").value= selectedPlanet.dataParams.eccentricity;
 
                     sizeValue.textContent = sizeSlider.value;
@@ -987,6 +1819,7 @@
                     argonValue.textContent = argonSlider.value;
                     methaneValue.textContent = methaneSlider.value;
                     otherValue.textContent = otherSlider.value;
+                    tempValue.textContent = tempSlider.value;
 
                     orbitRadiusValue.textContent = orbitRadiusSlider.value;
                     orbitVelocityValue.textContent = orbitVelocitySlider.value;
