@@ -526,7 +526,6 @@
                         document.getElementById('creationButton').style.display = 'none';
 
                         planetClickedEnabled = false;
-                    }
 
                         // Display the information about the selected planet (optional)
                         //displayPlanetInfo(planetName, 1); // Default to Basic Physical Properties
@@ -534,7 +533,8 @@
                         // Only bind the return button click handler once
                         document.getElementById('returnButton').removeEventListener('click', handleReturnButtonClick); // 清除以前的监听
                         document.getElementById('returnButton').addEventListener('click', handleReturnButtonClick);
-                }
+                    }
+                };
 
                 // Add event listener for mouse clicks
                 window.addEventListener('click', onMouseClick, false);
