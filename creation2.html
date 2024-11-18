@@ -597,7 +597,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart2', [trace], layout);
-                });
+                };
                 
                 window.renderDensityChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -623,7 +623,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart3', [trace], layout);
-                });
+                };
 
                 window.renderGravityChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -649,7 +649,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart4', [trace], layout);
-                });
+                };
 
                 window.renderEscapeVelocityChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -675,7 +675,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart5', [trace], layout);
-                });
+                };
                 
                 window.renderRotationPeriodChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -701,7 +701,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart6', [trace], layout);
-                });
+                };
                     
                 window.renderObliquityChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -727,7 +727,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart7', [trace], layout);
-                });
+                };
                     
                 window.renderMoonChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -753,7 +753,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart8', [trace], layout);
-                });
+                };
 
                 window.renderRingChart = function() {
                     const ringCounts = { 'With Ring System': 0, 'Without Ring System': 0 };
@@ -811,7 +811,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart10', [trace], layout);
-                })
+                };
             
                 window.renderAtmosphereChart = function(selectedPlanet) {
                     if (!selectedPlanet || !selectedPlanet.atmosphere) {
@@ -894,7 +894,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart13', [trace], layout);
-                });
+                };
 
                 window.renderOrbitalInclinationChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -920,7 +920,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart14', [trace], layout);
-                });
+                };
 
                 window.renderOrbitalEccentricityChart = function(selectedPlanet) {
                     let planetNames = planets.map(planet => planet.name);
@@ -946,7 +946,7 @@
                         height: 420
                     };
                     Plotly.newPlot('chart15', [trace], layout);
-                });
+                };
 
                 // The toggleChart function now accepts a button number as an argument
                 window.toggleChart = function(selectedPlanet,chartId) {
