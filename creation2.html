@@ -382,6 +382,7 @@
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script>
             let scene, camera, renderer, sun;
             let selectedPlanet = null;
@@ -471,7 +472,8 @@
 
                     // 恢复整个星球系统的UI
                     document.getElementById('controls').style.display = 'block';
-                    document.getElementById('creationButton').style.display = 'block';
+                    document.getElementById('planetButton').style.display = 'block';
+                    document.getElementById('displayButton').style.display = 'block';
                     document.getElementById('displayInfoMenu').style.display = 'none';
                     document.getElementById('displayTab').style.display = 'none';
                     document.getElementById('returnButton').style.display = 'none';
@@ -523,7 +525,8 @@
                         document.getElementById('displayTab').style.display = 'block';
                         document.getElementById('returnButton').style.display = 'block';
                         document.getElementById('controls').style.display = 'none';
-                        document.getElementById('creationButton').style.display = 'none';
+                        document.getElementById('planetButton').style.display = 'none';
+                        document.getElementById('displayButton').style.display = 'block';
 
                         planetClickedEnabled = false;
 
@@ -539,240 +542,215 @@
                 // Add event listener for mouse clicks
                 window.addEventListener('click', onMouseClick, false);
 
-                window.renderMassChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var masses = data.map(function(d) { return parseFloat(d.mass); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: masses,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: masses.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Mass of Planets (in 10²⁴ kg)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Mass (10²⁴ kg)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                window.renderMassChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetMasses = planets.map(planet => planet.dataParams.mass);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetMasses,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetMasses.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Mass of Planets (in 10²⁴ kg)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Mass (10²⁴ kg)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart1', [trace], layout);
-                    });
-                }
+                });
 
-                window.renderDiameterChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var diameters = data.map(function(d) { return parseFloat(d.diameter); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: diameters,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: diameters.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Diameter of Planets (in km)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Diameter (km)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                window.renderDiameterChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetDiameters = planets.map(planet => planet.dataParams.diameter);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetDiameters,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetDiameters.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Diameter of Planets (in km)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Diameter (km)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart2', [trace], layout);
-                    });
-                }
+                });
+                
+                window.renderDensityChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetDensities = planets.map(planet => planet.dataParams.density);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
 
-                window.renderDensityChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var densities = data.map(function(d) { return parseFloat(d.density); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: densities,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: densities.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Density of Planets (in kg/m3)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Density (kg/m3)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                    let trace = {
+                        x: planetNames,
+                        y: planetDensities,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetDensities.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Density of Planets (in kg/m³)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Density (kg/m³)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart3', [trace], layout);
-                    });
-                }
+                });
 
-                window.renderGravityChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var gravities = data.map(function(d) { return parseFloat(d.surface_gravity); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: gravities,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: gravities.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Surface Gravity of Planets (in m/s2)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Surface Gravity (m/s2)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                window.renderGravityChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetGravities = planets.map(planet => planet.dataParams.gravity);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetGravities,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetGravities.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Surface Gravity of Planets (in m/s²)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Surface Gravity (m/s²)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart4', [trace], layout);
-                    });
-                }
+                });
 
-                window.renderEscapeVelocityChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var velocities = data.map(function(d) { return parseFloat(d.escape_velocity); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: velocities,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: velocities.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Escape Velocity of Planets (in km/s)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Escape Velocity (km/s)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                window.renderEscapeVelocityChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetEscapeVelocities = planets.map(planet => planet.dataParams.escapeVelocity);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetEscapeVelocities,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetEscapeVelocities.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Escape Velocity of Planets (in km/s)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Escape Velocity (km/s)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart5', [trace], layout);
-                    });
-                }
+                });
+                
+                window.renderRotationPeriodChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetRotationPeriods = planets.map(planet => planet.dataParams.rotationPeriod);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
 
-                window.renderRotationPeriodChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var rotations = data.map(function(d) { return parseFloat(d.rotation_period); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: rotations,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: rotations.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Rotation Period of Planets (in hours)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Rotation Period (hours)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                    let trace = {
+                        x: planetNames,
+                        y: planetRotationPeriods,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetRotationPeriods.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Rotation Period of Planets (in hours)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Rotation Period (hours)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart6', [trace], layout);
-                    });
-                }
+                });
+                    
+                window.renderObliquityChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetObliquities = planets.map(planet => planet.dataParams.obliquity);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
 
-                window.renderObliquityChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var obliquities = data.map(function(d) { return parseFloat(d.obliquity); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: obliquities,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: obliquities.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Obliquity to Orbit of Planets (in degrees)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Obliquity to Orbit (degrees)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                    let trace = {
+                        x: planetNames,
+                        y: planetObliquities,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetObliquities.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Obliquity to Orbit of Planets (in degrees)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Obliquity to Orbit (degrees)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart7', [trace], layout);
-                    });
-                }
+                });
+                    
+                window.renderMoonChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetMoons = planets.map(planet => planet.dataParams.moon);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
 
-                window.renderMoonChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var moons = data.map(function(d) { return parseFloat(d.moon); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: moons,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: moons.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Number of Moons for Each Planet',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Number of Moons'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                    let trace = {
+                        x: planetNames,
+                        y: planetMoons,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetMoons.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Number of Moons for Each Planet',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Number of Moons'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart8', [trace], layout);
-                    });
-                }
+                });
 
-                // Need to change, not a bar
-                window.renderRingChart = function() {
+                //window.renderRingChart = function() {
                     Plotly.d3.csv('planet_system2.csv', function(data) {
                         // 统计每个环系统状态的数量
                         var ringCounts = {};
@@ -810,37 +788,34 @@
                 };
 
 
-                window.renderTemperatureChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var temperatures = data.map(function(d) { return parseFloat(d.temperature); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: temperatures,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: temperatures.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Mean Temperature of Planets (C)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Mean Temperature (C)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
-                    Plotly.newPlot('chart10', [trace], layout);
-                    });
-                }
+                window.renderTemperatureChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetTemps = planets.map(planet => planet.dataParams.temp);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
 
+                    let trace = {
+                        x: planetNames,
+                        y: planetTemps,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetTemps.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Mean Temperature of Planets (ºC)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Mean Temperature (ºC)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
+                    Plotly.newPlot('chart10', [trace], layout);
+                })
+            
                 // Need to change other csv source
-                window.renderAtmosphereChart = function(planetName) {
+                window.renderAtmosphereChart = function(selectedPlanet) {
                     Plotly.d3.csv('planet_atmosphere.csv', function(data) {
                         var planetData = data.find(function(d) { return d.Planet === planetName; });
 
@@ -884,121 +859,109 @@
                 };
 
 
-                // window.renderOrbitalPeriodChart = function(planetName) {
-                //     Plotly.d3.csv('planet_system2.csv', function(data) {
-                //         var planets = data.map(function(d) { return d.Planet; });
-                //         var orbitalPeriods = data.map(function(d) { return parseFloat(d.orbital_period); });
-                //         var colors = planets.map(function(name) {
-                //             return name === planetName ? '#FF5733' : '#4B8EF1';
-                //         });
-                //         var trace = {
-                //             x: planets,
-                //             y: orbitalPeriods,
-                //             type: 'bar',
-                //             marker: {color: colors},
-                //             text: orbitalPeriods.map(String),
-                //             textposition: 'outside'
-                //         };
-                //         var layout = {
-                //             title: 'Orbital Period of Planets (in days)',
-                //             xaxis: {title: 'Planet'},
-                //             yaxis: {title: 'Orbital Period (days)'},
-                //             plot_bgcolor: 'rgba(0,0,0,0)',
-                //             paper_bgcolor: 'rgba(0,0,0,0)',
-                //             font: {color: 'white'},
-                //             width: 550,  
-                //             height: 420
-                //         };
-                //     Plotly.newPlot('chart12', [trace], layout);
-                //     });
-                // }
+                window.renderOrbitalPeriodChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetOrbitalPeriods = planets.map(planet => planet.dataParams.orbitPeriod);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
 
-                window.renderOrbitalVelocityChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var orbitalVelocities = data.map(function(d) { return parseFloat(d.orbital_velocity); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: orbitalVelocities,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: orbitalVelocities.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Orbital Velocity of Planets (in km/s)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Orbital Velocity (km/s)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                    let trace = {
+                        x: planetNames,
+                        y: planetOrbitalPeriods,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetOrbitalPeriods.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Orbital Period of Planets (in days)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Orbital Period (days)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
+                    Plotly.newPlot('chart12', [trace], layout);
+                };
+
+                window.renderOrbitalVelocityChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetOrbitalVelocities = planets.map(planet => planet.renderParams.orbitVelocity);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetOrbitalVelocities,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetOrbitalVelocities.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Orbital Velocity of Planets (in km/s)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Orbital Velocity (km/s)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart13', [trace], layout);
-                    });
-                }
+                });
 
-                window.renderOrbitalInclinationChart = function(planetName) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var inclinations = data.map(function(d) { return parseFloat(d.orbital_inclination); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: inclinations,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: inclinations.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Orbital Inclination of Planets (in degrees)',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Orbital Inclination (degrees)'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
+                window.renderOrbitalInclinationChart = function(selectedPlanet) {
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetOrbitalInclinations = planets.map(planet => planet.dataParams.orbitInclination);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetOrbitalInclinations,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetOrbitalInclinations.map(String),
+                        textposition: 'outside'
+                    };
+                        let layout = {
+                        title: 'Orbital Inclination of Planets (in degrees)',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Orbital Inclination (degrees)'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
                             width: 550,  
-                            height: 420
-                        };
+                        height: 420
+                    };
                     Plotly.newPlot('chart14', [trace], layout);
-                    });
-                }
+                });
 
                 window.renderOrbitalEccentricityChart = function(selectedPlanet) {
-                    Plotly.d3.csv('planet_system2.csv', function(data) {
-                        var planets = data.map(function(d) { return d.Planet; });
-                        var eccentricities = data.map(function(d) { return parseFloat(d.eccentricity); });
-                        var colors = planets.map(function(name) {
-                            return name === planetName ? '#FF5733' : '#4B8EF1';
-                        });
-                        var trace = {
-                            x: planets,
-                            y: eccentricities,
-                            type: 'bar',
-                            marker: {color: colors},
-                            text: eccentricities.map(String),
-                            textposition: 'outside'
-                        };
-                        var layout = {
-                            title: 'Orbital Eccentricity of Planets',
-                            xaxis: {title: 'Planet'},
-                            yaxis: {title: 'Eccentricity'},
-                            plot_bgcolor: 'rgba(0,0,0,0)',
-                            paper_bgcolor: 'rgba(0,0,0,0)',
-                            font: {color: 'white'},
-                            width: 550,  
-                            height: 420
-                        };
+                    let planetNames = planets.map(planet => planet.name);
+                    let planetEccentricities = planets.map(planet => planet.dataParams.eccentricity);
+                    let colors = planets.map(planet => planet.name === selectedPlanet.name ? '#FF5733' : '#4B8EF1');
+
+                    let trace = {
+                        x: planetNames,
+                        y: planetEccentricities,
+                        type: 'bar',
+                        marker: {color: colors},
+                        text: planetEccentricities.map(String),
+                        textposition: 'outside'
+                    };
+                    let layout = {
+                        title: 'Orbital Eccentricity of Planets',
+                        xaxis: {title: 'Planet'},
+                        yaxis: {title: 'Eccentricity'},
+                        plot_bgcolor: 'rgba(0,0,0,0)',
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        font: {color: 'white'},
+                        width: 550,  
+                        height: 420
+                    };
                     Plotly.newPlot('chart15', [trace], layout);
-                    });
-                }
+                });
 
                 // The toggleChart function now accepts a button number as an argument
                 window.toggleChart = function(selectedPlanet,chartId) {
